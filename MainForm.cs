@@ -18,6 +18,12 @@ namespace Herring
         private Persistence persistence;
         private Dictionary<string, int> iconIndices = new Dictionary<string,int>();
 
+        private int logTimeUnit = 60;       // [s]
+        private int logSamplingRate = 10;   // how many samples are taken for one time unit (should be at least 3)
+
+        private DateTime currentTimePoint;
+        private List<ActivitySnapshot> currentSamples = new List<ActivitySnapshot>();
+
         public MainForm()
         {
             InitializeComponent();
@@ -34,9 +40,26 @@ namespace Herring
             monitor.Start();
         }
 
+        // Returns current time rounded down to appropriate time point
+        private /*static*/ DateTime GetCurrentTimePoint()
+        {
+            // We assume time units up to 15 minutes
+            System.Diagnostics.Debug.Assert(logTimeUnit >= 1 && logTimeUnit <= 15*60);
+            
+            // There must be an integer number of time points in an hour
+            System.Diagnostics.Debug.Assert(3600 % logTimeUnit == 0 );
+
+            DateTime now = DateTime.Now;
+            int actualTotalSeconds = now.Second + now.Minute * 60;
+            int neededTotalSeconds = (actualTotalSeconds / logTimeUnit) * logTimeUnit;
+
+            return new DateTime(now.Year, now.Month, now.Day, now.Hour, neededTotalSeconds / 60, neededTotalSeconds % 60);
+        }
+
         private void timer_Tick(object sender, EventArgs e)
         {
             ActivitySnapshot snapshot = monitor.GetSnapshot();
+            currentSamples.Add(snapshot);
 
             string[] content = new string[]
             {
