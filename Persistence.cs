@@ -19,40 +19,13 @@ namespace Herring
             return dir;
         }
 
-        private static string ReadXmlValue(TextReader reader)
-        {
-            string line = reader.ReadLine();
-            int pos1 = line.IndexOf('"');
-            int pos2 = line.IndexOf('"', pos1 + 1);
-            return line.Substring(pos1 + 1, pos2 - pos1 - 1);
-        }
-
         private static void Load(GetAppDelegate getApp, string path, List<ActivitySnapshot> data)
         {
             TextReader reader = new StreamReader(path);
-            reader.ReadLine();  // xml header
-            reader.ReadLine();  // <Herring>
-            while (true)
-            {
-                string begin = reader.ReadLine();   // <ActivitySnapshot
-                if (begin != "\t<ActivitySnapshot")
-                {
-                    break;
-                }
-                else
-                {
-                    ActivitySnapshot snapshot = new ActivitySnapshot();
-                    string appPath = ReadXmlValue(reader);
-                    snapshot.App = getApp(appPath);
-                    snapshot.Title = ReadXmlValue(reader);
-                    snapshot.Begin = DateTime.Parse( ReadXmlValue(reader), CultureInfo.InvariantCulture );
-                    snapshot.Length = TimeSpan.Parse(ReadXmlValue(reader));
-                    snapshot.CharsTyped = ReadXmlValue(reader);
-                    snapshot.MouseDistance = int.Parse( ReadXmlValue(reader) );
-                    snapshot.MouseClicks = int.Parse(ReadXmlValue(reader));
-                    data.Add(snapshot);
-                }
-            }
+            string header = reader.ReadLine();  // csv header
+
+            // TODO
+
             reader.Close();
         }
 
@@ -77,23 +50,18 @@ namespace Herring
                 string name = "herring" + now.Year + now.Month + now.Day + "_" + now.Hour + now.Minute + now.Second + ".txt";
                 string path = Path.Combine(GetApplicationDir(), name);
                 writer = new StreamWriter(path);
-                writer.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-                writer.WriteLine("<HerringData>");
+                writer.WriteLine("time;process;title;mouse-intensity;clicking-intensity;typing-intensity");
             }
-            writer.WriteLine("\t<ActivitySnapshot");
-            writer.WriteLine("\t\tAppPath=\"" + data.App.Path + "\"");
-            writer.WriteLine("\t\tTitle=\"" + data.Title + "\"");
-            writer.WriteLine("\t\tBegin=\"" + data.Begin.ToString(CultureInfo.InvariantCulture) + "\"");
-            writer.WriteLine("\t\tLength=\"" + data.Length + "\"");
-            writer.WriteLine("\t\tCharsTyped=\"" + data.CharsTyped + "\"");
-            writer.WriteLine("\t\tMouseDistance=\"" + (int)data.MouseDistance + "\"");
-            writer.WriteLine("\t\tMouseClicks=\"" + data.MouseClicks + "\">");
+            writer.Write(data.App.Name + ";");
+            writer.Write(data.Title + ";");
+            writer.Write(data.MouseSpeed + ";");
+            writer.Write(data.ClickingSpeed + ";");
+            writer.Write(data.TypingSpeed + ";");
             writer.Flush();
         }
 
         public static void Close()
         {
-            writer.WriteLine("</HerringData>");
             writer.Close();
         }
     }
