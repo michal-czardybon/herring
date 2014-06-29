@@ -40,14 +40,18 @@
             this.mouseIntensity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clickingIntensity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.typingIntensity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.todayButton = new System.Windows.Forms.Button();
             this.mainTabControl.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer
             // 
             this.timer.Enabled = true;
-            this.timer.Interval = 1000;
+            this.timer.Interval = 2000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
             // mainTabControl
@@ -55,10 +59,10 @@
             this.mainTabControl.Controls.Add(this.tabPage1);
             this.mainTabControl.Controls.Add(this.tabPage2);
             this.mainTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainTabControl.Location = new System.Drawing.Point(0, 0);
+            this.mainTabControl.Location = new System.Drawing.Point(0, 32);
             this.mainTabControl.Name = "mainTabControl";
             this.mainTabControl.SelectedIndex = 0;
-            this.mainTabControl.Size = new System.Drawing.Size(988, 546);
+            this.mainTabControl.Size = new System.Drawing.Size(988, 514);
             this.mainTabControl.TabIndex = 0;
             // 
             // tabPage1
@@ -66,7 +70,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(980, 520);
+            this.tabPage1.Size = new System.Drawing.Size(980, 482);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Tasks";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -77,7 +81,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(980, 520);
+            this.tabPage2.Size = new System.Drawing.Size(980, 488);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Activities";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -94,7 +98,7 @@
             this.activitiesListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.activitiesListView.Location = new System.Drawing.Point(3, 3);
             this.activitiesListView.Name = "activitiesListView";
-            this.activitiesListView.Size = new System.Drawing.Size(974, 514);
+            this.activitiesListView.Size = new System.Drawing.Size(974, 482);
             this.activitiesListView.TabIndex = 0;
             this.activitiesListView.UseCompatibleStateImageBehavior = false;
             this.activitiesListView.View = System.Windows.Forms.View.Details;
@@ -128,17 +132,45 @@
             this.typingIntensity.Text = "Typing Intensity";
             this.typingIntensity.Width = 101;
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.todayButton);
+            this.panel1.Controls.Add(this.dateTimePicker1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(988, 32);
+            this.panel1.TabIndex = 1;
+            // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Location = new System.Drawing.Point(4, 5);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
+            this.dateTimePicker1.TabIndex = 0;
+            // 
+            // todayButton
+            // 
+            this.todayButton.Location = new System.Drawing.Point(211, 4);
+            this.todayButton.Name = "todayButton";
+            this.todayButton.Size = new System.Drawing.Size(75, 23);
+            this.todayButton.TabIndex = 1;
+            this.todayButton.Text = "Today";
+            this.todayButton.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(988, 546);
             this.Controls.Add(this.mainTabControl);
+            this.Controls.Add(this.panel1);
             this.Name = "MainForm";
             this.Text = "Herring";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.mainTabControl.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -156,6 +188,9 @@
         private System.Windows.Forms.ColumnHeader mouseIntensity;
         private System.Windows.Forms.ColumnHeader clickingIntensity;
         private System.Windows.Forms.ColumnHeader typingIntensity;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.Button todayButton;
     }
 }
 

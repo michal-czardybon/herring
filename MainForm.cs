@@ -12,21 +12,25 @@ namespace Herring
 {
     public partial class MainForm : Form
     {
-        private List<ActivitySnapshot> allData;
-        private List<ActivitySnapshot> currData;
         private Monitor monitor;
+        private List<ActivitySnapshot> currentLog;   // being tracked right now
+        private List<ActivitySnapshot> selectedLog;  // being displayed
         private Persistence persistence;
+        private Dictionary<string, int> iconIndices = new Dictionary<string,int>();
 
         public MainForm()
         {
             InitializeComponent();
+            activitiesListView.SmallImageList = new ImageList();
+            mainTabControl.SelectedIndex = 1;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
             monitor = new Monitor();
             persistence = new Persistence();
-            allData = Persistence.Load(monitor.GetApp);
+            currentLog = new List<ActivitySnapshot>();
+            //selectedLog = Persistence.Load(monitor.GetApp);
             monitor.Start();
         }
 
@@ -34,16 +38,30 @@ namespace Herring
         {
             ActivitySnapshot snapshot = monitor.GetSnapshot();
 
-            string[] items = new string[]
+            string[] content = new string[]
             {
                 DateTime.Now.ToString(),
                 snapshot.App.Name,
                 snapshot.Title,
                 snapshot.MouseSpeed.ToString()
             };
-            activitiesListView.Items.Add( new ListViewItem(items) );
 
-            //allData.Add(snapshot);
+            int iconIndex;
+            if (iconIndices.ContainsKey(snapshot.App.Name))
+            {
+                iconIndex = iconIndices[snapshot.App.Name];
+            }
+            else
+            {
+                iconIndex = iconIndices.Count;
+                iconIndices.Add(snapshot.App.Name, iconIndex);
+                activitiesListView.SmallImageList.Images.Add(snapshot.App.Icon);
+            }
+
+            ListViewItem item = new ListViewItem(content, iconIndex);
+            activitiesListView.Items.Add(item);
+
+            currentLog.Add(snapshot);
             //Persistence.Store(snapshot);
 
             // Set textBox
