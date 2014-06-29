@@ -33,8 +33,18 @@ namespace Herring
         private void timer_Tick(object sender, EventArgs e)
         {
             ActivitySnapshot snapshot = monitor.GetSnapshot();
-            allData.Add(snapshot);
-            Persistence.Store(snapshot);
+
+            string[] items = new string[]
+            {
+                DateTime.Now.ToString(),
+                snapshot.App.Name,
+                snapshot.Title,
+                snapshot.MouseSpeed.ToString()
+            };
+            activitiesListView.Items.Add( new ListViewItem(items) );
+
+            //allData.Add(snapshot);
+            //Persistence.Store(snapshot);
 
             // Set textBox
             /*const int maxLength = 160;
