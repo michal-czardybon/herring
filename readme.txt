@@ -1,0 +1,1 @@
+Herring is an activity tracker designed for enhancing productivity in computer-related work.
