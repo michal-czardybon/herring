@@ -43,6 +43,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.todayButton = new System.Windows.Forms.Button();
+            this.rulesTabPage = new System.Windows.Forms.TabPage();
             this.mainTabControl.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -58,6 +59,7 @@
             // 
             this.mainTabControl.Controls.Add(this.tabPage1);
             this.mainTabControl.Controls.Add(this.tabPage2);
+            this.mainTabControl.Controls.Add(this.rulesTabPage);
             this.mainTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainTabControl.Location = new System.Drawing.Point(0, 32);
             this.mainTabControl.Name = "mainTabControl";
@@ -158,6 +160,16 @@
             this.todayButton.Text = "Today";
             this.todayButton.UseVisualStyleBackColor = true;
             // 
+            // rulesTabPage
+            // 
+            this.rulesTabPage.Location = new System.Drawing.Point(4, 22);
+            this.rulesTabPage.Name = "rulesTabPage";
+            this.rulesTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.rulesTabPage.Size = new System.Drawing.Size(980, 488);
+            this.rulesTabPage.TabIndex = 2;
+            this.rulesTabPage.Text = "Rules";
+            this.rulesTabPage.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -191,6 +203,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.Button todayButton;
+        private System.Windows.Forms.TabPage rulesTabPage;
     }
 }
 
