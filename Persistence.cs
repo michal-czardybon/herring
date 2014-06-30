@@ -23,7 +23,7 @@ namespace Herring
         {
             TextReader reader = new StreamReader(path);
             string header = reader.ReadLine();  // csv header
-            if (header != "time;process;title;mouse-intensity;clicking-intensity;typing-intensity")
+            if (header != "time;process;title;mouse-click-count;mouse-move-distance;typed-text")
             {
                 throw new ApplicationException("Incorrect log file format.");
             }
@@ -37,9 +37,9 @@ namespace Herring
                 snapshot.Begin = DateTime.Parse(parts[0]);
                 snapshot.App = getApp(parts[1]);
                 snapshot.Title = parts[2];
-                //snapshot.MouseSpeed = int.Parse(parts[3]);
-                //snapshot.ClickingSpeed = int.Parse(parts[4]);
-                //snapshot.TypingSpeed = int.Parse(parts[5]);
+                snapshot.MouseClickCount = int.Parse(parts[3]);
+                snapshot.MouseMoveDistance = int.Parse(parts[4]);
+                snapshot.TypedText = parts[5];
 
                 data.Add(snapshot);
             }
@@ -81,14 +81,14 @@ namespace Herring
             {
                 string path = ConstructFileName(DateTime.Now, true);
                 writer = new StreamWriter(path);
-                writer.WriteLine("time;process;title;mouse-intensity;clicking-intensity;typing-intensity");
+                writer.WriteLine("time;process;title;mouse-click-count;mouse-move-distance;typed-text");
             }
             writer.Write(data.Begin.ToString() + ";");
             writer.Write(data.App.Name + ";");
             writer.Write(data.Title + ";");
-            writer.Write(data.MouseSpeed + ";");
-            writer.Write(data.ClickingSpeed + ";");
-            writer.Write(data.TypingSpeed + ";");
+            writer.Write(data.MouseClickCount + ";");
+            writer.Write((int)data.MouseMoveDistance + ";");
+            writer.Write(data.TypedText + ";");
             writer.WriteLine();
             writer.Flush();
         }

@@ -19,18 +19,19 @@ namespace Herring
     {
         public DateTime Begin;
         public TimeSpan Length;
-        public AppInfo  App;
-        public string   Title;
-        public string   CharsTyped;
-        public double   MouseDistance;
-        public int      MouseClicks;
+        public AppInfo App;
+        public string  Title;
+        public int KeyPressCount;
+        public int MouseClickCount;
+        public double MouseMoveDistance;
+        public string TypedText;
         //public double   CpuLoad;
 
         public int TypingSpeed
         {
             get
             {
-                double words = CharsTyped.Length / 5.0;
+                double words = TypedText.Length / 5.0;
                 double minutes = Length.TotalMilliseconds / 60000.0;
                 return (int)(words / minutes + 0.5);
             }
@@ -40,7 +41,7 @@ namespace Herring
         {
             get
             {
-                double clicks = MouseClicks;
+                double clicks = MouseClickCount;
                 double minutes = Length.TotalMilliseconds / 60000.0;
                 return (int)(clicks / minutes + 0.5);
             }
@@ -50,7 +51,7 @@ namespace Herring
         {
             get
             {
-                double distance = MouseDistance;
+                double distance = MouseMoveDistance;
                 double seconds = Length.TotalMilliseconds / 1000.0;
                 return (int)(distance / seconds + 0.5);
             }

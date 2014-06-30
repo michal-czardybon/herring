@@ -130,9 +130,9 @@ namespace Herring
                     Length = DateTime.Now - begin,
                     App = appInfo,
                     Title = text,
-                    CharsTyped = charsTyped.ToString(),
-                    MouseClicks = mouseClicks,
-                    MouseDistance = mouseDistance
+                    TypedText = charsTyped.ToString(),
+                    MouseClickCount = mouseClicks,
+                    MouseMoveDistance = mouseDistance
                 };
 
             Reset(end);
