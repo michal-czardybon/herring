@@ -35,8 +35,9 @@ namespace Herring
         {
             monitor = new Monitor();
             persistence = new Persistence();
-            currentLog = new List<ActivitySnapshot>();
-            //selectedLog = Persistence.Load(monitor.GetApp);
+            currentLog = Persistence.Load(monitor.GetApp);
+            selectedLog = currentLog;
+            RefreshActivitiesList();
             monitor.Start();
         }
 
@@ -59,11 +60,35 @@ namespace Herring
         private void timer_Tick(object sender, EventArgs e)
         {
             ActivitySnapshot snapshot = monitor.GetSnapshot();
-            currentSamples.Add(snapshot);
+            //currentSamples.Add(snapshot);
 
+            currentLog.Add(snapshot);
+            Persistence.Store(snapshot);
+
+            if (currentLog == selectedLog)
+            {
+                AddToActivitiesList(snapshot);
+            }
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            if (dateTimePicker1.Value.Date == DateTime.Now.Date)
+            {
+                selectedLog = currentLog;
+            }
+            else
+            {
+                selectedLog = Persistence.Load(monitor.GetApp, dateTimePicker1.Value.Date);
+            }
+            RefreshActivitiesList();
+        }
+
+        private void AddToActivitiesList(ActivitySnapshot snapshot)
+        {
             string[] content = new string[]
             {
-                DateTime.Now.ToString(),
+                snapshot.Begin.ToString(),
                 snapshot.App.Name,
                 snapshot.Title,
                 snapshot.MouseSpeed.ToString()
@@ -74,36 +99,28 @@ namespace Herring
             {
                 iconIndex = iconIndices[snapshot.App.Name];
             }
-            else
+            else if (snapshot.App.Icon != null)
             {
                 iconIndex = iconIndices.Count;
                 iconIndices.Add(snapshot.App.Name, iconIndex);
                 activitiesListView.SmallImageList.Images.Add(snapshot.App.Icon);
             }
+            else
+            {
+                iconIndex = -1;
+            }
 
             ListViewItem item = new ListViewItem(content, iconIndex);
             activitiesListView.Items.Add(item);
+        }
 
-            currentLog.Add(snapshot);
-            //Persistence.Store(snapshot);
-
-            // Set textBox
-            /*const int maxLength = 160;
-            textBox.AppendText(snapshot.CharsTyped);
-            if (textBox.Text.Length > maxLength)
+        private void RefreshActivitiesList()
+        {
+            activitiesListView.Items.Clear();
+            foreach (ActivitySnapshot a in selectedLog)
             {
-                textBox.Text =
-                    textBox.Text.Substring(textBox.Text.Length - maxLength, maxLength);
+                AddToActivitiesList(a);
             }
-
-            captionLabel.Text = snapshot.Title;
-
-            // Set stats
-            typingSpeedLabel.Text = snapshot.TypingSpeed.ToString();
-            clickingSpeedLabel.Text = snapshot.ClickingSpeed.ToString();
-            mouseSpeedLabel.Text = snapshot.MouseSpeed.ToString();
-
-            canvasPanel.Refresh();*/
         }
 
     }

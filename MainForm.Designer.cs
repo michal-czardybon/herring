@@ -40,10 +40,10 @@
             this.mouseIntensity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clickingIntensity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.typingIntensity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.todayButton = new System.Windows.Forms.Button();
             this.rulesTabPage = new System.Windows.Forms.TabPage();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.todayButton = new System.Windows.Forms.Button();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.mainTabControl.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -72,7 +72,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(980, 482);
+            this.tabPage1.Size = new System.Drawing.Size(980, 488);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Tasks";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -134,6 +134,16 @@
             this.typingIntensity.Text = "Typing Intensity";
             this.typingIntensity.Width = 101;
             // 
+            // rulesTabPage
+            // 
+            this.rulesTabPage.Location = new System.Drawing.Point(4, 22);
+            this.rulesTabPage.Name = "rulesTabPage";
+            this.rulesTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.rulesTabPage.Size = new System.Drawing.Size(980, 488);
+            this.rulesTabPage.TabIndex = 2;
+            this.rulesTabPage.Text = "Rules";
+            this.rulesTabPage.UseVisualStyleBackColor = true;
+            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.todayButton);
@@ -144,13 +154,6 @@
             this.panel1.Size = new System.Drawing.Size(988, 32);
             this.panel1.TabIndex = 1;
             // 
-            // dateTimePicker1
-            // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(4, 5);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
-            this.dateTimePicker1.TabIndex = 0;
-            // 
             // todayButton
             // 
             this.todayButton.Location = new System.Drawing.Point(211, 4);
@@ -160,15 +163,13 @@
             this.todayButton.Text = "Today";
             this.todayButton.UseVisualStyleBackColor = true;
             // 
-            // rulesTabPage
+            // dateTimePicker1
             // 
-            this.rulesTabPage.Location = new System.Drawing.Point(4, 22);
-            this.rulesTabPage.Name = "rulesTabPage";
-            this.rulesTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.rulesTabPage.Size = new System.Drawing.Size(980, 488);
-            this.rulesTabPage.TabIndex = 2;
-            this.rulesTabPage.Text = "Rules";
-            this.rulesTabPage.UseVisualStyleBackColor = true;
+            this.dateTimePicker1.Location = new System.Drawing.Point(4, 5);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
+            this.dateTimePicker1.TabIndex = 0;
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // MainForm
             // 
