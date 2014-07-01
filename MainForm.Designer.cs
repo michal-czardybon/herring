@@ -108,6 +108,7 @@
             // timeColumnHeader
             // 
             this.timeColumnHeader.Text = "Time";
+            this.timeColumnHeader.Width = 152;
             // 
             // processColumnHeader
             // 
@@ -117,7 +118,7 @@
             // titleColumnHeader
             // 
             this.titleColumnHeader.Text = "Window Title";
-            this.titleColumnHeader.Width = 424;
+            this.titleColumnHeader.Width = 293;
             // 
             // mouseIntensity
             // 

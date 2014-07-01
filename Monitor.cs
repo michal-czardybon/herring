@@ -112,7 +112,6 @@ namespace Herring
         public ActivitySnapshot GetSnapshot()
         {
             string path = SystemInfo.GetTopWindowPath();
-            //string name = SystemInfo.GetTopWindowName();
             string text = SystemInfo.GetTopWindowText();
 
             // Prepare AppInfo object
@@ -130,7 +129,8 @@ namespace Herring
                     Length = DateTime.Now - begin,
                     App = appInfo,
                     Title = text,
-                    TypedText = charsTyped.ToString(),
+                    //TypedText = charsTyped.ToString(),
+                    KeyPressCount = charsTyped.Length,
                     MouseClickCount = mouseClicks,
                     MouseMoveDistance = mouseDistance
                 };

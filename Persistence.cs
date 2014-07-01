@@ -23,7 +23,7 @@ namespace Herring
         {
             TextReader reader = new StreamReader(path);
             string header = reader.ReadLine();  // csv header
-            if (header != "time;process;title;mouse-click-count;mouse-move-distance;typed-text")
+            if (header != "time;span;process;title;mouse-clicks;mouse-travel;keys-pressed;")
             {
                 throw new ApplicationException("Incorrect log file format.");
             }
@@ -35,11 +35,12 @@ namespace Herring
                 string[] parts = line.Split(new char[] { ';' });
                 ActivitySnapshot snapshot = new ActivitySnapshot();
                 snapshot.Begin = DateTime.Parse(parts[0]);
-                snapshot.App = getApp(parts[1]);
-                snapshot.Title = parts[2];
-                snapshot.MouseClickCount = int.Parse(parts[3]);
-                snapshot.MouseMoveDistance = int.Parse(parts[4]);
-                snapshot.TypedText = parts[5];
+                snapshot.Length = TimeSpan.Parse(parts[1]);
+                snapshot.App = getApp(parts[2]);
+                snapshot.Title = parts[3];
+                snapshot.MouseClickCount = int.Parse(parts[4]);
+                snapshot.MouseMoveDistance = int.Parse(parts[5]);
+                snapshot.KeyPressCount = int.Parse(parts[6]);
 
                 data.Add(snapshot);
             }
@@ -52,7 +53,7 @@ namespace Herring
             List<ActivitySnapshot> data = new List<ActivitySnapshot>();
 
             string path = GetApplicationDir();
-            string filePattern = "herring" + date.Year + date.Month + date.Day + "*.txt";
+            string filePattern = String.Format("herring{0:D4}{1:D2}{2:D2}_*.txt", date.Year, date.Month, date.Day);
 
             string[] files = Directory.GetFiles(path, filePattern);
             foreach (string f in files)
@@ -70,7 +71,7 @@ namespace Herring
 
         private static string ConstructFileName(DateTime date, bool full)
         {
-            string name = "herring" + date.Year + date.Month + date.Day + "_" + date.Hour + date.Minute + date.Second + ".txt";
+            string name = String.Format("herring{0:D4}{1:D2}{2:D2}_{3:D2}{4:D2}{5:D2}.txt", date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second);
             string path = Path.Combine(GetApplicationDir(), name);
             return path;
         }
@@ -81,14 +82,15 @@ namespace Herring
             {
                 string path = ConstructFileName(DateTime.Now, true);
                 writer = new StreamWriter(path);
-                writer.WriteLine("time;process;title;mouse-click-count;mouse-move-distance;typed-text");
+                writer.WriteLine("time;span;process;title;mouse-clicks;mouse-travel;keys-pressed;");
             }
             writer.Write(data.Begin.ToString() + ";");
+            writer.Write(data.Length.ToString() + ";");
             writer.Write(data.App.Name + ";");
             writer.Write(data.Title + ";");
             writer.Write(data.MouseClickCount + ";");
             writer.Write((int)data.MouseMoveDistance + ";");
-            writer.Write(data.TypedText + ";");
+            writer.Write(data.KeyPressCount + ";");
             writer.WriteLine();
             writer.Flush();
         }

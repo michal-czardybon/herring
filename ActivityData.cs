@@ -24,16 +24,16 @@ namespace Herring
         public int KeyPressCount;
         public int MouseClickCount;
         public double MouseMoveDistance;
-        public string TypedText;
+        //public string TypedText;
         //public double   CpuLoad;
 
         public int TypingSpeed
         {
             get
             {
-                double words = TypedText.Length / 5.0;
+                double chars = KeyPressCount;
                 double minutes = Length.TotalMilliseconds / 60000.0;
-                return (int)(words / minutes + 0.5);
+                return (int)(chars / minutes + 0.5);
             }
         }
 

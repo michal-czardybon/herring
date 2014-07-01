@@ -91,7 +91,9 @@ namespace Herring
                 snapshot.Begin.ToString(),
                 snapshot.App.Name,
                 snapshot.Title,
-                snapshot.MouseSpeed.ToString()
+                snapshot.MouseSpeed.ToString(),
+                snapshot.ClickingSpeed.ToString(),
+                snapshot.TypingSpeed.ToString()
             };
 
             int iconIndex;
