@@ -67,23 +67,6 @@ namespace Herring
             return text.ToString();
         }
 
-        public static string GetTopWindowName()
-        {
-            IntPtr hWnd = GetForegroundWindow();
-            uint lpdwProcessId;
-            GetWindowThreadProcessId(hWnd, out lpdwProcessId);
-
-            IntPtr hProcess = OpenProcess(0x0410, false, lpdwProcessId);
-
-            StringBuilder text = new StringBuilder(1000);
-            GetModuleBaseName(hProcess, IntPtr.Zero, text, text.Capacity);
-            
-            CloseHandle(hProcess); 
-            
-            return text.ToString();
-        }
-
-        // warning: copy-pasted
         public static string GetTopWindowPath()
         {
             IntPtr hWnd = GetForegroundWindow();
@@ -92,12 +75,18 @@ namespace Herring
 
             IntPtr hProcess = OpenProcess(0x0410, false, lpdwProcessId);
 
-            StringBuilder text = new StringBuilder(1000);
-            GetModuleFileNameEx(hProcess, IntPtr.Zero, text, text.Capacity);
+            if (hProcess != IntPtr.Zero)
+            {
+                StringBuilder text = new StringBuilder(1000);
+                GetModuleFileNameEx(hProcess, IntPtr.Zero, text, text.Capacity);
 
-            CloseHandle(hProcess);
-
-            return text.ToString();
+                CloseHandle(hProcess);
+                return text.ToString();
+            }
+            else
+            {
+                return "UNKNOWN";
+            }
         }
     }
 }
