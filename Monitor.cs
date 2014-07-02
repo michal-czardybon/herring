@@ -126,7 +126,7 @@ namespace Herring
                 new ActivitySnapshot
                 {
                     Begin = begin,
-                    Length = DateTime.Now - begin,
+                    Length = end - begin,
                     App = appInfo,
                     Title = text,
                     //TypedText = charsTyped.ToString(),

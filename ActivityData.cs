@@ -27,6 +27,14 @@ namespace Herring
         //public string TypedText;
         //public double   CpuLoad;
 
+        public DateTime End
+        {
+            get
+            {
+                return Begin + Length;
+            }
+        }
+
         public int TypingSpeed
         {
             get
