@@ -10,11 +10,12 @@ namespace Herring
         private static List<ActivitySummary> currentLog;   // being tracked right now (today)
         private static List<ActivitySummary> selectedLog;  // being displayed
 
-        private static int logTimeUnit = 60;            // [s]
+        private static int logTimeUnit = 300;           // [s]
         private static int logSamplingRate = 100;       // how many samples are taken for one time unit (should be at least 3)
         private static int inactivityThreshold = 120;   // [s] after this time the user is assumed away of the computer
 
         private static List<ActivitySnapshot> currentSnapshots = new List<ActivitySnapshot>();
+        private static DateTime? prevTimePoint = null;
         private static int currentTicks = 0;
         private static DateTime lastActivityTime = DateTime.Now;
         private static bool isUserActive = true;
@@ -188,7 +189,8 @@ namespace Herring
             bool timePointChanged;
             bool dateChanged;
             DateTime currDate;
-            if (currentSnapshots.Count == 0)
+            DateTime currTimePoint = GetTimePoint(snapshot.Time, logTimeUnit);
+            if (prevTimePoint == null)
             {
                 timePointChanged = false;
                 dateChanged = false;
@@ -196,12 +198,11 @@ namespace Herring
             }
             else
             {
-                DateTime currTimePoint = GetTimePoint(snapshot.Time, logTimeUnit);
-                DateTime prevTimePoint = GetTimePoint(currentSnapshots.Last().Time, logTimeUnit);
-                timePointChanged = (currTimePoint != prevTimePoint);
-                dateChanged = (currTimePoint.Date != prevTimePoint.Date);
+                timePointChanged = (currTimePoint != prevTimePoint.Value);
+                dateChanged = (currTimePoint.Date != prevTimePoint.Value.Date);
                 currDate = currTimePoint.Date;
             }
+            prevTimePoint = currTimePoint;
 
             if (snapshot.IsActive)
             {
