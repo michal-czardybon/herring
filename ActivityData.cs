@@ -33,6 +33,11 @@ namespace Herring
             get { return MouseIntensity >= 0.5; }       // 1000 pixels per minute
         }
 
+        public bool IsActive
+        {
+            get { return IsKeyboardActive || IsMouseActive; }
+        }
+
     }
 
     // Information gathered at a single time moment

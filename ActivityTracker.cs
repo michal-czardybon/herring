@@ -7,13 +7,16 @@ namespace Herring
 {
     static class ActivityTracker
     {
-        private static List<ActivitySummary> currentLog;   // being tracked right now
+        private static List<ActivitySummary> currentLog;   // being tracked right now (today)
         private static List<ActivitySummary> selectedLog;  // being displayed
 
-        private static int logTimeUnit = 60;    // [s]
-        private static int logSamplingRate = 100;   // how many samples are taken for one time unit (should be at least 3)
+        private static int logTimeUnit = 60;            // [s]
+        private static int logSamplingRate = 100;       // how many samples are taken for one time unit (should be at least 3)
+        private static int inactivityThreshold = 120;   // [s] after this time the user is assumed away of the computer
 
         private static List<ActivitySnapshot> currentSnapshots = new List<ActivitySnapshot>();
+        private static DateTime lastActivityTime = DateTime.Now;
+        private static bool isUserActive = true;
 
         public static int LogTimeUnit
         {
@@ -44,6 +47,15 @@ namespace Herring
         public static void SetSelectedActivityLog(List<ActivitySummary> log)
         {
             selectedLog = log;
+        }
+
+        private static void SetUserStatus(bool value)
+        {
+            if (isUserActive != value)
+            {
+                isUserActive = value;
+                OnUserStatusChanged(isUserActive);
+            }
         }
 
         // Returns current time rounded down to appropriate time point
@@ -159,6 +171,17 @@ namespace Herring
             }
         }
 
+        public delegate void UserStatusEventHandler(bool isActive);
+        public static event UserStatusEventHandler UserStatusChanged;
+
+        private static void OnUserStatusChanged(bool isActive)
+        {
+            if (UserStatusChanged != null)
+            {
+                UserStatusChanged(isActive);
+            }
+        }
+
         public static void RegisterSnapshot(ActivitySnapshot snapshot)
         {
             bool timePointChanged;
@@ -168,6 +191,7 @@ namespace Herring
             {
                 timePointChanged = false;
                 dateChanged = false;
+                currDate = DateTime.MinValue;   // not used
             }
             else
             {
@@ -176,6 +200,20 @@ namespace Herring
                 timePointChanged = (currTimePoint != prevTimePoint);
                 dateChanged = (currTimePoint.Date != prevTimePoint.Date);
                 currDate = currTimePoint.Date;
+            }
+
+            if (snapshot.IsActive)
+            {
+                lastActivityTime = snapshot.Time;
+                SetUserStatus(true);
+            }
+            else
+            {
+                TimeSpan inactivityTime = (snapshot.Time - lastActivityTime);
+                if (inactivityTime.TotalSeconds >= inactivityThreshold)
+                {
+                    SetUserStatus(false);
+                }
             }
 
             if (timePointChanged)

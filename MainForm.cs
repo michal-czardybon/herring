@@ -23,6 +23,7 @@ namespace Herring
             mainTabControl.SelectedIndex = 1;
             timer.Interval = 1000 * ActivityTracker.LogTimeUnit / ActivityTracker.LogSamplingRate;
             boldFont = new Font(SystemFonts.DefaultFont, FontStyle.Bold);
+            UserStatusChanged(true);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -32,6 +33,7 @@ namespace Herring
             ActivityTracker.SetCurrentActivityLog( Persistence.Load(monitor.GetApp) );
             ActivityTracker.CurrentLogExtended += this.CurrentLogExtended;
             ActivityTracker.CurrentLogChanged += this.CurrentLogChanged;
+            ActivityTracker.UserStatusChanged += this.UserStatusChanged;
             RefreshActivitiesList();
         }
 
@@ -125,7 +127,21 @@ namespace Herring
             datePicker.Value = date;
         }
 
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        private void UserStatusChanged(bool isActive)
+        {
+            if (isActive)
+            {
+                labelUserStatus.Text = "ACTIVE";
+                labelUserStatus.ForeColor = Color.Green;
+            }
+            else
+            {
+                labelUserStatus.Text = "AWAY";
+                labelUserStatus.ForeColor = Color.Red;
+            }
+        }
+
+        private void datePicker_ValueChanged(object sender, EventArgs e)
         {
             if (datePicker.Value.Date == DateTime.Now.Date)
             {

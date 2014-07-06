@@ -45,6 +45,8 @@
             this.buttonPrevDay = new System.Windows.Forms.Button();
             this.todayButton = new System.Windows.Forms.Button();
             this.datePicker = new System.Windows.Forms.DateTimePicker();
+            this.labelUserIs = new System.Windows.Forms.Label();
+            this.labelUserStatus = new System.Windows.Forms.Label();
             this.mainTabControl.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -73,7 +75,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1050, 488);
+            this.tabPage1.Size = new System.Drawing.Size(967, 488);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Tasks";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -141,13 +143,15 @@
             this.rulesTabPage.Location = new System.Drawing.Point(4, 22);
             this.rulesTabPage.Name = "rulesTabPage";
             this.rulesTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.rulesTabPage.Size = new System.Drawing.Size(1050, 488);
+            this.rulesTabPage.Size = new System.Drawing.Size(967, 488);
             this.rulesTabPage.TabIndex = 2;
             this.rulesTabPage.Text = "Rules";
             this.rulesTabPage.UseVisualStyleBackColor = true;
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.labelUserStatus);
+            this.panel1.Controls.Add(this.labelUserIs);
             this.panel1.Controls.Add(this.buttonNextDay);
             this.panel1.Controls.Add(this.buttonPrevDay);
             this.panel1.Controls.Add(this.todayButton);
@@ -162,9 +166,9 @@
             // 
             this.buttonNextDay.BackgroundImage = global::Herring.Properties.Resources._31_16x16;
             this.buttonNextDay.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.buttonNextDay.Location = new System.Drawing.Point(252, 4);
+            this.buttonNextDay.Location = new System.Drawing.Point(290, 4);
             this.buttonNextDay.Name = "buttonNextDay";
-            this.buttonNextDay.Size = new System.Drawing.Size(23, 22);
+            this.buttonNextDay.Size = new System.Drawing.Size(24, 24);
             this.buttonNextDay.TabIndex = 3;
             this.buttonNextDay.UseVisualStyleBackColor = true;
             this.buttonNextDay.Click += new System.EventHandler(this.buttonNextDay_Click);
@@ -173,18 +177,18 @@
             // 
             this.buttonPrevDay.BackgroundImage = global::Herring.Properties.Resources._30_16x16;
             this.buttonPrevDay.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.buttonPrevDay.Location = new System.Drawing.Point(228, 4);
+            this.buttonPrevDay.Location = new System.Drawing.Point(264, 4);
             this.buttonPrevDay.Name = "buttonPrevDay";
-            this.buttonPrevDay.Size = new System.Drawing.Size(23, 22);
+            this.buttonPrevDay.Size = new System.Drawing.Size(24, 24);
             this.buttonPrevDay.TabIndex = 2;
             this.buttonPrevDay.UseVisualStyleBackColor = true;
             this.buttonPrevDay.Click += new System.EventHandler(this.buttonPrevDay_Click);
             // 
             // todayButton
             // 
-            this.todayButton.Location = new System.Drawing.Point(276, 4);
+            this.todayButton.Location = new System.Drawing.Point(316, 4);
             this.todayButton.Name = "todayButton";
-            this.todayButton.Size = new System.Drawing.Size(54, 22);
+            this.todayButton.Size = new System.Drawing.Size(54, 24);
             this.todayButton.TabIndex = 1;
             this.todayButton.Text = "Today";
             this.todayButton.UseVisualStyleBackColor = true;
@@ -193,12 +197,31 @@
             // datePicker
             // 
             this.datePicker.CustomFormat = "dddd, dd MMMM yyyy";
+            this.datePicker.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.datePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.datePicker.Location = new System.Drawing.Point(4, 5);
             this.datePicker.Name = "datePicker";
-            this.datePicker.Size = new System.Drawing.Size(222, 20);
+            this.datePicker.Size = new System.Drawing.Size(257, 22);
             this.datePicker.TabIndex = 0;
-            this.datePicker.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
+            this.datePicker.ValueChanged += new System.EventHandler(this.datePicker_ValueChanged);
+            // 
+            // labelUserIs
+            // 
+            this.labelUserIs.AutoSize = true;
+            this.labelUserIs.Location = new System.Drawing.Point(376, 10);
+            this.labelUserIs.Name = "labelUserIs";
+            this.labelUserIs.Size = new System.Drawing.Size(42, 13);
+            this.labelUserIs.TabIndex = 5;
+            this.labelUserIs.Text = "User is:";
+            // 
+            // labelUserStatus
+            // 
+            this.labelUserStatus.AutoSize = true;
+            this.labelUserStatus.Location = new System.Drawing.Point(418, 10);
+            this.labelUserStatus.Name = "labelUserStatus";
+            this.labelUserStatus.Size = new System.Drawing.Size(37, 13);
+            this.labelUserStatus.TabIndex = 6;
+            this.labelUserStatus.Text = "Active";
             // 
             // MainForm
             // 
@@ -213,6 +236,7 @@
             this.mainTabControl.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -235,6 +259,8 @@
         private System.Windows.Forms.ColumnHeader shareHeader;
         private System.Windows.Forms.Button buttonPrevDay;
         private System.Windows.Forms.Button buttonNextDay;
+        private System.Windows.Forms.Label labelUserStatus;
+        private System.Windows.Forms.Label labelUserIs;
     }
 }
 
