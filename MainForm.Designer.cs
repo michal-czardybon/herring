@@ -41,8 +41,10 @@
             this.mouseIntensity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.rulesTabPage = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonNextDay = new System.Windows.Forms.Button();
+            this.buttonPrevDay = new System.Windows.Forms.Button();
             this.todayButton = new System.Windows.Forms.Button();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.datePicker = new System.Windows.Forms.DateTimePicker();
             this.mainTabControl.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -71,7 +73,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(980, 488);
+            this.tabPage1.Size = new System.Drawing.Size(1050, 488);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Tasks";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -135,37 +137,64 @@
             this.rulesTabPage.Location = new System.Drawing.Point(4, 22);
             this.rulesTabPage.Name = "rulesTabPage";
             this.rulesTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.rulesTabPage.Size = new System.Drawing.Size(980, 488);
+            this.rulesTabPage.Size = new System.Drawing.Size(1050, 488);
             this.rulesTabPage.TabIndex = 2;
             this.rulesTabPage.Text = "Rules";
             this.rulesTabPage.UseVisualStyleBackColor = true;
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.buttonNextDay);
+            this.panel1.Controls.Add(this.buttonPrevDay);
             this.panel1.Controls.Add(this.todayButton);
-            this.panel1.Controls.Add(this.dateTimePicker1);
+            this.panel1.Controls.Add(this.datePicker);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1058, 32);
             this.panel1.TabIndex = 1;
             // 
+            // buttonNextDay
+            // 
+            this.buttonNextDay.BackgroundImage = global::Herring.Properties.Resources._31_16x16;
+            this.buttonNextDay.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.buttonNextDay.Location = new System.Drawing.Point(252, 4);
+            this.buttonNextDay.Name = "buttonNextDay";
+            this.buttonNextDay.Size = new System.Drawing.Size(23, 22);
+            this.buttonNextDay.TabIndex = 3;
+            this.buttonNextDay.UseVisualStyleBackColor = true;
+            this.buttonNextDay.Click += new System.EventHandler(this.buttonNextDay_Click);
+            // 
+            // buttonPrevDay
+            // 
+            this.buttonPrevDay.BackgroundImage = global::Herring.Properties.Resources._30_16x16;
+            this.buttonPrevDay.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.buttonPrevDay.Location = new System.Drawing.Point(228, 4);
+            this.buttonPrevDay.Name = "buttonPrevDay";
+            this.buttonPrevDay.Size = new System.Drawing.Size(23, 22);
+            this.buttonPrevDay.TabIndex = 2;
+            this.buttonPrevDay.UseVisualStyleBackColor = true;
+            this.buttonPrevDay.Click += new System.EventHandler(this.buttonPrevDay_Click);
+            // 
             // todayButton
             // 
-            this.todayButton.Location = new System.Drawing.Point(211, 4);
+            this.todayButton.Location = new System.Drawing.Point(276, 4);
             this.todayButton.Name = "todayButton";
-            this.todayButton.Size = new System.Drawing.Size(75, 23);
+            this.todayButton.Size = new System.Drawing.Size(54, 22);
             this.todayButton.TabIndex = 1;
             this.todayButton.Text = "Today";
             this.todayButton.UseVisualStyleBackColor = true;
+            this.todayButton.Click += new System.EventHandler(this.todayButton_Click);
             // 
-            // dateTimePicker1
+            // datePicker
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(4, 5);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
-            this.dateTimePicker1.TabIndex = 0;
-            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
+            this.datePicker.CustomFormat = "dddd, dd MMMM yyyy";
+            this.datePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.datePicker.Location = new System.Drawing.Point(4, 5);
+            this.datePicker.Name = "datePicker";
+            this.datePicker.Size = new System.Drawing.Size(222, 20);
+            this.datePicker.TabIndex = 0;
+            this.datePicker.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // MainForm
             // 
@@ -196,10 +225,12 @@
         private System.Windows.Forms.ColumnHeader mouseIntensity;
         private System.Windows.Forms.ColumnHeader typingIntensity;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.DateTimePicker datePicker;
         private System.Windows.Forms.Button todayButton;
         private System.Windows.Forms.TabPage rulesTabPage;
         private System.Windows.Forms.ColumnHeader shareHeader;
+        private System.Windows.Forms.Button buttonPrevDay;
+        private System.Windows.Forms.Button buttonNextDay;
     }
 }
 

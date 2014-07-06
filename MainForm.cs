@@ -40,19 +40,6 @@ namespace Herring
             ActivityTracker.RegisterSnapshot(snapshot);
         }
 
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
-        {
-            if (dateTimePicker1.Value.Date == DateTime.Now.Date)
-            {
-                ActivityTracker.SetCurrentActivityLog();
-            }
-            else
-            {
-                ActivityTracker.SetSelectedActivityLog(Persistence.Load(monitor.GetApp, dateTimePicker1.Value.Date));
-            }
-            RefreshActivitiesList();
-        }
-
         private void AddToActivitiesList(ActivitySummary summary)
         {
             // Header
@@ -104,6 +91,15 @@ namespace Herring
                 activitiesListView.Items.Add(item);
             }
         }
+
+        private void ScrollActivitiesList()
+        {
+            int count = activitiesListView.Items.Count;
+            if (count >= 1)
+            {
+                activitiesListView.EnsureVisible(count - 1);
+            }
+        }
         
         private void RefreshActivitiesList()
         {
@@ -112,13 +108,41 @@ namespace Herring
             {
                 AddToActivitiesList(a);
             }
-            activitiesListView.EnsureVisible(activitiesListView.Items.Count - 1);
+            ScrollActivitiesList();
         }
 
         private void ActivitySummaryCreated(object sender, ActivitySummary summary)
         {
             AddToActivitiesList(summary);
-            activitiesListView.EnsureVisible(activitiesListView.Items.Count - 1);
+            ScrollActivitiesList();
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            if (datePicker.Value.Date == DateTime.Now.Date)
+            {
+                ActivityTracker.SetCurrentActivityLog();
+            }
+            else
+            {
+                ActivityTracker.SetSelectedActivityLog(Persistence.Load(monitor.GetApp, datePicker.Value.Date));
+            }
+            RefreshActivitiesList();
+        }
+
+        private void buttonPrevDay_Click(object sender, EventArgs e)
+        {
+            datePicker.Value = datePicker.Value.AddDays(-1);
+        }
+
+        private void buttonNextDay_Click(object sender, EventArgs e)
+        {
+            datePicker.Value = datePicker.Value.AddDays(+1);
+        }
+
+        private void todayButton_Click(object sender, EventArgs e)
+        {
+            datePicker.Value = DateTime.Now.Date;
         }
 
     }
