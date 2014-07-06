@@ -71,5 +71,15 @@ namespace Herring
                 return icon;
             }
         }
+
+        public static Bitmap ConvertIconToBitmap(Icon icon)
+        {
+             Bitmap bmp = new Bitmap(icon.Size.Width, icon.Size.Height);
+             using (Graphics g = Graphics.FromImage(bmp))
+                 g.DrawIcon(icon, 0, 0);
+             return bmp;
+        }
+        
+
     }
 }

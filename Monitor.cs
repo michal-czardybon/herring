@@ -95,7 +95,7 @@ namespace Herring
             }
             else
             {
-                Icon icon = ShellIcon.GetLargeIcon(path);
+                Icon icon = ShellIcon.GetSmallIcon(path);
                 appInfo =
                     new AppInfo
                     {
