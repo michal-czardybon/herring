@@ -63,7 +63,7 @@
             this.mainTabControl.Location = new System.Drawing.Point(0, 32);
             this.mainTabControl.Name = "mainTabControl";
             this.mainTabControl.SelectedIndex = 0;
-            this.mainTabControl.Size = new System.Drawing.Size(988, 514);
+            this.mainTabControl.Size = new System.Drawing.Size(1058, 514);
             this.mainTabControl.TabIndex = 0;
             // 
             // tabPage1
@@ -82,7 +82,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(980, 488);
+            this.tabPage2.Size = new System.Drawing.Size(1050, 488);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Activities";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -100,7 +100,7 @@
             this.activitiesListView.GridLines = true;
             this.activitiesListView.Location = new System.Drawing.Point(3, 3);
             this.activitiesListView.Name = "activitiesListView";
-            this.activitiesListView.Size = new System.Drawing.Size(974, 482);
+            this.activitiesListView.Size = new System.Drawing.Size(1044, 482);
             this.activitiesListView.TabIndex = 0;
             this.activitiesListView.UseCompatibleStateImageBehavior = false;
             this.activitiesListView.View = System.Windows.Forms.View.Details;
@@ -108,12 +108,12 @@
             // processColumnHeader
             // 
             this.processColumnHeader.Text = "Process Name";
-            this.processColumnHeader.Width = 165;
+            this.processColumnHeader.Width = 180;
             // 
             // titleColumnHeader
             // 
             this.titleColumnHeader.Text = "Window Title";
-            this.titleColumnHeader.Width = 334;
+            this.titleColumnHeader.Width = 520;
             // 
             // shareHeader
             // 
@@ -147,7 +147,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(988, 32);
+            this.panel1.Size = new System.Drawing.Size(1058, 32);
             this.panel1.TabIndex = 1;
             // 
             // todayButton
@@ -171,7 +171,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(988, 546);
+            this.ClientSize = new System.Drawing.Size(1058, 546);
             this.Controls.Add(this.mainTabControl);
             this.Controls.Add(this.panel1);
             this.Name = "MainForm";
