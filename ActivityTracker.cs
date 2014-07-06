@@ -15,6 +15,7 @@ namespace Herring
         private static int inactivityThreshold = 120;   // [s] after this time the user is assumed away of the computer
 
         private static List<ActivitySnapshot> currentSnapshots = new List<ActivitySnapshot>();
+        private static int currentTicks = 0;
         private static DateTime lastActivityTime = DateTime.Now;
         private static bool isUserActive = true;
 
@@ -78,7 +79,7 @@ namespace Herring
             return new DateTime(time.Year, time.Month, time.Day, time.Hour, neededTotalSeconds / 60, neededTotalSeconds % 60);
         }
 
-        private static ActivitySummary GetActivitySummary(List<ActivitySnapshot> snapshots)
+        private static ActivitySummary GetActivitySummary(List<ActivitySnapshot> snapshots, int ticks)
         {
             ActivitySummary summary =
                 new ActivitySummary
@@ -114,7 +115,7 @@ namespace Herring
                     ActivityEntry newEntry =
                         new ActivityEntry
                         {
-                            Share = 100 * count / snapshots.Count,
+                            Share = 100 * count / ticks,
                             App = snapshots[i].App,
                             Title = snapshots[i].Title,
                             KeyboardIntensity = sumKeyboard / count,
@@ -213,14 +214,20 @@ namespace Herring
                 if (inactivityTime.TotalSeconds >= inactivityThreshold)
                 {
                     SetUserStatus(false);
+
+                    // ...and remove previous snapshots which also had no keyboard nor mouse actions
+                    // (unfortunatelly only withing the current time point)
+                    while (currentSnapshots.Count >= 1 && currentSnapshots.Last().IsActive == false)
+                    {
+                        currentSnapshots.RemoveAt(currentSnapshots.Count - 1);
+                    }
                 }
             }
 
             if (timePointChanged)
             {
                 // summarize the previous interval
-                ActivitySummary summary = GetActivitySummary(currentSnapshots);
-
+                ActivitySummary summary = GetActivitySummary(currentSnapshots, currentTicks);
                 Persistence.Store(summary);
 
                 currentLog.Add(summary);
@@ -230,9 +237,14 @@ namespace Herring
                 }
 
                 currentSnapshots.Clear();
+                currentTicks = 0;
             }
 
-            currentSnapshots.Add(snapshot);
+            if (isUserActive)
+            {
+                currentSnapshots.Add(snapshot);
+            }
+            currentTicks++;
 
             if (dateChanged)
             {

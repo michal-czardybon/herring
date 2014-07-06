@@ -41,12 +41,12 @@
             this.mouseIntensity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.rulesTabPage = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.labelUserStatus = new System.Windows.Forms.Label();
+            this.labelUserIs = new System.Windows.Forms.Label();
             this.buttonNextDay = new System.Windows.Forms.Button();
             this.buttonPrevDay = new System.Windows.Forms.Button();
             this.todayButton = new System.Windows.Forms.Button();
             this.datePicker = new System.Windows.Forms.DateTimePicker();
-            this.labelUserIs = new System.Windows.Forms.Label();
-            this.labelUserStatus = new System.Windows.Forms.Label();
             this.mainTabControl.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -99,7 +99,7 @@
             this.shareHeader,
             this.keyboardIntensity,
             this.mouseIntensity});
-            this.activitiesListView.Cursor = System.Windows.Forms.Cursors.PanSW;
+            this.activitiesListView.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.activitiesListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.activitiesListView.FullRowSelect = true;
             this.activitiesListView.GridLines = true;
@@ -162,6 +162,24 @@
             this.panel1.Size = new System.Drawing.Size(975, 32);
             this.panel1.TabIndex = 1;
             // 
+            // labelUserStatus
+            // 
+            this.labelUserStatus.AutoSize = true;
+            this.labelUserStatus.Location = new System.Drawing.Point(418, 10);
+            this.labelUserStatus.Name = "labelUserStatus";
+            this.labelUserStatus.Size = new System.Drawing.Size(37, 13);
+            this.labelUserStatus.TabIndex = 6;
+            this.labelUserStatus.Text = "Active";
+            // 
+            // labelUserIs
+            // 
+            this.labelUserIs.AutoSize = true;
+            this.labelUserIs.Location = new System.Drawing.Point(376, 10);
+            this.labelUserIs.Name = "labelUserIs";
+            this.labelUserIs.Size = new System.Drawing.Size(42, 13);
+            this.labelUserIs.TabIndex = 5;
+            this.labelUserIs.Text = "User is:";
+            // 
             // buttonNextDay
             // 
             this.buttonNextDay.BackgroundImage = global::Herring.Properties.Resources._31_16x16;
@@ -204,24 +222,6 @@
             this.datePicker.Size = new System.Drawing.Size(257, 22);
             this.datePicker.TabIndex = 0;
             this.datePicker.ValueChanged += new System.EventHandler(this.datePicker_ValueChanged);
-            // 
-            // labelUserIs
-            // 
-            this.labelUserIs.AutoSize = true;
-            this.labelUserIs.Location = new System.Drawing.Point(376, 10);
-            this.labelUserIs.Name = "labelUserIs";
-            this.labelUserIs.Size = new System.Drawing.Size(42, 13);
-            this.labelUserIs.TabIndex = 5;
-            this.labelUserIs.Text = "User is:";
-            // 
-            // labelUserStatus
-            // 
-            this.labelUserStatus.AutoSize = true;
-            this.labelUserStatus.Location = new System.Drawing.Point(418, 10);
-            this.labelUserStatus.Name = "labelUserStatus";
-            this.labelUserStatus.Size = new System.Drawing.Size(37, 13);
-            this.labelUserStatus.TabIndex = 6;
-            this.labelUserStatus.Text = "Active";
             // 
             // MainForm
             // 
