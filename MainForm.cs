@@ -13,16 +13,16 @@ namespace Herring
     public partial class MainForm : Form
     {
         private Monitor monitor;
-        private List<ActivitySnapshot> currentLog;   // being tracked right now
-        private List<ActivitySnapshot> selectedLog;  // being displayed
+        private List<ActivitySummary> currentLog;   // being tracked right now
+        private List<ActivitySummary> selectedLog;  // being displayed
         private Persistence persistence;
         private Dictionary<string, int> iconIndices = new Dictionary<string,int>();
 
-        private int logTimeUnit = 120;       // [s]
+        private int logTimeUnit = 10;       // [s]
         private int logSamplingRate = 10;   // how many samples are taken for one time unit (should be at least 3)
 
         private DateTime currentTimePoint;
-        private List<ActivitySnapshot> currentSamples = new List<ActivitySnapshot>();
+        private List<ActivitySnapshot> currentSnapshots = new List<ActivitySnapshot>();
 
         public MainForm()
         {
@@ -36,7 +36,7 @@ namespace Herring
         {
             monitor = new Monitor();
             persistence = new Persistence();
-            currentLog = Persistence.Load(monitor.GetApp);
+            currentLog = new List<ActivitySummary>();// Persistence.Load(monitor.GetApp);
             selectedLog = currentLog;
             RefreshActivitiesList();
             monitor.Start();
@@ -62,64 +62,75 @@ namespace Herring
             return new DateTime(time.Year, time.Month, time.Day, time.Hour, neededTotalSeconds / 60, neededTotalSeconds % 60);
         }
 
-        private ActivitySnapshot GetActivitySummary(List<ActivitySnapshot> samples)
+        private ActivitySummary GetActivitySummary(List<ActivitySnapshot> snapshots)
         {
-            ActivitySnapshot summary =
-                new ActivitySnapshot
+            ActivitySummary summary =
+                new ActivitySummary
                 {
-                    Begin = GetTimePoint(samples.First().End, logTimeUnit),
-                    Length = new TimeSpan(0, 0, logTimeUnit)                    
+                    TimePoint = GetTimePoint(snapshots.First().Time, logTimeUnit),
+                    Span = new TimeSpan(0, 0, logTimeUnit),
+                    TotalKeyboardIntensity = (int)(from x in snapshots select x.KeyboardIntensity).Average(),
+                    TotalMouseIntensity    = (int)(from x in snapshots select x.MouseIntensity)   .Average(),
+                    Entries = new List<ActivityEntry>()
                 };
 
-            Dictionary<string, int> processPresence = new Dictionary<string, int>();
-            foreach (var s in samples)
+            bool[] done = new bool[snapshots.Count];
+            for (int i = 0; i < snapshots.Count; ++i)
             {
-                summary.MouseMoveDistance += s.MouseMoveDistance;
-                summary.MouseClickCount += s.MouseClickCount;
-                summary.KeyPressCount += s.KeyPressCount;
-
-                if (processPresence.ContainsKey(s.App.Name) == false)
+                if (done[i] == false)// && (snapshots[i].IsKeyboardActive || snapshots[i].IsMouseActive))
                 {
-                    processPresence[s.App.Name] = 0;
+                    int count = 1;
+                    int sumKeyboard = snapshots[i].KeyboardIntensity;
+                    int sumMouse = snapshots[i].MouseIntensity;
+                    for (int j = i + 1; j < snapshots.Count; ++j)
+                    {
+                        if (snapshots[j].App.Name == snapshots[i].App.Name &&
+                            snapshots[j].Title == snapshots[i].Title)
+                        {
+                            count++;
+                            sumKeyboard += snapshots[j].KeyboardIntensity;
+                            sumMouse += snapshots[j].MouseIntensity;
+                            done[j] = true;
+                        }
+                    }
+                    ActivityEntry newEntry =
+                        new ActivityEntry
+                        {
+                            Share = 100 * count / snapshots.Count,
+                            App = snapshots[i].App,
+                            Title = snapshots[i].Title,
+                            KeyboardIntensity = sumKeyboard / count,
+                            MouseIntensity = sumMouse / count
+                        };
+                    summary.Entries.Add(newEntry);
                 }
-
-                processPresence[s.App.Name] += 1;
             }
 
-            List<KeyValuePair<string, int>> entries = new List<KeyValuePair<string, int>>();
-            foreach (var x in processPresence)
-            {
-                entries.Add(x);
-            }
-            entries.Sort((a, b) => (b.Value - a.Value));
-
-            summary.App = new AppInfo();
-            summary.App.Name = entries.First().Key;
+            summary.Entries.Sort((a, b) => (int)(1000 * (b.Share - a.Share)));
 
             return summary;
         }
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            ActivitySnapshot snapshot = monitor.GetSnapshot();
+            ActivitySnapshot snapshot = monitor.GetActivitySnapshot();
 
             bool timePointChanged;
-            if (currentSamples.Count == 0)
+            if (currentSnapshots.Count == 0)
             {
                 timePointChanged = false;
             }
             else
             {
-                DateTime currTimePoint = GetTimePoint(snapshot.End, logTimeUnit);
-                DateTime prevTimePoint = GetTimePoint(currentSamples.Last().End, logTimeUnit);
+                DateTime currTimePoint = GetTimePoint(snapshot.Time, logTimeUnit);
+                DateTime prevTimePoint = GetTimePoint(currentSnapshots.Last().Time, logTimeUnit);
                 timePointChanged = (currTimePoint != prevTimePoint);
             }
-
 
             if (timePointChanged)
             {
                 // summarize the previous interval
-                ActivitySnapshot summary = GetActivitySummary(currentSamples);
+                ActivitySummary summary = GetActivitySummary(currentSnapshots);
                 
                 currentLog.Add(summary);
                 Persistence.Store(summary);
@@ -129,21 +140,13 @@ namespace Herring
                     AddToActivitiesList(summary);
                 }
                 
-                currentSamples.Clear();
+                currentSnapshots.Clear();
             }
             else
             {
                 // still the same interval
-                currentSamples.Add(snapshot);
+                currentSnapshots.Add(snapshot);
             }
-
-            /*currentLog.Add(snapshot);
-            Persistence.Store(snapshot);
-
-            if (currentLog == selectedLog)
-            {
-                AddToActivitiesList(snapshot);
-            }*/
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
@@ -159,42 +162,64 @@ namespace Herring
             RefreshActivitiesList();
         }
 
-        private void AddToActivitiesList(ActivitySnapshot snapshot)
+        private void AddToActivitiesList(ActivitySummary summary)
         {
-            string[] content = new string[]
+            // Header
             {
-                snapshot.Begin.ToString(),
-                snapshot.App.Name,
-                snapshot.Title,
-                snapshot.MouseSpeed.ToString(),
-                snapshot.ClickingSpeed.ToString(),
-                snapshot.TypingSpeed.ToString()
-            };
+                string[] content = new string[]
+                {
+                    /* time: */    summary.TimePoint.ToString(),
+                    /* process: */ "",
+                    /* title: */   "",
+                    /* share: */   (100 * summary.Entries.Count / logSamplingRate).ToString(),
+                    /* keyboard:*/ summary.TotalKeyboardIntensity.ToString(),
+                    /* mouse:*/    summary.TotalMouseIntensity.ToString()
+                };
 
-            int iconIndex;
-            if (iconIndices.ContainsKey(snapshot.App.Name))
-            {
-                iconIndex = iconIndices[snapshot.App.Name];
-            }
-            else if (snapshot.App.Icon != null)
-            {
-                iconIndex = iconIndices.Count;
-                iconIndices.Add(snapshot.App.Name, iconIndex);
-                activitiesListView.SmallImageList.Images.Add(snapshot.App.Icon);
-            }
-            else
-            {
-                iconIndex = -1;
+                ListViewItem header = new ListViewItem(content);
+                header.BackColor = SystemColors.ActiveCaption;  // ?
+                activitiesListView.Items.Add(header);
             }
 
-            ListViewItem item = new ListViewItem(content, iconIndex);
-            activitiesListView.Items.Add(item);
+            // Entries
+            foreach (ActivityEntry e in summary.Entries)
+            {
+                string[] content = new string[]
+                {
+                    /* time: */     "",
+                    /* process: */  e.App.Name,
+                    /* title: */    e.Title,
+                    /* share: */    e.Share.ToString(),
+                    /* keyboard: */ e.KeyboardIntensity.ToString(),
+                    /* mouse: */    e.MouseIntensity.ToString()
+                };
+
+                int iconIndex;
+                if (iconIndices.ContainsKey(e.App.Name))
+                {
+                    iconIndex = iconIndices[e.App.Name];
+                }
+                else if (e.App.Icon != null)
+                {
+                    iconIndex = iconIndices.Count;
+                    iconIndices.Add(e.App.Name, iconIndex);
+                    //activitiesListView.SmallImageList.Images.Add(topSample.App.Icon);
+                    activitiesListView.SmallImageList.Images.Add(ShellIcon.ConvertIconToBitmap(e.App.Icon));
+                }
+                else
+                {
+                    iconIndex = -1;
+                }
+
+                ListViewItem item = new ListViewItem(content, iconIndex);
+                activitiesListView.Items.Add(item);
+            }
         }
 
         private void RefreshActivitiesList()
         {
             activitiesListView.Items.Clear();
-            foreach (ActivitySnapshot a in selectedLog)
+            foreach (ActivitySummary a in selectedLog)
             {
                 AddToActivitiesList(a);
             }

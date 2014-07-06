@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
+using System.Linq;
 
 namespace Herring
 {
@@ -14,58 +15,54 @@ namespace Herring
         public ColorBin[]   ColorBins;
     }
 
-    /// Basic unit of information stored in the program
-    class ActivitySnapshot
+    /// The basic piece of information about user activity
+    class ActivitySample
     {
-        public DateTime Begin;
-        public TimeSpan Length;
-        public AppInfo App;
-        public string  Title;
-        public int KeyPressCount;
-        public int MouseClickCount;
-        public double MouseMoveDistance;
-        //public string TypedText;
-        //public double   CpuLoad;
+        public AppInfo  App;
+        public string   Title;
+        public int      KeyboardIntensity;
+        public int      MouseIntensity;
 
-        public DateTime End
+        public bool IsKeyboardActive
         {
-            get
-            {
-                return Begin + Length;
-            }
+            get { return KeyboardIntensity >= 1; }    // one word per minute
         }
 
-        public int TypingSpeed
+        public bool IsMouseActive
         {
-            get
-            {
-                double chars = KeyPressCount;
-                double minutes = Length.TotalMilliseconds / 60000.0;
-                return (int)(chars / minutes + 0.5);
-            }
+            get { return MouseIntensity >= 1; }       // 1000 pixels per minute
         }
 
-        public int ClickingSpeed
+    }
+
+    // Information gathered at a single time moment
+    class ActivitySnapshot : ActivitySample
+    {
+        public DateTime Time;   // This is the END of the time-span        
+
+        public static int GetIntensity(int rawValue, int unit, TimeSpan span)
         {
-            get
-            {
-                double clicks = MouseClickCount;
-                double minutes = Length.TotalMilliseconds / 60000.0;
-                return (int)(clicks / minutes + 0.5);
-            }
+            double minutes = span.TotalMilliseconds / 60000.0;
+            double value = (double)rawValue / unit;
+            return (int)(value / minutes);
         }
+    }
 
-        public int MouseSpeed
-        {
-            get
-            {
-                double distance = MouseMoveDistance;
-                double seconds = Length.TotalMilliseconds / 1000.0;
-                return (int)(distance / seconds + 0.5);
-            }
-        }
-
-
+    class ActivityEntry : ActivitySample
+    {
+        public int Share;
+    }
+        
+    // Information got from many time quantuums
+    class ActivitySummary
+    {
+        public DateTime TimePoint;  // This is the START of the time span
+        public TimeSpan Span;
+        public List<ActivityEntry> Entries;
+        
+        public int TotalShare;
+        public int TotalKeyboardIntensity;
+        public int TotalMouseIntensity;
     }
 
 }

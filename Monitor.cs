@@ -109,7 +109,7 @@ namespace Herring
             return appInfo;
         }
 
-        public ActivitySnapshot GetSnapshot()
+        public ActivitySnapshot GetActivitySnapshot()
         {
             string path = SystemInfo.GetTopWindowPath();
             string text = SystemInfo.GetTopWindowText();
@@ -125,14 +125,11 @@ namespace Herring
             ActivitySnapshot data =
                 new ActivitySnapshot
                 {
-                    Begin = begin,
-                    Length = end - begin,
+                    Time = begin,
                     App = appInfo,
                     Title = text,
-                    //TypedText = charsTyped.ToString(),
-                    KeyPressCount = charsTyped.Length,
-                    MouseClickCount = mouseClicks,
-                    MouseMoveDistance = mouseDistance
+                    KeyboardIntensity = ActivitySnapshot.GetIntensity(charsTyped.Length, 6, length),
+                    MouseIntensity = ActivitySnapshot.GetIntensity((int)mouseDistance, 1000, length)
                 };
 
             Reset(end);

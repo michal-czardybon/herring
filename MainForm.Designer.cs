@@ -37,9 +37,9 @@
             this.timeColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.processColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.titleColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.mouseIntensity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clickingIntensity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.shareHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.typingIntensity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.mouseIntensity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.rulesTabPage = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.todayButton = new System.Windows.Forms.Button();
@@ -94,10 +94,12 @@
             this.timeColumnHeader,
             this.processColumnHeader,
             this.titleColumnHeader,
-            this.mouseIntensity,
-            this.clickingIntensity,
-            this.typingIntensity});
+            this.shareHeader,
+            this.typingIntensity,
+            this.mouseIntensity});
             this.activitiesListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.activitiesListView.FullRowSelect = true;
+            this.activitiesListView.GridLines = true;
             this.activitiesListView.Location = new System.Drawing.Point(3, 3);
             this.activitiesListView.Name = "activitiesListView";
             this.activitiesListView.Size = new System.Drawing.Size(974, 482);
@@ -108,7 +110,7 @@
             // timeColumnHeader
             // 
             this.timeColumnHeader.Text = "Time";
-            this.timeColumnHeader.Width = 152;
+            this.timeColumnHeader.Width = 145;
             // 
             // processColumnHeader
             // 
@@ -118,22 +120,22 @@
             // titleColumnHeader
             // 
             this.titleColumnHeader.Text = "Window Title";
-            this.titleColumnHeader.Width = 293;
+            this.titleColumnHeader.Width = 334;
+            // 
+            // shareHeader
+            // 
+            this.shareHeader.Text = "Share";
+            this.shareHeader.Width = 106;
+            // 
+            // typingIntensity
+            // 
+            this.typingIntensity.Text = "Keyboard Intensity";
+            this.typingIntensity.Width = 101;
             // 
             // mouseIntensity
             // 
             this.mouseIntensity.Text = "Mouse Intensity";
-            this.mouseIntensity.Width = 111;
-            // 
-            // clickingIntensity
-            // 
-            this.clickingIntensity.Text = "Clicking Intensity";
-            this.clickingIntensity.Width = 107;
-            // 
-            // typingIntensity
-            // 
-            this.typingIntensity.Text = "Typing Intensity";
-            this.typingIntensity.Width = 101;
+            this.mouseIntensity.Width = 96;
             // 
             // rulesTabPage
             // 
@@ -200,12 +202,12 @@
         private System.Windows.Forms.ColumnHeader processColumnHeader;
         private System.Windows.Forms.ColumnHeader titleColumnHeader;
         private System.Windows.Forms.ColumnHeader mouseIntensity;
-        private System.Windows.Forms.ColumnHeader clickingIntensity;
         private System.Windows.Forms.ColumnHeader typingIntensity;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.Button todayButton;
         private System.Windows.Forms.TabPage rulesTabPage;
+        private System.Windows.Forms.ColumnHeader shareHeader;
     }
 }
 
