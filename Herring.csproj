@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActivityData.cs" />
+    <Compile Include="ActivityTracker.cs" />
     <Compile Include="IconAnalyser.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>

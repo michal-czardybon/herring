@@ -6,7 +6,7 @@ using System.Globalization;
 
 namespace Herring
 {
-    class Persistence
+    static class Persistence
     {
         private static TextWriter writer;
 
