@@ -77,6 +77,8 @@ namespace Herring
                     Entries = new List<ActivityEntry>()
                 };
 
+            Dictionary<string, int> processShare = new Dictionary<string, int>();
+
             bool[] done = new bool[snapshots.Count];
             for (int i = 0; i < snapshots.Count; ++i)
             {
@@ -106,10 +108,26 @@ namespace Herring
                             MouseIntensity = sumMouse / count
                         };
                     summary.Entries.Add(newEntry);
+
+                    // Counting the total share per process path
+                    if (processShare.Keys.Contains(newEntry.App.Path))
+                    {
+                        processShare[newEntry.App.Path] += newEntry.Share;
+                    }
+                    else
+                    {
+                        processShare.Add(newEntry.App.Path, newEntry.Share);
+                    }
                 }
             }
 
-            summary.Entries.Sort((a, b) => (int)(1000 * (b.Share - a.Share)));
+            summary.Entries.Sort
+            (
+                (a, b) =>
+                    processShare[a.App.Path] != processShare[b.App.Path]
+                        ? processShare[b.App.Path] - processShare[a.App.Path]
+                        : b.Share - a.Share
+            );
 
             return summary;
         }
