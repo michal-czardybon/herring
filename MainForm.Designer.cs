@@ -37,7 +37,7 @@
             this.processColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.titleColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.shareHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.typingIntensity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.keyboardIntensity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.mouseIntensity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.rulesTabPage = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -65,7 +65,7 @@
             this.mainTabControl.Location = new System.Drawing.Point(0, 32);
             this.mainTabControl.Name = "mainTabControl";
             this.mainTabControl.SelectedIndex = 0;
-            this.mainTabControl.Size = new System.Drawing.Size(1058, 514);
+            this.mainTabControl.Size = new System.Drawing.Size(975, 514);
             this.mainTabControl.TabIndex = 0;
             // 
             // tabPage1
@@ -84,7 +84,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1050, 488);
+            this.tabPage2.Size = new System.Drawing.Size(967, 488);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Activities";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -95,14 +95,15 @@
             this.processColumnHeader,
             this.titleColumnHeader,
             this.shareHeader,
-            this.typingIntensity,
+            this.keyboardIntensity,
             this.mouseIntensity});
+            this.activitiesListView.Cursor = System.Windows.Forms.Cursors.PanSW;
             this.activitiesListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.activitiesListView.FullRowSelect = true;
             this.activitiesListView.GridLines = true;
             this.activitiesListView.Location = new System.Drawing.Point(3, 3);
             this.activitiesListView.Name = "activitiesListView";
-            this.activitiesListView.Size = new System.Drawing.Size(1044, 482);
+            this.activitiesListView.Size = new System.Drawing.Size(961, 482);
             this.activitiesListView.TabIndex = 0;
             this.activitiesListView.UseCompatibleStateImageBehavior = false;
             this.activitiesListView.View = System.Windows.Forms.View.Details;
@@ -115,22 +116,25 @@
             // titleColumnHeader
             // 
             this.titleColumnHeader.Text = "Window Title";
-            this.titleColumnHeader.Width = 520;
+            this.titleColumnHeader.Width = 540;
             // 
             // shareHeader
             // 
             this.shareHeader.Text = "Share";
-            this.shareHeader.Width = 106;
+            this.shareHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.shareHeader.Width = 70;
             // 
-            // typingIntensity
+            // keyboardIntensity
             // 
-            this.typingIntensity.Text = "Keyboard Intensity";
-            this.typingIntensity.Width = 101;
+            this.keyboardIntensity.Text = "Keyboard";
+            this.keyboardIntensity.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.keyboardIntensity.Width = 70;
             // 
             // mouseIntensity
             // 
-            this.mouseIntensity.Text = "Mouse Intensity";
-            this.mouseIntensity.Width = 96;
+            this.mouseIntensity.Text = "Mouse";
+            this.mouseIntensity.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.mouseIntensity.Width = 70;
             // 
             // rulesTabPage
             // 
@@ -151,7 +155,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1058, 32);
+            this.panel1.Size = new System.Drawing.Size(975, 32);
             this.panel1.TabIndex = 1;
             // 
             // buttonNextDay
@@ -200,7 +204,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1058, 546);
+            this.ClientSize = new System.Drawing.Size(975, 546);
             this.Controls.Add(this.mainTabControl);
             this.Controls.Add(this.panel1);
             this.Name = "MainForm";
@@ -223,7 +227,7 @@
         private System.Windows.Forms.ColumnHeader processColumnHeader;
         private System.Windows.Forms.ColumnHeader titleColumnHeader;
         private System.Windows.Forms.ColumnHeader mouseIntensity;
-        private System.Windows.Forms.ColumnHeader typingIntensity;
+        private System.Windows.Forms.ColumnHeader keyboardIntensity;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DateTimePicker datePicker;
         private System.Windows.Forms.Button todayButton;
