@@ -17,6 +17,7 @@ namespace Herring
 
         private DateTime begin;
         private StringBuilder charsTyped;
+        private int keyPressCount;
         private double mouseDistance;
         private int mouseClicks;
         private Point prevMouseLoc;
@@ -27,8 +28,8 @@ namespace Herring
 
             actHook = new UserActivityHook();
             actHook.OnMouseActivity += new MouseEventHandler(MouseMoved);
-            actHook.KeyDown         += new KeyEventHandler(KeyDown);
-            actHook.KeyPress += new KeyPressEventHandler(KeyPressed);
+            actHook.KeyDown         += new KeyEventHandler(KeyDown);            
+            actHook.KeyPress        += new KeyPressEventHandler(KeyPressed);
         }
 
         public void Start()
@@ -53,7 +54,8 @@ namespace Herring
         }
 
         public void KeyDown(object sender, KeyEventArgs e)
-        {           
+        {
+            keyPressCount++;
         }
 
         public void KeyPressed(object sender, KeyPressEventArgs e)
@@ -81,6 +83,7 @@ namespace Herring
         {
             begin = now;
             charsTyped = new StringBuilder();
+            keyPressCount = 0;
             prevMouseLoc = new Point(-1, -1);
             mouseDistance = 0;
             mouseClicks = 0;
@@ -128,7 +131,7 @@ namespace Herring
                     Time = begin,
                     App = appInfo,
                     Title = text,
-                    KeyboardIntensity = ActivitySnapshot.GetIntensity(charsTyped.Length, 6, length),
+                    KeyboardIntensity = ActivitySnapshot.GetIntensity(keyPressCount, 6, length),
                     MouseIntensity = ActivitySnapshot.GetIntensity((int)mouseDistance, 1000, length)
                 };
 
