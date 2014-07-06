@@ -18,10 +18,9 @@ namespace Herring
         private Persistence persistence;
         private Dictionary<string, int> iconIndices = new Dictionary<string,int>();
 
-        private int logTimeUnit     = 150;  // [s]
-        private int logSamplingRate = 50;   // how many samples are taken for one time unit (should be at least 3)
+        private int logTimeUnit     = 60;    // [s]
+        private int logSamplingRate = 100;   // how many samples are taken for one time unit (should be at least 3)
 
-        private DateTime currentTimePoint;
         private List<ActivitySnapshot> currentSnapshots = new List<ActivitySnapshot>();
 
         private Font boldFont;
@@ -72,12 +71,12 @@ namespace Herring
                 {
                     TimePoint = GetTimePoint(snapshots.First().Time, logTimeUnit),
                     Span = new TimeSpan(0, 0, logTimeUnit),
-                    TotalKeyboardIntensity = (int)(from x in snapshots select x.KeyboardIntensity).Average(),
-                    TotalMouseIntensity    = (int)(from x in snapshots select x.MouseIntensity)   .Average(),
+                    TotalKeyboardIntensity = (from x in snapshots select x.KeyboardIntensity).Average(),
+                    TotalMouseIntensity    = (from x in snapshots select x.MouseIntensity)   .Average(),
                     Entries = new List<ActivityEntry>()
                 };
 
-            Dictionary<string, int> processShare = new Dictionary<string, int>();
+            Dictionary<string, double> processShare = new Dictionary<string, double>();
 
             bool[] done = new bool[snapshots.Count];
             for (int i = 0; i < snapshots.Count; ++i)
@@ -85,8 +84,8 @@ namespace Herring
                 if (done[i] == false && (snapshots[i].IsKeyboardActive || snapshots[i].IsMouseActive))
                 {
                     int count = 1;
-                    int sumKeyboard = snapshots[i].KeyboardIntensity;
-                    int sumMouse = snapshots[i].MouseIntensity;
+                    double sumKeyboard = snapshots[i].KeyboardIntensity;
+                    double sumMouse = snapshots[i].MouseIntensity;
                     for (int j = i + 1; j < snapshots.Count; ++j)
                     {
                         if (snapshots[j].App.Name == snapshots[i].App.Name &&
@@ -107,7 +106,11 @@ namespace Herring
                             KeyboardIntensity = sumKeyboard / count,
                             MouseIntensity = sumMouse / count
                         };
-                    summary.Entries.Add(newEntry);
+
+                    if (newEntry.Share >= 3.0)  // 3%
+                    {
+                        summary.Entries.Add(newEntry);
+                    }
 
                     // Counting the total share per process path
                     if (processShare.Keys.Contains(newEntry.App.Path))
@@ -125,8 +128,8 @@ namespace Herring
             (
                 (a, b) =>
                     processShare[a.App.Path] != processShare[b.App.Path]
-                        ? processShare[b.App.Path] - processShare[a.App.Path]
-                        : b.Share - a.Share
+                        ? (int)(1000 * (processShare[b.App.Path] - processShare[a.App.Path]))
+                        : (int)(1000 * (b.Share - a.Share))
             );
 
             return summary;
@@ -189,8 +192,8 @@ namespace Herring
                     /* time: */    summary.TimePoint.ToString(),
                     /* title: */   "",
                     /* share: */   summary.Entries.Sum(x => x.Share).ToString(),
-                    /* keyboard:*/ summary.TotalKeyboardIntensity.ToString(),
-                    /* mouse:*/    summary.TotalMouseIntensity.ToString()
+                    /* keyboard:*/ summary.TotalKeyboardIntensity.ToString("F1"),
+                    /* mouse:*/    summary.TotalMouseIntensity.ToString("F1")
                 };
 
                 ListViewItem header = new ListViewItem(content);
@@ -206,9 +209,9 @@ namespace Herring
                 {
                     /* process: */  e.App.Name,
                     /* title: */    e.Title,
-                    /* share: */    e.Share.ToString(),
-                    /* keyboard: */ e.KeyboardIntensity.ToString(),
-                    /* mouse: */    e.MouseIntensity.ToString()
+                    /* share: */    e.Share.ToString("F1"),
+                    /* keyboard: */ e.KeyboardIntensity.ToString("F1"),
+                    /* mouse: */    e.MouseIntensity.ToString("F1")
                 };
 
                 int iconIndex;

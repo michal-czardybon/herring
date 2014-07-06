@@ -41,9 +41,9 @@ namespace Herring
                     {
                         TimePoint = DateTime.Parse(parts[0]),
                         Span = TimeSpan.Parse(parts[1]),
-                        TotalShare = int.Parse(parts[4]),
-                        TotalMouseIntensity = int.Parse(parts[5]),
-                        TotalKeyboardIntensity = int.Parse(parts[6]),
+                        TotalShare = double.Parse(parts[4]),
+                        TotalMouseIntensity = double.Parse(parts[5]),
+                        TotalKeyboardIntensity = double.Parse(parts[6]),
                         Entries = new List<ActivityEntry>()
                     };
                     data.Add(summary);
@@ -59,9 +59,9 @@ namespace Herring
                     {
                         App = getApp(parts[2]),
                         Title = parts[3],
-                        Share = int.Parse(parts[4]),
-                        MouseIntensity = int.Parse(parts[5]),
-                        KeyboardIntensity = int.Parse(parts[6])
+                        Share = double.Parse(parts[4]),
+                        MouseIntensity = double.Parse(parts[5]),
+                        KeyboardIntensity = double.Parse(parts[6])
                     };
                     lastSummary.Entries.Add(entry);
                 }
@@ -111,9 +111,9 @@ namespace Herring
             writer.Write(data.Span.ToString() + ";");
             writer.Write(";");
             writer.Write(";");
-            writer.Write(data.TotalShare + ";");
-            writer.Write(data.TotalKeyboardIntensity + ";");
-            writer.Write(data.TotalMouseIntensity + ";");
+            writer.Write(data.TotalShare.ToString("F2") + ";");
+            writer.Write(data.TotalKeyboardIntensity.ToString("F2") + ";");
+            writer.Write(data.TotalMouseIntensity.ToString("F2") + ";");
             writer.WriteLine();
 
             foreach (ActivityEntry entry in data.Entries)
@@ -122,9 +122,9 @@ namespace Herring
                 writer.Write(";");
                 writer.Write(entry.App.Path + ";");
                 writer.Write(entry.Title + ";");
-                writer.Write(entry.Share + ";");
-                writer.Write(entry.KeyboardIntensity + ";");
-                writer.Write(entry.MouseIntensity + ";");
+                writer.Write(entry.Share.ToString("F2") + ";");
+                writer.Write(entry.KeyboardIntensity.ToString("F2") + ";");
+                writer.Write(entry.MouseIntensity.ToString("F2") + ";");
                 writer.WriteLine();
             }
 
