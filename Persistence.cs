@@ -23,7 +23,7 @@ namespace Herring
         {
             TextReader reader = new StreamReader(path);
             string header = reader.ReadLine();  // csv header
-            if (header != "time;length;process;title;share;keyboard-intensity;mouse-intensity;")
+            if (header != "time;span;process;title;share;keyboard-intensity;mouse-intensity;")
             {
                 throw new ApplicationException("Incorrect log file format.");
             }
@@ -43,7 +43,8 @@ namespace Herring
                         Span = TimeSpan.Parse(parts[1]),
                         TotalShare = int.Parse(parts[4]),
                         TotalMouseIntensity = int.Parse(parts[5]),
-                        TotalKeyboardIntensity = int.Parse(parts[6])
+                        TotalKeyboardIntensity = int.Parse(parts[6]),
+                        Entries = new List<ActivityEntry>()
                     };
                     data.Add(summary);
                     lastSummary = summary;
@@ -103,13 +104,14 @@ namespace Herring
             {
                 string path = ConstructFileName(DateTime.Now, true);
                 writer = new StreamWriter(path);
-                writer.WriteLine("time;process;title;share;keyboard-intensity;mouse-intensity;");
+                writer.WriteLine("time;span;process;title;share;keyboard-intensity;mouse-intensity;");
             }
 
             writer.Write(data.TimePoint.ToString() + ";");
             writer.Write(data.Span.ToString() + ";");
             writer.Write(";");
             writer.Write(";");
+            writer.Write(data.TotalShare + ";");
             writer.Write(data.TotalKeyboardIntensity + ";");
             writer.Write(data.TotalMouseIntensity + ";");
             writer.WriteLine();
@@ -118,8 +120,9 @@ namespace Herring
             {
                 writer.Write(";");
                 writer.Write(";");
-                writer.Write(entry.App.Name + ";");
+                writer.Write(entry.App.Path + ";");
                 writer.Write(entry.Title + ";");
+                writer.Write(entry.Share + ";");
                 writer.Write(entry.KeyboardIntensity + ";");
                 writer.Write(entry.MouseIntensity + ";");
                 writer.WriteLine();

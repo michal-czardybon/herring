@@ -18,11 +18,13 @@ namespace Herring
         private Persistence persistence;
         private Dictionary<string, int> iconIndices = new Dictionary<string,int>();
 
-        private int logTimeUnit = 10;       // [s]
-        private int logSamplingRate = 10;   // how many samples are taken for one time unit (should be at least 3)
+        private int logTimeUnit     = 150;  // [s]
+        private int logSamplingRate = 50;   // how many samples are taken for one time unit (should be at least 3)
 
         private DateTime currentTimePoint;
         private List<ActivitySnapshot> currentSnapshots = new List<ActivitySnapshot>();
+
+        private Font boldFont;
 
         public MainForm()
         {
@@ -30,13 +32,14 @@ namespace Herring
             activitiesListView.SmallImageList = new ImageList();
             mainTabControl.SelectedIndex = 1;
             timer.Interval = 1000 * logTimeUnit / logSamplingRate;
+            boldFont = new Font(SystemFonts.DefaultFont, FontStyle.Bold);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
             monitor = new Monitor();
             persistence = new Persistence();
-            currentLog = new List<ActivitySummary>();// Persistence.Load(monitor.GetApp);
+            currentLog = Persistence.Load(monitor.GetApp);
             selectedLog = currentLog;
             RefreshActivitiesList();
             monitor.Start();
@@ -77,7 +80,7 @@ namespace Herring
             bool[] done = new bool[snapshots.Count];
             for (int i = 0; i < snapshots.Count; ++i)
             {
-                if (done[i] == false)// && (snapshots[i].IsKeyboardActive || snapshots[i].IsMouseActive))
+                if (done[i] == false && (snapshots[i].IsKeyboardActive || snapshots[i].IsMouseActive))
                 {
                     int count = 1;
                     int sumKeyboard = snapshots[i].KeyboardIntensity;
@@ -142,11 +145,8 @@ namespace Herring
                 
                 currentSnapshots.Clear();
             }
-            else
-            {
-                // still the same interval
-                currentSnapshots.Add(snapshot);
-            }
+
+               currentSnapshots.Add(snapshot);
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
@@ -169,15 +169,15 @@ namespace Herring
                 string[] content = new string[]
                 {
                     /* time: */    summary.TimePoint.ToString(),
-                    /* process: */ "",
                     /* title: */   "",
-                    /* share: */   (100 * summary.Entries.Count / logSamplingRate).ToString(),
+                    /* share: */   summary.Entries.Sum(x => x.Share).ToString(),
                     /* keyboard:*/ summary.TotalKeyboardIntensity.ToString(),
                     /* mouse:*/    summary.TotalMouseIntensity.ToString()
                 };
 
                 ListViewItem header = new ListViewItem(content);
                 header.BackColor = SystemColors.ActiveCaption;  // ?
+                header.Font = boldFont;
                 activitiesListView.Items.Add(header);
             }
 
@@ -186,7 +186,6 @@ namespace Herring
             {
                 string[] content = new string[]
                 {
-                    /* time: */     "",
                     /* process: */  e.App.Name,
                     /* title: */    e.Title,
                     /* share: */    e.Share.ToString(),
@@ -203,7 +202,6 @@ namespace Herring
                 {
                     iconIndex = iconIndices.Count;
                     iconIndices.Add(e.App.Name, iconIndex);
-                    //activitiesListView.SmallImageList.Images.Add(topSample.App.Icon);
                     activitiesListView.SmallImageList.Images.Add(ShellIcon.ConvertIconToBitmap(e.App.Icon));
                 }
                 else

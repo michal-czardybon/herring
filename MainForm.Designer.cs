@@ -34,7 +34,6 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.activitiesListView = new System.Windows.Forms.ListView();
-            this.timeColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.processColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.titleColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.shareHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -91,7 +90,6 @@
             // activitiesListView
             // 
             this.activitiesListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.timeColumnHeader,
             this.processColumnHeader,
             this.titleColumnHeader,
             this.shareHeader,
@@ -106,11 +104,6 @@
             this.activitiesListView.TabIndex = 0;
             this.activitiesListView.UseCompatibleStateImageBehavior = false;
             this.activitiesListView.View = System.Windows.Forms.View.Details;
-            // 
-            // timeColumnHeader
-            // 
-            this.timeColumnHeader.Text = "Time";
-            this.timeColumnHeader.Width = 145;
             // 
             // processColumnHeader
             // 
@@ -198,7 +191,6 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.ListView activitiesListView;
-        private System.Windows.Forms.ColumnHeader timeColumnHeader;
         private System.Windows.Forms.ColumnHeader processColumnHeader;
         private System.Windows.Forms.ColumnHeader titleColumnHeader;
         private System.Windows.Forms.ColumnHeader mouseIntensity;
