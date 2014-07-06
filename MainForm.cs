@@ -30,7 +30,8 @@ namespace Herring
             monitor = new Monitor();
             monitor.Start();
             ActivityTracker.SetCurrentActivityLog( Persistence.Load(monitor.GetApp) );
-            ActivityTracker.ActivitySummaryCreated += this.ActivitySummaryCreated;
+            ActivityTracker.CurrentLogExtended += this.CurrentLogExtended;
+            ActivityTracker.CurrentLogChanged += this.CurrentLogChanged;
             RefreshActivitiesList();
         }
 
@@ -111,10 +112,17 @@ namespace Herring
             ScrollActivitiesList();
         }
 
-        private void ActivitySummaryCreated(object sender, ActivitySummary summary)
+        private void CurrentLogExtended(ActivitySummary summary)
         {
             AddToActivitiesList(summary);
             ScrollActivitiesList();
+        }
+
+        private void CurrentLogChanged(DateTime date)
+        {
+            RefreshActivitiesList();
+            ScrollActivitiesList();
+            datePicker.Value = date;
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)

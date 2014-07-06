@@ -134,6 +134,7 @@ namespace Herring
         public static void Close()
         {
             writer.Close();
+            writer = null;
         }
     }
 }

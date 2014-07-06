@@ -1,12 +1,12 @@
 Done: Extract reporting code away from MainWindow.
 Done: Implement autoscrolling of the ListView after adding new items.
+Done: Implement buttons for fast date changing by one day forward and backward.
+Done: Implement log file changing at midnight.
 
 --------------------------------------------------------------------------------
 
-Todo: Implement log file changing at midnight.
 Todo: Implement setting INACTIVE state after now action for X minutes.
 Todo: Implement setting basic parameters: "Reporting Period = 5m", "Sampling Period = 5s", "Maximum Inactivity Time = 5m", "Minimum Share = 3%".
-Todo: Implement buttons for fast date changing by one day forward and backward.
 
 Todo: Implement all-day chart: top-app, keyboard-intensity, mouse-intensity.
 Todo: Implement skipping header rows for empty activity summaries.

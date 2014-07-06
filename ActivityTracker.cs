@@ -137,29 +137,45 @@ namespace Herring
             return summary;
         }
 
-        public delegate void ActivitySummaryCreatedEventHandler(object sender, ActivitySummary summary);
-        public static event ActivitySummaryCreatedEventHandler ActivitySummaryCreated;
-
-        private static void OnActivitySummaryCreated(ActivitySummary summary)
+        public delegate void CurrentLogExtendedEventHandler(ActivitySummary summary);
+        public static event CurrentLogExtendedEventHandler CurrentLogExtended;
+        
+        private static void OnCurrentLogExtended(ActivitySummary summary)
         {
-            if (ActivitySummaryCreated != null)
+            if (CurrentLogExtended != null)
             {
-                ActivitySummaryCreated(null, summary);
+                CurrentLogExtended(summary);
+            }
+        }
+
+        public delegate void CurrentLogChangedEventHandler(DateTime date);
+        public static event CurrentLogChangedEventHandler CurrentLogChanged;
+
+        private static void OnCurrentLogChanged(DateTime date)
+        {
+            if (CurrentLogChanged != null)
+            {
+                CurrentLogChanged(date);
             }
         }
 
         public static void RegisterSnapshot(ActivitySnapshot snapshot)
         {
             bool timePointChanged;
+            bool dateChanged;
+            DateTime currDate;
             if (currentSnapshots.Count == 0)
             {
                 timePointChanged = false;
+                dateChanged = false;
             }
             else
             {
                 DateTime currTimePoint = GetTimePoint(snapshot.Time, logTimeUnit);
                 DateTime prevTimePoint = GetTimePoint(currentSnapshots.Last().Time, logTimeUnit);
                 timePointChanged = (currTimePoint != prevTimePoint);
+                dateChanged = (currTimePoint.Date != prevTimePoint.Date);
+                currDate = currTimePoint.Date;
             }
 
             if (timePointChanged)
@@ -167,18 +183,31 @@ namespace Herring
                 // summarize the previous interval
                 ActivitySummary summary = GetActivitySummary(currentSnapshots);
 
-                currentLog.Add(summary);
                 Persistence.Store(summary);
 
+                currentLog.Add(summary);
                 if (currentLog == selectedLog)
                 {
-                    OnActivitySummaryCreated(summary);
+                    OnCurrentLogExtended(summary);
                 }
 
                 currentSnapshots.Clear();
             }
 
             currentSnapshots.Add(snapshot);
+
+            if (dateChanged)
+            {
+                System.Diagnostics.Debug.Assert(timePointChanged);
+
+                Persistence.Close();
+
+                currentLog.Clear();
+                if (currentLog == selectedLog)
+                {
+                    OnCurrentLogChanged(currDate);
+                }
+            }
 
         }
 
