@@ -112,11 +112,13 @@ namespace Herring
             {
                 AddToActivitiesList(a);
             }
+            activitiesListView.EnsureVisible(activitiesListView.Items.Count - 1);
         }
 
         private void ActivitySummaryCreated(object sender, ActivitySummary summary)
         {
             AddToActivitiesList(summary);
+            activitiesListView.EnsureVisible(activitiesListView.Items.Count - 1);
         }
 
     }
