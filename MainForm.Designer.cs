@@ -41,13 +41,13 @@
             this.mouseIntensity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.rulesTabPage = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.autoScrollCheckBox = new System.Windows.Forms.CheckBox();
             this.labelUserStatus = new System.Windows.Forms.Label();
             this.labelUserIs = new System.Windows.Forms.Label();
             this.buttonNextDay = new System.Windows.Forms.Button();
             this.buttonPrevDay = new System.Windows.Forms.Button();
             this.todayButton = new System.Windows.Forms.Button();
             this.datePicker = new System.Windows.Forms.DateTimePicker();
-            this.autoScrollCheckBox = new System.Windows.Forms.CheckBox();
             this.mainTabControl.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -164,14 +164,25 @@
             this.panel1.Size = new System.Drawing.Size(975, 32);
             this.panel1.TabIndex = 1;
             // 
+            // autoScrollCheckBox
+            // 
+            this.autoScrollCheckBox.AutoSize = true;
+            this.autoScrollCheckBox.Location = new System.Drawing.Point(481, 9);
+            this.autoScrollCheckBox.Name = "autoScrollCheckBox";
+            this.autoScrollCheckBox.Size = new System.Drawing.Size(77, 17);
+            this.autoScrollCheckBox.TabIndex = 7;
+            this.autoScrollCheckBox.Text = "Auto Scroll";
+            this.autoScrollCheckBox.UseVisualStyleBackColor = true;
+            this.autoScrollCheckBox.CheckedChanged += new System.EventHandler(this.autoScrollCheckBox_CheckedChanged);
+            // 
             // labelUserStatus
             // 
             this.labelUserStatus.AutoSize = true;
             this.labelUserStatus.Location = new System.Drawing.Point(418, 10);
             this.labelUserStatus.Name = "labelUserStatus";
-            this.labelUserStatus.Size = new System.Drawing.Size(37, 13);
+            this.labelUserStatus.Size = new System.Drawing.Size(51, 13);
             this.labelUserStatus.TabIndex = 6;
-            this.labelUserStatus.Text = "UNKNOWN";
+            this.labelUserStatus.Text = "<not-set>";
             // 
             // labelUserIs
             // 
@@ -224,16 +235,6 @@
             this.datePicker.Size = new System.Drawing.Size(257, 22);
             this.datePicker.TabIndex = 0;
             this.datePicker.ValueChanged += new System.EventHandler(this.datePicker_ValueChanged);
-            // 
-            // autoScrollCheckBox
-            // 
-            this.autoScrollCheckBox.AutoSize = true;
-            this.autoScrollCheckBox.Location = new System.Drawing.Point(471, 9);
-            this.autoScrollCheckBox.Name = "autoScrollCheckBox";
-            this.autoScrollCheckBox.Size = new System.Drawing.Size(77, 17);
-            this.autoScrollCheckBox.TabIndex = 7;
-            this.autoScrollCheckBox.Text = "Auto Scroll";
-            this.autoScrollCheckBox.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 

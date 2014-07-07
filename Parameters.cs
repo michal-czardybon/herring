@@ -9,5 +9,7 @@ namespace Herring
 
         public static int InactivityThreshold_Idle = 30;
         public static int InactivityThreshold_Away = 120;   // [s] after this time the user is assumed away of the computer
+
+        public static bool AutoScroll = false;
     }
 }

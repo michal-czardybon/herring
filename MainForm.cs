@@ -24,6 +24,7 @@ namespace Herring
             timer.Interval = 1000 * ActivityTracker.LogTimeUnit / ActivityTracker.LogSamplingRate;
             boldFont = new Font(SystemFonts.DefaultFont, FontStyle.Bold);
             UserStatusChanged(UserStatus.Active);
+            autoScrollCheckBox.Checked = Parameters.AutoScroll;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -97,7 +98,7 @@ namespace Herring
 
         private void MaybeScrollActivitiesList()
         {
-            if (autoScrollCheckBox.Checked == true)
+            if (Parameters.AutoScroll == true)
             {
                 int count = activitiesListView.Items.Count;
                 if (count >= 1)
@@ -175,6 +176,11 @@ namespace Herring
         private void todayButton_Click(object sender, EventArgs e)
         {
             datePicker.Value = DateTime.Now.Date;
+        }
+
+        private void autoScrollCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            Parameters.AutoScroll = autoScrollCheckBox.Checked;
         }
 
     }
