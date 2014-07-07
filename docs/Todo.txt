@@ -2,13 +2,18 @@ Done: Extract reporting code away from MainWindow.
 Done: Implement autoscrolling of the ListView after adding new items.
 Done: Implement buttons for fast date changing by one day forward and backward.
 Done: Implement log file changing at midnight.
-Todo: Implement setting INACTIVE state after now action for X minutes.
+Done: Implement setting INACTIVE state after now action for X minutes.
 
 --------------------------------------------------------------------------------
 
+Todo: Third activity status: IDLE
+Todo: Implement comparing window titles with some tolerance.
 Todo: Implement setting basic parameters: "Reporting Period = 5m", "Sampling Period = 5s", "Maximum Inactivity Time = 5m", "Minimum Share = 3%".
 
 Todo: Implement all-day chart: top-app, keyboard-intensity, mouse-intensity.
 Todo: Implement skipping header rows for empty activity summaries.
 
 Todo: Implement screen recording (1 image per Reporting Period).
+
+Todo: Implement automatic activity categories: Software Development, Design & Composition, Communication & Scheduling, Utilities.
+Todo: Implement "Categories" and "Tasks".

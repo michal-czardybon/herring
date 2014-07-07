@@ -80,18 +80,35 @@ namespace Herring
             return new DateTime(time.Year, time.Month, time.Day, time.Hour, neededTotalSeconds / 60, neededTotalSeconds % 60);
         }
 
-        private static ActivitySummary GetActivitySummary(List<ActivitySnapshot> snapshots, int ticks)
+        private static ActivitySummary GetActivitySummary(List<ActivitySnapshot> snapshots, DateTime timePoint, int ticks)
         {
-            ActivitySummary summary =
-                new ActivitySummary
-                {
-                    TimePoint = GetTimePoint(snapshots.First().Time, logTimeUnit),
-                    Span = new TimeSpan(0, 0, logTimeUnit),
-                    TotalKeyboardIntensity = (from x in snapshots select x.KeyboardIntensity).Average(),
-                    TotalMouseIntensity = (from x in snapshots select x.MouseIntensity).Average(),
-                    Entries = new List<ActivityEntry>()
-                };
-
+            ActivitySummary summary;
+            
+            if (snapshots.Count >= 1)
+            {
+                summary =
+                    new ActivitySummary
+                    {
+                        TimePoint = timePoint,
+                        Span = new TimeSpan(0, 0, logTimeUnit),
+                        TotalKeyboardIntensity = (from x in snapshots select x.KeyboardIntensity).Average(),
+                        TotalMouseIntensity = (from x in snapshots select x.MouseIntensity).Average(),
+                        Entries = new List<ActivityEntry>()
+                    };
+            }
+            else
+            {
+                summary =
+                    new ActivitySummary
+                    {
+                        TimePoint = timePoint,
+                        Span = new TimeSpan(0, 0, logTimeUnit),
+                        TotalKeyboardIntensity = 0,
+                        TotalMouseIntensity = 0,
+                        Entries = new List<ActivityEntry>()
+                    };
+            }
+                
             Dictionary<string, double> processShare = new Dictionary<string, double>();
 
             bool[] done = new bool[snapshots.Count];
@@ -228,7 +245,7 @@ namespace Herring
             if (timePointChanged)
             {
                 // summarize the previous interval
-                ActivitySummary summary = GetActivitySummary(currentSnapshots, currentTicks);
+                ActivitySummary summary = GetActivitySummary(currentSnapshots, prevTimePoint.Value, currentTicks);
                 Persistence.Store(summary);
 
                 currentLog.Add(summary);
