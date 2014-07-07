@@ -10,24 +10,20 @@ namespace Herring
         private static List<ActivitySummary> currentLog;   // being tracked right now (today)
         private static List<ActivitySummary> selectedLog;  // being displayed
 
-        private static int logTimeUnit = 300;           // [s]
-        private static int logSamplingRate = 100;       // how many samples are taken for one time unit (should be at least 3)
-        private static int inactivityThreshold = 120;   // [s] after this time the user is assumed away of the computer
-
         private static List<ActivitySnapshot> currentSnapshots = new List<ActivitySnapshot>();
         private static DateTime? prevTimePoint = null;
         private static int currentTicks = 0;
         private static DateTime lastActivityTime = DateTime.Now;
-        private static bool isUserActive = true;
+        private static UserStatus userStatus = UserStatus.Active;
 
         public static int LogTimeUnit
         {
-            get { return logTimeUnit;  }
+            get { return Parameters.LogTimeUnit;  }
         }
 
         public static int LogSamplingRate
         {
-            get { return logSamplingRate; }
+            get { return Parameters.LogSamplingRate; }
         }
 
         public static List<ActivitySummary> SelectedLog
@@ -51,12 +47,12 @@ namespace Herring
             selectedLog = log;
         }
 
-        private static void SetUserStatus(bool value)
+        private static void SetUserStatus(UserStatus value)
         {
-            if (isUserActive != value)
+            if (userStatus != value)
             {
-                isUserActive = value;
-                OnUserStatusChanged(isUserActive);
+                userStatus = value;
+                OnUserStatusChanged(userStatus);
             }
         }
 
@@ -90,7 +86,7 @@ namespace Herring
                     new ActivitySummary
                     {
                         TimePoint = timePoint,
-                        Span = new TimeSpan(0, 0, logTimeUnit),
+                        Span = new TimeSpan(0, 0, Parameters.LogTimeUnit),
                         TotalKeyboardIntensity = (from x in snapshots select x.KeyboardIntensity).Average(),
                         TotalMouseIntensity = (from x in snapshots select x.MouseIntensity).Average(),
                         Entries = new List<ActivityEntry>()
@@ -102,7 +98,7 @@ namespace Herring
                     new ActivitySummary
                     {
                         TimePoint = timePoint,
-                        Span = new TimeSpan(0, 0, logTimeUnit),
+                        Span = new TimeSpan(0, 0, Parameters.LogTimeUnit),
                         TotalKeyboardIntensity = 0,
                         TotalMouseIntensity = 0,
                         Entries = new List<ActivityEntry>()
@@ -190,14 +186,14 @@ namespace Herring
             }
         }
 
-        public delegate void UserStatusEventHandler(bool isActive);
+        public delegate void UserStatusEventHandler(UserStatus status);
         public static event UserStatusEventHandler UserStatusChanged;
 
-        private static void OnUserStatusChanged(bool isActive)
+        private static void OnUserStatusChanged(UserStatus status)
         {
             if (UserStatusChanged != null)
             {
-                UserStatusChanged(isActive);
+                UserStatusChanged(status);
             }
         }
 
@@ -206,7 +202,7 @@ namespace Herring
             bool timePointChanged;
             bool dateChanged;
             DateTime currDate;
-            DateTime currTimePoint = GetTimePoint(snapshot.Time, logTimeUnit);
+            DateTime currTimePoint = GetTimePoint(snapshot.Time, Parameters.LogTimeUnit);
             if (prevTimePoint == null)
             {
                 timePointChanged = false;
@@ -224,14 +220,14 @@ namespace Herring
             if (snapshot.IsActive)
             {
                 lastActivityTime = snapshot.Time;
-                SetUserStatus(true);
+                SetUserStatus(UserStatus.Active);
             }
             else
             {
                 TimeSpan inactivityTime = (snapshot.Time - lastActivityTime);
-                if (inactivityTime.TotalSeconds >= inactivityThreshold)
+                if (inactivityTime.TotalSeconds >= Parameters.InactivityThreshold_Away)
                 {
-                    SetUserStatus(false);
+                    SetUserStatus(UserStatus.Away);
 
                     // ...and remove previous snapshots which also had no keyboard nor mouse actions
                     // (unfortunatelly only withing the current time point)
@@ -239,6 +235,10 @@ namespace Herring
                     {
                         currentSnapshots.RemoveAt(currentSnapshots.Count - 1);
                     }
+                }
+                else if (inactivityTime.TotalSeconds >= Parameters.InactivityThreshold_Idle)
+                {
+                    SetUserStatus(UserStatus.Idle);
                 }
             }
 
@@ -258,7 +258,7 @@ namespace Herring
                 currentTicks = 0;
             }
 
-            if (isUserActive)
+            if (userStatus == UserStatus.Active || userStatus == UserStatus.Idle)
             {
                 currentSnapshots.Add(snapshot);
             }

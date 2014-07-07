@@ -23,7 +23,7 @@ namespace Herring
             mainTabControl.SelectedIndex = 1;
             timer.Interval = 1000 * ActivityTracker.LogTimeUnit / ActivityTracker.LogSamplingRate;
             boldFont = new Font(SystemFonts.DefaultFont, FontStyle.Bold);
-            UserStatusChanged(true);
+            UserStatusChanged(UserStatus.Active);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -95,12 +95,15 @@ namespace Herring
             }
         }
 
-        private void ScrollActivitiesList()
+        private void MaybeScrollActivitiesList()
         {
-            int count = activitiesListView.Items.Count;
-            if (count >= 1)
+            if (autoScrollCheckBox.Checked == true)
             {
-                activitiesListView.EnsureVisible(count - 1);
+                int count = activitiesListView.Items.Count;
+                if (count >= 1)
+                {
+                    activitiesListView.EnsureVisible(count - 1);
+                }
             }
         }
         
@@ -111,33 +114,38 @@ namespace Herring
             {
                 AddToActivitiesList(a);
             }
-            ScrollActivitiesList();
+            MaybeScrollActivitiesList();
         }
 
         private void CurrentLogExtended(ActivitySummary summary)
         {
             AddToActivitiesList(summary);
-            ScrollActivitiesList();
+            MaybeScrollActivitiesList();
         }
 
         private void CurrentLogChanged(DateTime date)
         {
             RefreshActivitiesList();
-            ScrollActivitiesList();
+            MaybeScrollActivitiesList();
             datePicker.Value = date;
         }
 
-        private void UserStatusChanged(bool isActive)
+        private void UserStatusChanged(UserStatus status)
         {
-            if (isActive)
+            switch (status)
             {
-                labelUserStatus.Text = "ACTIVE";
-                labelUserStatus.ForeColor = Color.Green;
-            }
-            else
-            {
-                labelUserStatus.Text = "AWAY";
-                labelUserStatus.ForeColor = Color.Red;
+                case UserStatus.Active:
+                    labelUserStatus.Text = "ACTIVE";
+                    labelUserStatus.ForeColor = Color.Green;
+                    break;
+                case UserStatus.Idle:
+                    labelUserStatus.Text = "IDLE";
+                    labelUserStatus.ForeColor = Color.Blue;
+                    break;
+                case UserStatus.Away:
+                    labelUserStatus.Text = "AWAY";
+                    labelUserStatus.ForeColor = Color.Red;
+                    break;
             }
         }
 

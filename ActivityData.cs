@@ -70,4 +70,11 @@ namespace Herring
         public double TotalMouseIntensity;
     }
 
+    enum UserStatus
+    {
+        Away,
+        Idle,
+        Active
+    }
+
 }

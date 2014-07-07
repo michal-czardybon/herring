@@ -47,6 +47,7 @@
             this.buttonPrevDay = new System.Windows.Forms.Button();
             this.todayButton = new System.Windows.Forms.Button();
             this.datePicker = new System.Windows.Forms.DateTimePicker();
+            this.autoScrollCheckBox = new System.Windows.Forms.CheckBox();
             this.mainTabControl.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -150,6 +151,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.autoScrollCheckBox);
             this.panel1.Controls.Add(this.labelUserStatus);
             this.panel1.Controls.Add(this.labelUserIs);
             this.panel1.Controls.Add(this.buttonNextDay);
@@ -169,7 +171,7 @@
             this.labelUserStatus.Name = "labelUserStatus";
             this.labelUserStatus.Size = new System.Drawing.Size(37, 13);
             this.labelUserStatus.TabIndex = 6;
-            this.labelUserStatus.Text = "Active";
+            this.labelUserStatus.Text = "UNKNOWN";
             // 
             // labelUserIs
             // 
@@ -223,6 +225,16 @@
             this.datePicker.TabIndex = 0;
             this.datePicker.ValueChanged += new System.EventHandler(this.datePicker_ValueChanged);
             // 
+            // autoScrollCheckBox
+            // 
+            this.autoScrollCheckBox.AutoSize = true;
+            this.autoScrollCheckBox.Location = new System.Drawing.Point(471, 9);
+            this.autoScrollCheckBox.Name = "autoScrollCheckBox";
+            this.autoScrollCheckBox.Size = new System.Drawing.Size(77, 17);
+            this.autoScrollCheckBox.TabIndex = 7;
+            this.autoScrollCheckBox.Text = "Auto Scroll";
+            this.autoScrollCheckBox.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -261,6 +273,7 @@
         private System.Windows.Forms.Button buttonNextDay;
         private System.Windows.Forms.Label labelUserStatus;
         private System.Windows.Forms.Label labelUserIs;
+        private System.Windows.Forms.CheckBox autoScrollCheckBox;
     }
 }
 
