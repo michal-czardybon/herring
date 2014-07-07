@@ -75,6 +75,62 @@ namespace Herring
             return new DateTime(time.Year, time.Month, time.Day, time.Hour, neededTotalSeconds / 60, neededTotalSeconds % 60);
         }
 
+        private static bool AreTitlesNearlyEqual(string title1, string title2, int maxDiff, out string title)
+        {
+            // Count the common characters from the beginning
+            int i = 0;
+            while (i < title1.Length && i < title2.Length && title1[i] == title2[i])
+            {
+                i++;
+            }
+
+            // Count the common characters from the end
+            int j = 0;
+            int p = title1.Length;
+            int q = title2.Length;
+            while (p > i && q > i && title1[p-1] == title2[q-1])
+            {
+                j++;
+                p--;
+                q--;
+            }
+
+            // Count the different characters inside
+            int diffLen1 = p - i;
+            int diffLen2 = q - i;
+            int diffLen = Math.Max(diffLen1, diffLen2);
+
+            if (diffLen <= maxDiff)
+            {
+                title = title1.Substring(0, i) + new String('*', diffLen) + title1.Substring(p);
+                return true;
+            }
+            else
+            {
+                title = "";
+                return false;
+            }
+        }
+
+        /*private static void Test_AreTitlesNearlyEqual()
+        {
+            string common;
+            System.Diagnostics.Debug.Assert(AreTitlesNearlyEqual("Inbox (58) out", "Inbox (58) out", 3, out common) == true);
+            System.Diagnostics.Debug.Assert(common == "Inbox (58) out");
+            System.Diagnostics.Debug.Assert(AreTitlesNearlyEqual("aaaaa", "aaa", 3, out common) == true);
+            System.Diagnostics.Debug.Assert(common == "aaa**");
+            System.Diagnostics.Debug.Assert(AreTitlesNearlyEqual("Inbox (58) out", "Inbox (89) out", 3, out common) == true);
+            System.Diagnostics.Debug.Assert(common == "Inbox (**) out");
+            System.Diagnostics.Debug.Assert(AreTitlesNearlyEqual("Inbox (58) out", "Inbox (893) out", 3, out common) == true);
+            System.Diagnostics.Debug.Assert(common == "Inbox (***) out");
+            System.Diagnostics.Debug.Assert(AreTitlesNearlyEqual("Inbox (583) out", "Inbox (89) out", 3, out common) == true);
+            System.Diagnostics.Debug.Assert(common == "Inbox (***) out");
+            System.Diagnostics.Debug.Assert(AreTitlesNearlyEqual("Inbox (5832) out", "Inbox (89) out", 3, out common) == false);
+            System.Diagnostics.Debug.Assert(common == "");
+            System.Diagnostics.Debug.Assert(AreTitlesNearlyEqual("Inbox (*) out", "Inbox (89) out", 3, out common) == true);
+            System.Diagnostics.Debug.Assert(common == "Inbox (**) out");
+        }*/
+
         private static ActivitySummary GetActivitySummary(List<ActivitySnapshot> snapshots, DateTime timePoint)
         {
             ActivitySummary summary;
@@ -109,6 +165,7 @@ namespace Herring
             bool[] done = new bool[snapshots.Count];
             for (int i = 0; i < snapshots.Count; ++i)
             {
+                string thisTitle = snapshots[i].Title;
                 if (done[i] == false)
                 {
                     int count = 1;
@@ -116,13 +173,15 @@ namespace Herring
                     double sumMouse = snapshots[i].MouseIntensity;
                     for (int j = i + 1; j < snapshots.Count; ++j)
                     {
+                        string commonTitle;
                         if (snapshots[j].App.Name == snapshots[i].App.Name &&
-                            snapshots[j].Title == snapshots[i].Title)
+                            AreTitlesNearlyEqual(snapshots[j].Title, thisTitle, Parameters.MaxTitleDifference, out commonTitle))
                         {
                             count++;
                             sumKeyboard += snapshots[j].KeyboardIntensity;
                             sumMouse += snapshots[j].MouseIntensity;
                             done[j] = true;
+                            thisTitle = commonTitle;
                         }
                     }
                     ActivityEntry newEntry =
@@ -130,12 +189,12 @@ namespace Herring
                         {
                             Share = 100 * count / Parameters.LogSamplingRate,
                             App = snapshots[i].App,
-                            Title = snapshots[i].Title,
+                            Title = thisTitle,
                             KeyboardIntensity = sumKeyboard / count,
                             MouseIntensity = sumMouse / count
                         };
 
-                    if (newEntry.Share >= 3.0)  // 3%
+                    if (newEntry.Share >= Parameters.MinimumShare)
                     {
                         summary.Entries.Add(newEntry);
                     }

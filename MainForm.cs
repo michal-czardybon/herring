@@ -37,6 +37,7 @@ namespace Herring
             double phase_half    = offset - k * interval_half;
             double required_wait = (interval_half - phase_half) + (k % 2 == 0 ? 0 : interval_half);
             System.Threading.Thread.Sleep((int)(required_wait * 1000.0));
+            timer.Start();
             
             boldFont = new Font(SystemFonts.DefaultFont, FontStyle.Bold);
             UserStatusChanged(UserStatus.Active);
