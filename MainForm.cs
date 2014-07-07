@@ -46,6 +46,9 @@ namespace Herring
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            RuleManager.Load();
+            RefreshRules();
+
             monitor = new Monitor();
             monitor.Start();
             ActivityTracker.SetCurrentActivityLog( Persistence.Load(monitor.GetApp) );
@@ -71,7 +74,8 @@ namespace Herring
                     /* title: */   "",
                     /* share: */   summary.Entries.Sum(x => x.Share).ToString(),
                     /* keyboard:*/ summary.TotalKeyboardIntensity.ToString("F1"),
-                    /* mouse:*/    summary.TotalMouseIntensity.ToString("F1")
+                    /* mouse:*/    summary.TotalMouseIntensity.ToString("F1"),
+                    /* category:*/ ""
                 };
 
                 ListViewItem header = new ListViewItem(content);
@@ -83,13 +87,16 @@ namespace Herring
             // Entries
             foreach (ActivityEntry e in summary.Entries)
             {
+                string category = RuleManager.MatchCategory(e);
+
                 string[] content = new string[]
                 {
                     /* process: */  e.App.Name,
                     /* title: */    e.Title,
                     /* share: */    e.Share.ToString("F1"),
                     /* keyboard: */ e.KeyboardIntensity.ToString("F1"),
-                    /* mouse: */    e.MouseIntensity.ToString("F1")
+                    /* mouse: */    e.MouseIntensity.ToString("F1"),
+                    /* category: */ category
                 };
 
                 int iconIndex;
@@ -133,6 +140,30 @@ namespace Herring
                 AddToActivitiesList(a);
             }
             MaybeScrollActivitiesList();
+        }
+
+        private void RefreshRules()
+        {
+            rulesListView.Items.Clear();
+            foreach (var rule in RuleManager.Rules)
+            {
+                string[] content = new string[]
+                {
+                    rule.Process,
+                    rule.Title,
+                    rule.KeyboardMin.ToString("F1"),
+                    rule.KeyboardMax.ToString("F1"),
+                    rule.MouseMin.ToString("F1"),
+                    rule.MouseMax.ToString("F1"),
+                    rule.StatusMin.ToString(),
+                    rule.StatusMax.ToString(),
+                    rule.Category
+                };
+
+                ListViewItem item = new ListViewItem(content);
+                item.Checked = true;
+                rulesListView.Items.Add(item);
+            }
         }
 
         private void CurrentLogExtended(ActivitySummary summary)

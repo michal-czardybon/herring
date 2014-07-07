@@ -37,9 +37,20 @@
             this.processColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.titleColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.shareHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.keyboardIntensity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.mouseIntensity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.keyboardIntensityHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.mouseIntensityHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.categoryHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.rulesTabPage = new System.Windows.Forms.TabPage();
+            this.rulesListView = new System.Windows.Forms.ListView();
+            this.processHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.titleHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.keyboardMinHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.keyboardMaxHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.mouseMinHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.mouseMaxHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.statusMinHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.statusMaxHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.categoryNameHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1 = new System.Windows.Forms.Panel();
             this.autoScrollCheckBox = new System.Windows.Forms.CheckBox();
             this.labelUserStatus = new System.Windows.Forms.Label();
@@ -50,12 +61,12 @@
             this.datePicker = new System.Windows.Forms.DateTimePicker();
             this.mainTabControl.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.rulesTabPage.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer
             // 
-            this.timer.Enabled = false;
             this.timer.Interval = 2000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
@@ -68,7 +79,7 @@
             this.mainTabControl.Location = new System.Drawing.Point(0, 32);
             this.mainTabControl.Name = "mainTabControl";
             this.mainTabControl.SelectedIndex = 0;
-            this.mainTabControl.Size = new System.Drawing.Size(975, 514);
+            this.mainTabControl.Size = new System.Drawing.Size(1110, 514);
             this.mainTabControl.TabIndex = 0;
             // 
             // tabPage1
@@ -76,7 +87,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(967, 488);
+            this.tabPage1.Size = new System.Drawing.Size(1102, 488);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Tasks";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -87,7 +98,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(967, 488);
+            this.tabPage2.Size = new System.Drawing.Size(1102, 488);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Activities";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -98,15 +109,16 @@
             this.processColumnHeader,
             this.titleColumnHeader,
             this.shareHeader,
-            this.keyboardIntensity,
-            this.mouseIntensity});
+            this.keyboardIntensityHeader,
+            this.mouseIntensityHeader,
+            this.categoryHeader});
             this.activitiesListView.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.activitiesListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.activitiesListView.FullRowSelect = true;
             this.activitiesListView.GridLines = true;
             this.activitiesListView.Location = new System.Drawing.Point(3, 3);
             this.activitiesListView.Name = "activitiesListView";
-            this.activitiesListView.Size = new System.Drawing.Size(961, 482);
+            this.activitiesListView.Size = new System.Drawing.Size(1096, 482);
             this.activitiesListView.TabIndex = 0;
             this.activitiesListView.UseCompatibleStateImageBehavior = false;
             this.activitiesListView.View = System.Windows.Forms.View.Details;
@@ -127,27 +139,100 @@
             this.shareHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.shareHeader.Width = 70;
             // 
-            // keyboardIntensity
+            // keyboardIntensityHeader
             // 
-            this.keyboardIntensity.Text = "Keyboard";
-            this.keyboardIntensity.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.keyboardIntensity.Width = 70;
+            this.keyboardIntensityHeader.Text = "Keyboard";
+            this.keyboardIntensityHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.keyboardIntensityHeader.Width = 70;
             // 
-            // mouseIntensity
+            // mouseIntensityHeader
             // 
-            this.mouseIntensity.Text = "Mouse";
-            this.mouseIntensity.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.mouseIntensity.Width = 70;
+            this.mouseIntensityHeader.Text = "Mouse";
+            this.mouseIntensityHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.mouseIntensityHeader.Width = 70;
+            // 
+            // categoryHeader
+            // 
+            this.categoryHeader.Text = "Category";
+            this.categoryHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.categoryHeader.Width = 81;
             // 
             // rulesTabPage
             // 
+            this.rulesTabPage.Controls.Add(this.rulesListView);
             this.rulesTabPage.Location = new System.Drawing.Point(4, 22);
             this.rulesTabPage.Name = "rulesTabPage";
             this.rulesTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.rulesTabPage.Size = new System.Drawing.Size(967, 488);
+            this.rulesTabPage.Size = new System.Drawing.Size(1102, 488);
             this.rulesTabPage.TabIndex = 2;
             this.rulesTabPage.Text = "Rules";
             this.rulesTabPage.UseVisualStyleBackColor = true;
+            // 
+            // rulesListView
+            // 
+            this.rulesListView.CheckBoxes = true;
+            this.rulesListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.processHeader,
+            this.titleHeader,
+            this.keyboardMinHeader,
+            this.keyboardMaxHeader,
+            this.mouseMinHeader,
+            this.mouseMaxHeader,
+            this.statusMinHeader,
+            this.statusMaxHeader,
+            this.categoryNameHeader});
+            this.rulesListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rulesListView.Location = new System.Drawing.Point(3, 3);
+            this.rulesListView.Name = "rulesListView";
+            this.rulesListView.Size = new System.Drawing.Size(1096, 482);
+            this.rulesListView.TabIndex = 0;
+            this.rulesListView.UseCompatibleStateImageBehavior = false;
+            this.rulesListView.View = System.Windows.Forms.View.Details;
+            // 
+            // processHeader
+            // 
+            this.processHeader.Text = "process";
+            this.processHeader.Width = 120;
+            // 
+            // titleHeader
+            // 
+            this.titleHeader.Text = "title";
+            this.titleHeader.Width = 300;
+            // 
+            // keyboardMinHeader
+            // 
+            this.keyboardMinHeader.Text = "keyboard-min";
+            this.keyboardMinHeader.Width = 80;
+            // 
+            // keyboardMaxHeader
+            // 
+            this.keyboardMaxHeader.Text = "keyboard-max";
+            this.keyboardMaxHeader.Width = 80;
+            // 
+            // mouseMinHeader
+            // 
+            this.mouseMinHeader.Text = "mouse-min";
+            this.mouseMinHeader.Width = 80;
+            // 
+            // mouseMaxHeader
+            // 
+            this.mouseMaxHeader.Text = "mouse-max";
+            this.mouseMaxHeader.Width = 80;
+            // 
+            // statusMinHeader
+            // 
+            this.statusMinHeader.Text = "status-min";
+            this.statusMinHeader.Width = 80;
+            // 
+            // statusMaxHeader
+            // 
+            this.statusMaxHeader.Text = "status-max";
+            this.statusMaxHeader.Width = 80;
+            // 
+            // categoryNameHeader
+            // 
+            this.categoryNameHeader.Text = "category";
+            this.categoryNameHeader.Width = 150;
             // 
             // panel1
             // 
@@ -161,7 +246,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(975, 32);
+            this.panel1.Size = new System.Drawing.Size(1110, 32);
             this.panel1.TabIndex = 1;
             // 
             // autoScrollCheckBox
@@ -240,7 +325,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(975, 546);
+            this.ClientSize = new System.Drawing.Size(1110, 546);
             this.Controls.Add(this.mainTabControl);
             this.Controls.Add(this.panel1);
             this.Name = "MainForm";
@@ -248,6 +333,7 @@
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.mainTabControl.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            this.rulesTabPage.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
@@ -263,8 +349,8 @@
         private System.Windows.Forms.ListView activitiesListView;
         private System.Windows.Forms.ColumnHeader processColumnHeader;
         private System.Windows.Forms.ColumnHeader titleColumnHeader;
-        private System.Windows.Forms.ColumnHeader mouseIntensity;
-        private System.Windows.Forms.ColumnHeader keyboardIntensity;
+        private System.Windows.Forms.ColumnHeader mouseIntensityHeader;
+        private System.Windows.Forms.ColumnHeader keyboardIntensityHeader;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DateTimePicker datePicker;
         private System.Windows.Forms.Button todayButton;
@@ -275,6 +361,17 @@
         private System.Windows.Forms.Label labelUserStatus;
         private System.Windows.Forms.Label labelUserIs;
         private System.Windows.Forms.CheckBox autoScrollCheckBox;
+        private System.Windows.Forms.ColumnHeader categoryHeader;
+        private System.Windows.Forms.ListView rulesListView;
+        private System.Windows.Forms.ColumnHeader processHeader;
+        private System.Windows.Forms.ColumnHeader titleHeader;
+        private System.Windows.Forms.ColumnHeader keyboardMinHeader;
+        private System.Windows.Forms.ColumnHeader keyboardMaxHeader;
+        private System.Windows.Forms.ColumnHeader mouseMinHeader;
+        private System.Windows.Forms.ColumnHeader mouseMaxHeader;
+        private System.Windows.Forms.ColumnHeader statusMinHeader;
+        private System.Windows.Forms.ColumnHeader statusMaxHeader;
+        private System.Windows.Forms.ColumnHeader categoryNameHeader;
     }
 }
 

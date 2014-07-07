@@ -10,7 +10,7 @@ namespace Herring
     {
         private static TextWriter writer;
 
-        private static string GetApplicationDir()
+        public static string GetApplicationDir()
         {
             string dir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             dir = System.IO.Path.Combine(dir, "Herring");

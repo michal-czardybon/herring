@@ -1,0 +1,8 @@
+title:"fpdev2.future-processing.com" keyboard-min:10 => FPDev2
+process:postbox.exe title:"mczardybon@future-processing.com" status-min:IDLE => Email-Reading 
+process:postbox.exe title:"Compose:" keyboard-min:5 => Email-Writing
+process:notepad++.exe => Text-Editor
+process:Herring.exe => Introspection
+process:ManicTimeClient.exe => Introspection
+process:chrome.exe title:"Project Kaiser : Osobisty : " => IssueTracking
+process:chrome.exe title:"Project Kaiser : Personal : " => IssueTracking
