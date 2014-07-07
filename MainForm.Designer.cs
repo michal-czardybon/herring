@@ -55,7 +55,7 @@
             // 
             // timer
             // 
-            this.timer.Enabled = true;
+            this.timer.Enabled = false;
             this.timer.Interval = 2000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 

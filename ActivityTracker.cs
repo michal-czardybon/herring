@@ -12,7 +12,6 @@ namespace Herring
 
         private static List<ActivitySnapshot> currentSnapshots = new List<ActivitySnapshot>();
         private static DateTime? prevTimePoint = null;
-        private static int currentTicks = 0;
         private static DateTime lastActivityTime = DateTime.Now;
         private static UserStatus userStatus = UserStatus.Active;
 
@@ -57,7 +56,7 @@ namespace Herring
         }
 
         // Returns current time rounded down to appropriate time point
-        private static DateTime GetCurrentTimePoint()
+        public static DateTime GetCurrentTimePoint()
         {
             return GetTimePoint(DateTime.Now, ActivityTracker.LogTimeUnit);
         }
@@ -76,7 +75,7 @@ namespace Herring
             return new DateTime(time.Year, time.Month, time.Day, time.Hour, neededTotalSeconds / 60, neededTotalSeconds % 60);
         }
 
-        private static ActivitySummary GetActivitySummary(List<ActivitySnapshot> snapshots, DateTime timePoint, int ticks)
+        private static ActivitySummary GetActivitySummary(List<ActivitySnapshot> snapshots, DateTime timePoint)
         {
             ActivitySummary summary;
             
@@ -129,7 +128,7 @@ namespace Herring
                     ActivityEntry newEntry =
                         new ActivityEntry
                         {
-                            Share = 100 * count / ticks,
+                            Share = 100 * count / Parameters.LogSamplingRate,
                             App = snapshots[i].App,
                             Title = snapshots[i].Title,
                             KeyboardIntensity = sumKeyboard / count,
@@ -245,7 +244,7 @@ namespace Herring
             if (timePointChanged)
             {
                 // summarize the previous interval
-                ActivitySummary summary = GetActivitySummary(currentSnapshots, prevTimePoint.Value, currentTicks);
+                ActivitySummary summary = GetActivitySummary(currentSnapshots, prevTimePoint.Value);
                 Persistence.Store(summary);
 
                 currentLog.Add(summary);
@@ -255,14 +254,12 @@ namespace Herring
                 }
 
                 currentSnapshots.Clear();
-                currentTicks = 0;
             }
 
             if (userStatus == UserStatus.Active || userStatus == UserStatus.Idle)
             {
                 currentSnapshots.Add(snapshot);
             }
-            currentTicks++;
 
             if (dateChanged)
             {

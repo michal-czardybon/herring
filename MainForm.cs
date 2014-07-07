@@ -21,7 +21,23 @@ namespace Herring
             InitializeComponent();
             activitiesListView.SmallImageList = new ImageList();
             mainTabControl.SelectedIndex = 1;
+            
+            // Start the timer at a moment that guarantees maximum margin from the time unit boundaries, like this:
+            //  --|--.----.----.--|--.----.----.--|--.----.----.--|--->
+            // where:
+            //   "-" is an interval, the time between samples are taken
+            //   "." is a moment when a sample is taken
+            //   "|" is a boundary of a time point
             timer.Interval = 1000 * ActivityTracker.LogTimeUnit / ActivityTracker.LogSamplingRate;
+            DateTime currTimePoint = ActivityTracker.GetCurrentTimePoint();
+            double interval      = (double)Parameters.LogTimeUnit / Parameters.LogSamplingRate;
+            double interval_half = interval / 2.0; // [s] optimum tick shift relative to time point
+            double offset        = (DateTime.Now - currTimePoint).TotalSeconds;
+            int    k             = (int)Math.Floor(offset / interval_half);
+            double phase_half    = offset - k * interval_half;
+            double required_wait = (interval_half - phase_half) + (k % 2 == 0 ? 0 : interval_half);
+            System.Threading.Thread.Sleep((int)(required_wait * 1000.0));
+            
             boldFont = new Font(SystemFonts.DefaultFont, FontStyle.Bold);
             UserStatusChanged(UserStatus.Active);
             autoScrollCheckBox.Checked = Parameters.AutoScroll;
