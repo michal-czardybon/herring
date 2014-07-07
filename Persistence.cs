@@ -42,8 +42,8 @@ namespace Herring
                         TimePoint = DateTime.Parse(parts[0]),
                         Span = TimeSpan.Parse(parts[1]),
                         TotalShare = double.Parse(parts[4]),
-                        TotalMouseIntensity = double.Parse(parts[5]),
-                        TotalKeyboardIntensity = double.Parse(parts[6]),
+                        TotalKeyboardIntensity = double.Parse(parts[5]),
+                        TotalMouseIntensity = double.Parse(parts[6]),
                         Entries = new List<ActivityEntry>()
                     };
                     data.Add(summary);
@@ -60,8 +60,8 @@ namespace Herring
                         App = getApp(parts[2]),
                         Title = parts[3],
                         Share = double.Parse(parts[4]),
-                        MouseIntensity = double.Parse(parts[5]),
-                        KeyboardIntensity = double.Parse(parts[6])
+                        KeyboardIntensity = double.Parse(parts[5]),
+                        MouseIntensity = double.Parse(parts[6])
                     };
                     lastSummary.Entries.Add(entry);
                 }
