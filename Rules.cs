@@ -14,7 +14,7 @@ namespace Herring
         public double KeyboardMax = double.PositiveInfinity;
         public double MouseMin = 0.0;
         public double MouseMax = double.PositiveInfinity;
-        public UserStatus StatusMin = UserStatus.Idle;
+        public UserStatus StatusMin = UserStatus.Passive;
         public UserStatus StatusMax = UserStatus.Active;
 
         public string Category;
@@ -29,7 +29,8 @@ namespace Herring
             switch (value.ToUpper())
             {
                 case "AWAY": return UserStatus.Away;
-                case "IDLE": return UserStatus.Idle;
+                case "PASSIVE": return UserStatus.Passive;
+                case "IDLE": return UserStatus.Passive;     // backward compatibility (to be removed)
                 case "ACTIVE": return UserStatus.Active;
                 default: throw new ApplicationException("Unknow user status.");
             }

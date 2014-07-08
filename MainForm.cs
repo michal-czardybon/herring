@@ -187,8 +187,8 @@ namespace Herring
                     labelUserStatus.Text = "ACTIVE";
                     labelUserStatus.ForeColor = Color.Green;
                     break;
-                case UserStatus.Idle:
-                    labelUserStatus.Text = "IDLE";
+                case UserStatus.Passive:
+                    labelUserStatus.Text = "PASSIVE";
                     labelUserStatus.ForeColor = Color.Blue;
                     break;
                 case UserStatus.Away:

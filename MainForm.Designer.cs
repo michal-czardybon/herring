@@ -79,7 +79,7 @@
             this.mainTabControl.Location = new System.Drawing.Point(0, 32);
             this.mainTabControl.Name = "mainTabControl";
             this.mainTabControl.SelectedIndex = 0;
-            this.mainTabControl.Size = new System.Drawing.Size(1110, 514);
+            this.mainTabControl.Size = new System.Drawing.Size(1260, 514);
             this.mainTabControl.TabIndex = 0;
             // 
             // tabPage1
@@ -98,7 +98,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1102, 488);
+            this.tabPage2.Size = new System.Drawing.Size(1252, 488);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Activities";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -118,7 +118,7 @@
             this.activitiesListView.GridLines = true;
             this.activitiesListView.Location = new System.Drawing.Point(3, 3);
             this.activitiesListView.Name = "activitiesListView";
-            this.activitiesListView.Size = new System.Drawing.Size(1096, 482);
+            this.activitiesListView.Size = new System.Drawing.Size(1246, 482);
             this.activitiesListView.TabIndex = 0;
             this.activitiesListView.UseCompatibleStateImageBehavior = false;
             this.activitiesListView.View = System.Windows.Forms.View.Details;
@@ -155,7 +155,7 @@
             // 
             this.categoryHeader.Text = "Category";
             this.categoryHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.categoryHeader.Width = 81;
+            this.categoryHeader.Width = 150;
             // 
             // rulesTabPage
             // 
@@ -163,7 +163,7 @@
             this.rulesTabPage.Location = new System.Drawing.Point(4, 22);
             this.rulesTabPage.Name = "rulesTabPage";
             this.rulesTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.rulesTabPage.Size = new System.Drawing.Size(1102, 488);
+            this.rulesTabPage.Size = new System.Drawing.Size(1252, 488);
             this.rulesTabPage.TabIndex = 2;
             this.rulesTabPage.Text = "Rules";
             this.rulesTabPage.UseVisualStyleBackColor = true;
@@ -184,7 +184,7 @@
             this.rulesListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rulesListView.Location = new System.Drawing.Point(3, 3);
             this.rulesListView.Name = "rulesListView";
-            this.rulesListView.Size = new System.Drawing.Size(1096, 482);
+            this.rulesListView.Size = new System.Drawing.Size(1246, 482);
             this.rulesListView.TabIndex = 0;
             this.rulesListView.UseCompatibleStateImageBehavior = false;
             this.rulesListView.View = System.Windows.Forms.View.Details;
@@ -232,7 +232,7 @@
             // categoryNameHeader
             // 
             this.categoryNameHeader.Text = "category";
-            this.categoryNameHeader.Width = 150;
+            this.categoryNameHeader.Width = 200;
             // 
             // panel1
             // 
@@ -246,7 +246,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1110, 32);
+            this.panel1.Size = new System.Drawing.Size(1260, 32);
             this.panel1.TabIndex = 1;
             // 
             // autoScrollCheckBox
@@ -325,7 +325,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1110, 546);
+            this.ClientSize = new System.Drawing.Size(1260, 546);
             this.Controls.Add(this.mainTabControl);
             this.Controls.Add(this.panel1);
             this.Name = "MainForm";

@@ -22,22 +22,6 @@ namespace Herring
         public string   Title;
         public double   KeyboardIntensity;
         public double   MouseIntensity;
-
-        public bool IsKeyboardActive
-        {
-            get { return KeyboardIntensity >= 0.5; }    // one word per minute
-        }
-
-        public bool IsMouseActive
-        {
-            get { return MouseIntensity >= 0.5; }       // 1000 pixels per minute
-        }
-
-        public bool IsActive
-        {
-            get { return IsKeyboardActive || IsMouseActive; }
-        }
-
     }
 
     // Information gathered at a single time moment
@@ -50,6 +34,21 @@ namespace Herring
             double minutes = span.TotalMilliseconds / 60000.0;
             double value = rawValue / unit;
             return value / minutes;
+        }
+
+        public bool IsKeyboardWarm
+        {
+            get { return KeyboardIntensity >= 0.5; }    // [words per minute]
+        }
+
+        public bool IsMouseWarm
+        {
+            get { return MouseIntensity >= 0.5; }       // [1000 pixels per minute]
+        }
+
+        public bool IsWarm
+        {
+            get { return IsKeyboardWarm || IsMouseWarm; }
         }
     }
 
@@ -73,7 +72,7 @@ namespace Herring
     enum UserStatus
     {
         Away,
-        Idle,
+        Passive,
         Active
     }
 

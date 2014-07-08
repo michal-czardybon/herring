@@ -275,7 +275,7 @@ namespace Herring
             }
             prevTimePoint = currTimePoint;
 
-            if (snapshot.IsActive)
+            if (snapshot.IsWarm)
             {
                 lastActivityTime = snapshot.Time;
                 SetUserStatus(UserStatus.Active);
@@ -289,14 +289,14 @@ namespace Herring
 
                     // ...and remove previous snapshots which also had no keyboard nor mouse actions
                     // (unfortunatelly only withing the current time point)
-                    while (currentSnapshots.Count >= 1 && currentSnapshots.Last().IsActive == false)
+                    while (currentSnapshots.Count >= 1 && currentSnapshots.Last().IsWarm == false)
                     {
                         currentSnapshots.RemoveAt(currentSnapshots.Count - 1);
                     }
                 }
                 else if (inactivityTime.TotalSeconds >= Parameters.InactivityThreshold_Idle)
                 {
-                    SetUserStatus(UserStatus.Idle);
+                    SetUserStatus(UserStatus.Passive);
                 }
             }
 
@@ -315,7 +315,7 @@ namespace Herring
                 currentSnapshots.Clear();
             }
 
-            if (userStatus == UserStatus.Active || userStatus == UserStatus.Idle)
+            if (userStatus == UserStatus.Active || userStatus == UserStatus.Passive)
             {
                 currentSnapshots.Add(snapshot);
             }
