@@ -56,6 +56,7 @@ namespace Herring
             ActivityTracker.CurrentLogChanged += this.CurrentLogChanged;
             ActivityTracker.UserStatusChanged += this.UserStatusChanged;
             RefreshActivitiesList();
+            RefreshCategories();
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -72,7 +73,7 @@ namespace Herring
                 {
                     /* time: */    summary.TimePoint.ToString(),
                     /* title: */   "",
-                    /* share: */   summary.Entries.Sum(x => x.Share).ToString(),
+                    /* share: */   summary.TotalShare.ToString("F1"),
                     /* keyboard:*/ summary.TotalKeyboardIntensity.ToString("F1"),
                     /* mouse:*/    summary.TotalMouseIntensity.ToString("F1"),
                     /* category:*/ ""
@@ -152,9 +153,9 @@ namespace Herring
                     rule.Process,
                     rule.Title,
                     rule.KeyboardMin.ToString("F1"),
-                    rule.KeyboardMax.ToString("F1"),
+                    rule.KeyboardMax == double.PositiveInfinity ? "" : rule.KeyboardMax.ToString("F1"),
                     rule.MouseMin.ToString("F1"),
-                    rule.MouseMax.ToString("F1"),
+                    rule.MouseMax == double.PositiveInfinity ? "" : rule.MouseMax.ToString("F1"),
                     rule.StatusMin.ToString(),
                     rule.StatusMax.ToString(),
                     rule.Category
@@ -166,10 +167,52 @@ namespace Herring
             }
         }
 
+        class CategoryStats
+        {
+            public double TotalTime;
+            public double ShareSum;
+        }
+
+        private void RefreshCategories()
+        {
+            categoriesListView.Items.Clear();
+            Dictionary<string, CategoryStats> stats = new Dictionary<string, CategoryStats>();
+            double totalShareOfAll = 0;
+            foreach (var summary in ActivityTracker.SelectedLog)
+            {
+                foreach (var entry in summary.Entries)
+                {
+                    string category = RuleManager.MatchCategory(entry);
+                    if (stats.ContainsKey(category) == false)
+                    {
+                        stats[category] = new CategoryStats();
+                    }
+                    stats[category].TotalTime += Parameters.LogTimeUnit * entry.Share / 100.0;
+                    stats[category].ShareSum += entry.Share;
+                    totalShareOfAll += entry.Share;
+                }
+            }
+            foreach (var skv in stats)
+            {
+                string name = skv.Key;
+                CategoryStats cs = skv.Value;
+                TimeSpan span = TimeSpan.FromSeconds(cs.TotalTime);
+                string[] content = new string[]
+                {
+                    name,
+                    span.ToString(),
+                    (100.0 * cs.ShareSum / totalShareOfAll).ToString("F1")
+                };
+                ListViewItem item = new ListViewItem(content);
+                categoriesListView.Items.Add(item);
+            }
+        }
+
         private void CurrentLogExtended(ActivitySummary summary)
         {
             AddToActivitiesList(summary);
             MaybeScrollActivitiesList();
+            RefreshCategories();
         }
 
         private void CurrentLogChanged(DateTime date)
@@ -177,6 +220,7 @@ namespace Herring
             RefreshActivitiesList();
             MaybeScrollActivitiesList();
             datePicker.Value = date;
+            RefreshCategories();
         }
 
         private void UserStatusChanged(UserStatus status)
@@ -209,6 +253,7 @@ namespace Herring
                 ActivityTracker.SetSelectedActivityLog(Persistence.Load(monitor.GetApp, datePicker.Value.Date));
             }
             RefreshActivitiesList();
+            RefreshCategories();
         }
 
         private void buttonPrevDay_Click(object sender, EventArgs e)

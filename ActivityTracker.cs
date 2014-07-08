@@ -154,6 +154,7 @@ namespace Herring
                     {
                         TimePoint = timePoint,
                         Span = new TimeSpan(0, 0, Parameters.LogTimeUnit),
+                        TotalShare = 100.0 * snapshots.Count / Parameters.LogSamplingRate,
                         TotalKeyboardIntensity = 0,
                         TotalMouseIntensity = 0,
                         Entries = new List<ActivityEntry>()
