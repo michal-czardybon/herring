@@ -142,6 +142,7 @@ namespace Herring
                     {
                         TimePoint = timePoint,
                         Span = new TimeSpan(0, 0, Parameters.LogTimeUnit),
+                        TotalShare = 100.0 * snapshots.Count / Parameters.LogSamplingRate,
                         TotalKeyboardIntensity = (from x in snapshots select x.KeyboardIntensity).Average(),
                         TotalMouseIntensity = (from x in snapshots select x.MouseIntensity).Average(),
                         Entries = new List<ActivityEntry>()
@@ -154,7 +155,7 @@ namespace Herring
                     {
                         TimePoint = timePoint,
                         Span = new TimeSpan(0, 0, Parameters.LogTimeUnit),
-                        TotalShare = 100.0 * snapshots.Count / Parameters.LogSamplingRate,
+                        TotalShare = 0,
                         TotalKeyboardIntensity = 0,
                         TotalMouseIntensity = 0,
                         Entries = new List<ActivityEntry>()
