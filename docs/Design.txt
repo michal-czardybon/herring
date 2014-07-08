@@ -27,18 +27,17 @@ Every 3 seconds the applications takes a SNAPSHOT of user activity.
 If the mouse- and keyboard-intensities are simulatneously very low, then the
 SNAPSHOT is considered WARM. Otherwise we say they are COLD.
 
-If snapshots are COLD for 30 seconds, then we consider the user to be still in
+If snapshots are COLD for 10 seconds, then we consider the user to be still in
 front of the computer, but passive (e.g. reading or thinking). We call him
 PASSIVE.
-
-	Rationale:
-	   I checked that 30 seconds is the time I need to read most emails.
 
 If snapshots are COLD for 2 minutes, then we consider the user to be AWAY of the
 computer.
 
 	Rationale:
-	   I checked that I need about 2 minutes to read one page of an
+	1) I checked that 30 seconds is the time I need to read most emails.
+
+	2) I checked that I need about 2 minutes to read one page of an
 	   online article without scrolling (tested with Wired, screen 1600x1200).
 	   
 Snapshots are registered only when the user is ACTIVE or PASSIVE. When the user
