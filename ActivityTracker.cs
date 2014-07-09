@@ -211,7 +211,7 @@ namespace Herring
                         processShare.Add(newEntry.App.Path, newEntry.Share);
                     }
                 }
-            }
+            }            
 
             summary.Entries.Sort
             (

@@ -117,6 +117,10 @@ namespace Herring
                 }
 
                 ListViewItem item = new ListViewItem(content, iconIndex);
+                item.ForeColor = 
+                    e.Share >= 20.0 ? Color.Black :
+                    e.Share >= 10.0 ? Color.FromArgb(64, 64, 64) :
+                                      Color.FromArgb(128, 128, 128);
                 activitiesListView.Items.Add(item);
             }
         }
