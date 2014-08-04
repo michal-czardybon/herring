@@ -121,7 +121,7 @@ namespace Herring
                 writer.Write(";");
                 writer.Write(";");
                 writer.Write(entry.App.Path + ";");
-                writer.Write(entry.Title + ";");
+                writer.Write(entry.Title.Replace(';', ',') + ";");
                 writer.Write(entry.Share.ToString("F2") + ";");
                 writer.Write(entry.KeyboardIntensity.ToString("F2") + ";");
                 writer.Write(entry.MouseIntensity.ToString("F2") + ";");
