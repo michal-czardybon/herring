@@ -40,66 +40,69 @@ namespace Herring
         {
             //string path = Path.Combine(Persistence.GetApplicationDir(), "Rules.txt");
 
-            TextReader reader = new StreamReader("Rules.txt");
-            //try
+            if (File.Exists("Rules.txt"))
             {
-                while (true)
+                TextReader reader = new StreamReader("Rules.txt");
+                //try
                 {
-                    Rule rule = new Rule();
-
-                    string line = reader.ReadLine();
-                    if (line == null) break;
-                    string[] parts = line.Split(new string[] { "=>" }, StringSplitOptions.RemoveEmptyEntries);
-                    if (parts.Length != 2)
+                    while (true)
                     {
-                        throw new ApplicationException("Incorrect format of rules.");
-                    }
-                    string conditions = parts[0].Trim();
-                    string category = parts[1].Trim();
+                        Rule rule = new Rule();
 
-                    rule.Category = category;
-
-                    MatchCollection matches = Regex.Matches(conditions, @"(?<field>[a-zA-Z_\-]+)\:((""(?<value>([^""]*))"")|(?<value>\S*))");
-                    foreach (Match m in matches)
-                    {
-                        string field = m.Groups["field"].Value;
-                        string value = m.Groups["value"].Value;
-                        switch (field)
+                        string line = reader.ReadLine();
+                        if (line == null) break;
+                        string[] parts = line.Split(new string[] { "=>" }, StringSplitOptions.RemoveEmptyEntries);
+                        if (parts.Length != 2)
                         {
-                            case "process":
-                                rule.Process = value;
-                                break;
-                            case "title":
-                                rule.Title = value;
-                                break;
-                            case "keyboard-min":
-                                rule.KeyboardMin = double.Parse(value);
-                                break;
-                            case "keyboard-max":
-                                rule.KeyboardMax = double.Parse(value);
-                                break;
-                            case "mouse-min":
-                                rule.MouseMin = double.Parse(value);
-                                break;
-                            case "mouse-max":
-                                rule.MouseMax = double.Parse(value);
-                                break;
-                            case "status-min":
-                                rule.StatusMin = ParseUserStatus(value);
-                                break;
-                            case "status-max":
-                                rule.StatusMax = ParseUserStatus(value);
-                                break;
+                            throw new ApplicationException("Incorrect format of rules.");
                         }
+                        string conditions = parts[0].Trim();
+                        string category = parts[1].Trim();
+
+                        rule.Category = category;
+
+                        MatchCollection matches = Regex.Matches(conditions, @"(?<field>[a-zA-Z_\-]+)\:((""(?<value>([^""]*))"")|(?<value>\S*))");
+                        foreach (Match m in matches)
+                        {
+                            string field = m.Groups["field"].Value;
+                            string value = m.Groups["value"].Value;
+                            switch (field)
+                            {
+                                case "process":
+                                    rule.Process = value;
+                                    break;
+                                case "title":
+                                    rule.Title = value;
+                                    break;
+                                case "keyboard-min":
+                                    rule.KeyboardMin = double.Parse(value);
+                                    break;
+                                case "keyboard-max":
+                                    rule.KeyboardMax = double.Parse(value);
+                                    break;
+                                case "mouse-min":
+                                    rule.MouseMin = double.Parse(value);
+                                    break;
+                                case "mouse-max":
+                                    rule.MouseMax = double.Parse(value);
+                                    break;
+                                case "status-min":
+                                    rule.StatusMin = ParseUserStatus(value);
+                                    break;
+                                case "status-max":
+                                    rule.StatusMax = ParseUserStatus(value);
+                                    break;
+                            }
+                        }
+                        Rules.Add(rule);
                     }
-                    Rules.Add(rule);
                 }
+                /*catch
+                {
+                    // TODO
+                }*/
+                reader.Close();
             }
-            /*catch
-            {
-                // TODO
-            }*/
-            reader.Close();
         }
 
         public static string MatchCategory(ActivitySample sample)
