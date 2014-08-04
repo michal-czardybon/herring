@@ -67,12 +67,18 @@
             this.datePicker = new System.Windows.Forms.DateTimePicker();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.summaryListView = new System.Windows.Forms.ListView();
+            this.summaryProcessHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.summaryTitleHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.summaryTimeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.mainTabControl.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.rulesTabPage.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.tabPage5.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer
@@ -86,6 +92,7 @@
             this.mainTabControl.Controls.Add(this.tabPage2);
             this.mainTabControl.Controls.Add(this.rulesTabPage);
             this.mainTabControl.Controls.Add(this.tabPage3);
+            this.mainTabControl.Controls.Add(this.tabPage5);
             this.mainTabControl.Controls.Add(this.tabPage4);
             this.mainTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainTabControl.Location = new System.Drawing.Point(0, 74);
@@ -276,7 +283,7 @@
             // columnHeader1
             // 
             this.columnHeader1.Text = "Category";
-            this.columnHeader1.Width = 232;
+            this.columnHeader1.Width = 182;
             // 
             // columnHeader2
             // 
@@ -405,6 +412,47 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "A very nice chart here...";
             // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.summaryListView);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Size = new System.Drawing.Size(1252, 446);
+            this.tabPage5.TabIndex = 5;
+            this.tabPage5.Text = "Summary";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // summaryListView
+            // 
+            this.summaryListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.summaryProcessHeader,
+            this.summaryTitleHeader,
+            this.summaryTimeHeader});
+            this.summaryListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.summaryListView.FullRowSelect = true;
+            this.summaryListView.GridLines = true;
+            this.summaryListView.Location = new System.Drawing.Point(0, 0);
+            this.summaryListView.Name = "summaryListView";
+            this.summaryListView.Size = new System.Drawing.Size(1252, 446);
+            this.summaryListView.TabIndex = 0;
+            this.summaryListView.UseCompatibleStateImageBehavior = false;
+            this.summaryListView.View = System.Windows.Forms.View.Details;
+            // 
+            // summaryProcessHeader
+            // 
+            this.summaryProcessHeader.Text = "Process Name";
+            this.summaryProcessHeader.Width = 197;
+            // 
+            // summaryTitleHeader
+            // 
+            this.summaryTitleHeader.Text = "Window Title";
+            this.summaryTitleHeader.Width = 578;
+            // 
+            // summaryTimeHeader
+            // 
+            this.summaryTimeHeader.Text = "Total Time";
+            this.summaryTimeHeader.Width = 139;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -424,6 +472,7 @@
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.tabPage5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -468,6 +517,11 @@
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.ListView summaryListView;
+        private System.Windows.Forms.ColumnHeader summaryProcessHeader;
+        private System.Windows.Forms.ColumnHeader summaryTitleHeader;
+        private System.Windows.Forms.ColumnHeader summaryTimeHeader;
     }
 }
 

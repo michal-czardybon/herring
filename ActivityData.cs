@@ -69,6 +69,11 @@ namespace Herring
         public double TotalMouseIntensity;
     }
 
+    class ActivityDaySummary : ActivitySample
+    {
+        public double TotalTime;
+    }
+
     enum UserStatus
     {
         Away,

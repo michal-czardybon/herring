@@ -57,6 +57,7 @@ namespace Herring
             ActivityTracker.UserStatusChanged += this.UserStatusChanged;
             RefreshActivitiesList();
             RefreshCategories();
+            RefreshSummary();
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -231,11 +232,57 @@ namespace Herring
             }
         }
 
+
+        struct ActivityId
+        {
+            public string ProcessName;
+            public string WindowTitle;
+        }
+
+        private void RefreshSummary()
+        {
+            summaryListView.Items.Clear();
+            Dictionary<ActivityId, ActivityDaySummary> summaryItems = new Dictionary<ActivityId, ActivityDaySummary>();
+            foreach (var summary in ActivityTracker.SelectedLog)
+            {
+                foreach (var entry in summary.Entries)
+                {
+                    ActivityId id = new ActivityId { ProcessName = entry.App.Path, WindowTitle = entry.Title };
+
+                    if (summaryItems.ContainsKey(id) == false)
+                    {
+                        summaryItems[id] = new ActivityDaySummary { App = entry.App, Title = entry.Title };
+                    }
+                    summaryItems[id].TotalTime += Parameters.LogTimeUnit * entry.Share / 100.0;
+                }
+            }
+
+            List<ActivityDaySummary> summaryList = summaryItems.Values.ToList();
+            summaryList.Sort((a, b) => (int)(b.TotalTime - a.TotalTime));
+
+            TimeSpan totalTime = TimeSpan.Zero;
+            foreach (var ads in summaryList)
+            {
+                TimeSpan span = TimeSpan.FromSeconds(ads.TotalTime);
+                string[] content = new string[]
+                {
+                    ads.App.Name,
+                    ads.Title,
+                    span.ToString()
+                };
+                ListViewItem item = new ListViewItem(content);
+                summaryListView.Items.Add(item);
+                totalTime += span;
+            }
+
+        }
+
         private void CurrentLogExtended(ActivitySummary summary)
         {
             AddToActivitiesList(summary);
             MaybeScrollActivitiesList();
             RefreshCategories();
+            RefreshSummary();
         }
 
         private void CurrentLogChanged(DateTime date)
@@ -244,6 +291,7 @@ namespace Herring
             MaybeScrollActivitiesList();
             datePicker.Value = date;
             RefreshCategories();
+            RefreshSummary();
         }
 
         private void UserStatusChanged(UserStatus status)
@@ -277,6 +325,7 @@ namespace Herring
             }
             RefreshActivitiesList();
             RefreshCategories();
+            RefreshSummary();
         }
 
         private void buttonPrevDay_Click(object sender, EventArgs e)
