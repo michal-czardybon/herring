@@ -196,7 +196,12 @@ namespace Herring
                     totalShareOfAll += entry.Share;
                 }
             }
-            foreach (var skv in stats)
+
+            List<KeyValuePair<string, CategoryStats>> statsList = stats.ToList();
+            statsList.Sort((a, b) => (int)(1000 * (b.Value.ShareSum - a.Value.ShareSum)));
+
+            TimeSpan totalTime = TimeSpan.Zero;
+            foreach (var skv in statsList)
             {
                 string name = skv.Key;
                 CategoryStats cs = skv.Value;
@@ -208,6 +213,20 @@ namespace Herring
                     (100.0 * cs.ShareSum / totalShareOfAll).ToString("F1")
                 };
                 ListViewItem item = new ListViewItem(content);
+                categoriesListView.Items.Add(item);
+                
+                totalTime += span;
+            }
+
+            {
+                string[] content = new string[]
+                {
+                    "Total",
+                    totalTime.ToString(),
+                    "100.0"
+                };
+                ListViewItem item = new ListViewItem(content);
+                item.Font = boldFont;
                 categoriesListView.Items.Add(item);
             }
         }
