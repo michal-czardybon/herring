@@ -55,14 +55,24 @@ namespace Herring
                     {
                         throw new ApplicationException("First entry in the log file is not a summary.");
                     }
-                    ActivityEntry entry = new ActivityEntry()
+                    ActivityEntry entry =
+                        new ActivityEntry()
+                        {
+                            App = getApp(parts[2]),
+                            Title = parts[3]
+                        };
+                    try
                     {
-                        App = getApp(parts[2]),
-                        Title = parts[3],
-                        Share = double.Parse(parts[4]),
-                        KeyboardIntensity = double.Parse(parts[5]),
-                        MouseIntensity = double.Parse(parts[6])
-                    };
+                        entry.Share = double.Parse(parts[4]);
+                        entry.KeyboardIntensity = double.Parse(parts[5]);
+                        entry.MouseIntensity = double.Parse(parts[6]);
+                    }
+                    catch (FormatException ex)
+                    {
+                        entry.Share = 0;
+                        entry.KeyboardIntensity = 0;
+                        entry.MouseIntensity = 0;
+                    }
                     lastSummary.Entries.Add(entry);
                 }
             }
