@@ -1,5 +1,4 @@
 Todo: Review, improve and describe the process of gathering data (also: the meaning of AWAY/IDLE/ACTiVE)
-Todo: Consider categorizing activities on the level of snapshots, not entries.
 Todo: Implement setting basic parameters: "Reporting Period = 5m", "Sampling Period = 5s", "Maximum Inactivity Time = 5m", "Minimum Share = 3%".
 
 Todo: Implement all-day chart: top-app, keyboard-intensity, mouse-intensity.

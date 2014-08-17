@@ -7,7 +7,7 @@ Classes
 	|   * KeyboardIntensity : double
 	|   * MouseIntensity : double
 	|
-	+-- ActivitySnapshot		// primitive data collected every 1-10 seconds
+	+-- ActivitySnapshot		// primitive data collected every ~3 seconds
 	|       * Time : DateTipe
 	|
 	+-- ActivityEntry			// composite data being displayed to the user
@@ -25,7 +25,7 @@ Every 3 seconds the applications takes a SNAPSHOT of user activity.
 	- the mouse-move distance
 	
 If the mouse- and keyboard-intensities are simulatneously very low, then the
-SNAPSHOT is considered WARM. Otherwise we say they are COLD.
+SNAPSHOT is considered COLD. Otherwise we say it is WARM.
 
 If snapshots are COLD for 30 seconds, then we consider the user to be still in
 front of the computer, but passive (e.g. reading or thinking). We call him
