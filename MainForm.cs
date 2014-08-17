@@ -372,6 +372,11 @@ namespace Herring
 
         private void notifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
+            notifyIcon_MouseClick(sender, e);
+        }
+
+        private void notifyIcon_MouseClick(object sender, MouseEventArgs e)
+        {
             this.WindowState = FormWindowState.Normal;
             this.ShowInTaskbar = true;
             notifyIcon.Visible = false;
@@ -386,6 +391,7 @@ namespace Herring
                 this.ShowInTaskbar = false;
             }
         }
+
 
     }
 }
