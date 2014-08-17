@@ -20,7 +20,7 @@ namespace Herring
         {
             InitializeComponent();
             activitiesListView.SmallImageList = new ImageList();
-            mainTabControl.SelectedIndex = 1;
+            mainTabControl.SelectedIndex = 0;
             
             // Start the timer at a moment that guarantees maximum margin from the time unit boundaries, like this:
             //  --|--.----.----.--|--.----.----.--|--.----.----.--|--->
@@ -367,6 +367,23 @@ namespace Herring
                 case "WholeDay":
                     Parameters.LogTimeMode = LogTimeMode.WholeDay;
                     break;
+            }
+        }
+
+        private void notifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            this.WindowState = FormWindowState.Normal;
+            this.ShowInTaskbar = true;
+            notifyIcon.Visible = false;
+        }
+
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                notifyIcon.Visible = true;
+                notifyIcon.ShowBalloonTip(3000);
+                this.ShowInTaskbar = false;
             }
         }
 

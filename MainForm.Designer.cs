@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.mainTabControl = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.activitiesListView = new System.Windows.Forms.ListView();
             this.processColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -63,6 +63,8 @@
             this.summaryTimeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.periodComboBox = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.autoScrollCheckBox = new System.Windows.Forms.CheckBox();
             this.labelUserStatus = new System.Windows.Forms.Label();
             this.labelUserIs = new System.Windows.Forms.Label();
@@ -72,8 +74,7 @@
             this.datePicker = new System.Windows.Forms.DateTimePicker();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.periodComboBox = new System.Windows.Forms.ComboBox();
+            this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.mainTabControl.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.rulesTabPage.SuspendLayout();
@@ -90,7 +91,6 @@
             // 
             // mainTabControl
             // 
-            this.mainTabControl.Controls.Add(this.tabPage1);
             this.mainTabControl.Controls.Add(this.tabPage2);
             this.mainTabControl.Controls.Add(this.rulesTabPage);
             this.mainTabControl.Controls.Add(this.tabPage3);
@@ -102,16 +102,6 @@
             this.mainTabControl.SelectedIndex = 0;
             this.mainTabControl.Size = new System.Drawing.Size(1260, 472);
             this.mainTabControl.TabIndex = 0;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1252, 446);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Tasks";
-            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
@@ -364,6 +354,31 @@
             this.panel1.Size = new System.Drawing.Size(1260, 32);
             this.panel1.TabIndex = 1;
             // 
+            // periodComboBox
+            // 
+            this.periodComboBox.Enabled = false;
+            this.periodComboBox.FormattingEnabled = true;
+            this.periodComboBox.Items.AddRange(new object[] {
+            "5 minutes",
+            "15 minutes",
+            "1 hours",
+            "1 day"});
+            this.periodComboBox.Location = new System.Drawing.Point(664, 6);
+            this.periodComboBox.Name = "periodComboBox";
+            this.periodComboBox.Size = new System.Drawing.Size(121, 21);
+            this.periodComboBox.TabIndex = 9;
+            this.periodComboBox.Text = "5 minutes";
+            this.periodComboBox.SelectedIndexChanged += new System.EventHandler(this.periodComboBox_SelectedIndexChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(584, 10);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(55, 13);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Time Unit:";
+            // 
             // autoScrollCheckBox
             // 
             this.autoScrollCheckBox.AutoSize = true;
@@ -457,29 +472,14 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "A very nice chart here...";
             // 
-            // label2
+            // notifyIcon
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(584, 10);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(55, 13);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "Time Unit:";
-            // 
-            // periodComboBox
-            // 
-            this.periodComboBox.FormattingEnabled = true;
-            this.periodComboBox.Items.AddRange(new object[] {
-            "5 minutes",
-            "15 minutes",
-            "1 hours",
-            "1 day"});
-            this.periodComboBox.Location = new System.Drawing.Point(664, 6);
-            this.periodComboBox.Name = "periodComboBox";
-            this.periodComboBox.Size = new System.Drawing.Size(121, 21);
-            this.periodComboBox.TabIndex = 9;
-            this.periodComboBox.Text = "5 minutes";
-            this.periodComboBox.SelectedIndexChanged += new System.EventHandler(this.periodComboBox_SelectedIndexChanged);
+            this.notifyIcon.BalloonTipText = "Working in the background";
+            this.notifyIcon.BalloonTipTitle = "Herring Tracker";
+            this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
+            this.notifyIcon.Text = "HerringTracker";
+            this.notifyIcon.Visible = true;
+            this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
             // 
             // MainForm
             // 
@@ -489,9 +489,11 @@
             this.Controls.Add(this.mainTabControl);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "Herring";
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.mainTabControl.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.rulesTabPage.ResumeLayout(false);
@@ -509,7 +511,6 @@
 
         private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.TabControl mainTabControl;
-        private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.ListView activitiesListView;
         private System.Windows.Forms.ColumnHeader processColumnHeader;
@@ -552,6 +553,7 @@
         private System.Windows.Forms.ColumnHeader summaryTimeHeader;
         private System.Windows.Forms.ComboBox periodComboBox;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.NotifyIcon notifyIcon;
     }
 }
 
