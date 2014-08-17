@@ -56,6 +56,11 @@
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.summaryListView = new System.Windows.Forms.ListView();
+            this.summaryProcessHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.summaryTitleHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.summaryTimeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.autoScrollCheckBox = new System.Windows.Forms.CheckBox();
@@ -67,18 +72,15 @@
             this.datePicker = new System.Windows.Forms.DateTimePicker();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.summaryListView = new System.Windows.Forms.ListView();
-            this.summaryProcessHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.summaryTitleHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.summaryTimeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.label2 = new System.Windows.Forms.Label();
+            this.periodComboBox = new System.Windows.Forms.ComboBox();
             this.mainTabControl.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.rulesTabPage.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.tabPage5.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.tabPage5.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer
@@ -295,6 +297,47 @@
             this.columnHeader3.Text = "Total Share";
             this.columnHeader3.Width = 99;
             // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.summaryListView);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Size = new System.Drawing.Size(1252, 446);
+            this.tabPage5.TabIndex = 5;
+            this.tabPage5.Text = "Summary";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // summaryListView
+            // 
+            this.summaryListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.summaryProcessHeader,
+            this.summaryTitleHeader,
+            this.summaryTimeHeader});
+            this.summaryListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.summaryListView.FullRowSelect = true;
+            this.summaryListView.GridLines = true;
+            this.summaryListView.Location = new System.Drawing.Point(0, 0);
+            this.summaryListView.Name = "summaryListView";
+            this.summaryListView.Size = new System.Drawing.Size(1252, 446);
+            this.summaryListView.TabIndex = 0;
+            this.summaryListView.UseCompatibleStateImageBehavior = false;
+            this.summaryListView.View = System.Windows.Forms.View.Details;
+            // 
+            // summaryProcessHeader
+            // 
+            this.summaryProcessHeader.Text = "Process Name";
+            this.summaryProcessHeader.Width = 197;
+            // 
+            // summaryTitleHeader
+            // 
+            this.summaryTitleHeader.Text = "Window Title";
+            this.summaryTitleHeader.Width = 578;
+            // 
+            // summaryTimeHeader
+            // 
+            this.summaryTimeHeader.Text = "Total Time";
+            this.summaryTimeHeader.Width = 139;
+            // 
             // tabPage4
             // 
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
@@ -306,6 +349,8 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.periodComboBox);
+            this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.autoScrollCheckBox);
             this.panel1.Controls.Add(this.labelUserStatus);
             this.panel1.Controls.Add(this.labelUserIs);
@@ -412,46 +457,29 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "A very nice chart here...";
             // 
-            // tabPage5
+            // label2
             // 
-            this.tabPage5.Controls.Add(this.summaryListView);
-            this.tabPage5.Location = new System.Drawing.Point(4, 22);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(1252, 446);
-            this.tabPage5.TabIndex = 5;
-            this.tabPage5.Text = "Summary";
-            this.tabPage5.UseVisualStyleBackColor = true;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(584, 10);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(55, 13);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Time Unit:";
             // 
-            // summaryListView
+            // periodComboBox
             // 
-            this.summaryListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.summaryProcessHeader,
-            this.summaryTitleHeader,
-            this.summaryTimeHeader});
-            this.summaryListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.summaryListView.FullRowSelect = true;
-            this.summaryListView.GridLines = true;
-            this.summaryListView.Location = new System.Drawing.Point(0, 0);
-            this.summaryListView.Name = "summaryListView";
-            this.summaryListView.Size = new System.Drawing.Size(1252, 446);
-            this.summaryListView.TabIndex = 0;
-            this.summaryListView.UseCompatibleStateImageBehavior = false;
-            this.summaryListView.View = System.Windows.Forms.View.Details;
-            // 
-            // summaryProcessHeader
-            // 
-            this.summaryProcessHeader.Text = "Process Name";
-            this.summaryProcessHeader.Width = 197;
-            // 
-            // summaryTitleHeader
-            // 
-            this.summaryTitleHeader.Text = "Window Title";
-            this.summaryTitleHeader.Width = 578;
-            // 
-            // summaryTimeHeader
-            // 
-            this.summaryTimeHeader.Text = "Total Time";
-            this.summaryTimeHeader.Width = 139;
+            this.periodComboBox.FormattingEnabled = true;
+            this.periodComboBox.Items.AddRange(new object[] {
+            "5 minutes",
+            "15 minutes",
+            "1 hours",
+            "1 day"});
+            this.periodComboBox.Location = new System.Drawing.Point(664, 6);
+            this.periodComboBox.Name = "periodComboBox";
+            this.periodComboBox.Size = new System.Drawing.Size(121, 21);
+            this.periodComboBox.TabIndex = 9;
+            this.periodComboBox.Text = "5 minutes";
+            this.periodComboBox.SelectedIndexChanged += new System.EventHandler(this.periodComboBox_SelectedIndexChanged);
             // 
             // MainForm
             // 
@@ -468,11 +496,11 @@
             this.tabPage2.ResumeLayout(false);
             this.rulesTabPage.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
+            this.tabPage5.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            this.tabPage5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -522,6 +550,8 @@
         private System.Windows.Forms.ColumnHeader summaryProcessHeader;
         private System.Windows.Forms.ColumnHeader summaryTitleHeader;
         private System.Windows.Forms.ColumnHeader summaryTimeHeader;
+        private System.Windows.Forms.ComboBox periodComboBox;
+        private System.Windows.Forms.Label label2;
     }
 }
 

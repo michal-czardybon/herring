@@ -2,8 +2,17 @@
 
 namespace Herring
 {
+    enum LogTimeMode
+    {
+        FiveMinutes,
+        FifteenMinutes,
+        OneHour,
+        WholeDay
+    }
+
     static class Parameters
     {
+        public static LogTimeMode LogTimeMode = LogTimeMode.FiveMinutes;
         public static int LogTimeUnit = 300;           // [s]
         public static int LogSamplingRate = 100;       // how many samples are taken for one time unit (should be at least 3)
 
