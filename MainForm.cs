@@ -89,40 +89,43 @@ namespace Herring
             // Entries
             foreach (ActivityEntry e in summary.Entries)
             {
-                string category = RuleManager.MatchCategory(e);
+                if (e.Share >= Parameters.MinimumShare)
+                {
+                    string category = RuleManager.MatchCategory(e);
 
-                string[] content = new string[]
-                {
-                    /* process: */  e.App.Name,
-                    /* title: */    e.Title,
-                    /* share: */    e.Share.ToString("F1"),
-                    /* keyboard: */ e.KeyboardIntensity.ToString("F1"),
-                    /* mouse: */    e.MouseIntensity.ToString("F1"),
-                    /* category: */ category
-                };
+                    string[] content = new string[]
+                    {
+                        /* process: */  e.App.Name,
+                        /* title: */    e.Title,
+                        /* share: */    e.Share.ToString("F1"),
+                        /* keyboard: */ e.KeyboardIntensity.ToString("F1"),
+                        /* mouse: */    e.MouseIntensity.ToString("F1"),
+                        /* category: */ category
+                    };
 
-                int iconIndex;
-                if (iconIndices.ContainsKey(e.App.Name))
-                {
-                    iconIndex = iconIndices[e.App.Name];
-                }
-                else if (e.App.Icon != null)
-                {
-                    iconIndex = iconIndices.Count;
-                    iconIndices.Add(e.App.Name, iconIndex);
-                    activitiesListView.SmallImageList.Images.Add(ShellIcon.ConvertIconToBitmap(e.App.Icon));
-                }
-                else
-                {
-                    iconIndex = -1;
-                }
+                    int iconIndex;
+                    if (iconIndices.ContainsKey(e.App.Name))
+                    {
+                        iconIndex = iconIndices[e.App.Name];
+                    }
+                    else if (e.App.Icon != null)
+                    {
+                        iconIndex = iconIndices.Count;
+                        iconIndices.Add(e.App.Name, iconIndex);
+                        activitiesListView.SmallImageList.Images.Add(ShellIcon.ConvertIconToBitmap(e.App.Icon));
+                    }
+                    else
+                    {
+                        iconIndex = -1;
+                    }
 
-                ListViewItem item = new ListViewItem(content, iconIndex);
-                item.ForeColor =
-                    e.Share >= 20.0 ? Color.Black :
-                    e.Share >= 10.0 ? Color.FromArgb(64, 64, 64) :
-                                        Color.FromArgb(128, 128, 128);
-                activitiesListView.Items.Add(item);
+                    ListViewItem item = new ListViewItem(content, iconIndex);
+                    item.ForeColor =
+                        e.Share >= 20.0 ? Color.Black :
+                        e.Share >= 10.0 ? Color.FromArgb(64, 64, 64) :
+                                            Color.FromArgb(128, 128, 128);
+                    activitiesListView.Items.Add(item);
+                }
             }
         }
 
