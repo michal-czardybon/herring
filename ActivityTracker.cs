@@ -14,7 +14,6 @@ namespace Herring
         private static List<ActivitySnapshot> activeSnapshots = new List<ActivitySnapshot>();
         private static DateTime activeTimePoint = GetTimePoint(DateTime.Now, Parameters.LogTimeUnit);
 
-        private static DateTime? prevTimePoint = null;
         private static DateTime lastActivityTime = DateTime.Now;
         private static UserStatus userStatus = UserStatus.Active;
 

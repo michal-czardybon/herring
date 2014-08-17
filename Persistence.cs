@@ -67,7 +67,7 @@ namespace Herring
                         entry.KeyboardIntensity = double.Parse(parts[5]);
                         entry.MouseIntensity = double.Parse(parts[6]);
                     }
-                    catch (FormatException ex)
+                    catch (FormatException)
                     {
                         entry.Share = 0;
                         entry.KeyboardIntensity = 0;
