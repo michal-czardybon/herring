@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.Diagnostics;
 
 namespace Herring
 {
@@ -10,7 +11,9 @@ namespace Herring
         private static List<ActivitySummary> currentLog;   // being tracked right now (today)
         private static List<ActivitySummary> selectedLog;  // being displayed
 
-        private static List<ActivitySnapshot> currentSnapshots = new List<ActivitySnapshot>();
+        private static List<ActivitySnapshot> activeSnapshots = new List<ActivitySnapshot>();
+        private static DateTime activeTimePoint = GetTimePoint(DateTime.Now, Parameters.LogTimeUnit);
+
         private static DateTime? prevTimePoint = null;
         private static DateTime lastActivityTime = DateTime.Now;
         private static UserStatus userStatus = UserStatus.Active;
@@ -257,33 +260,72 @@ namespace Herring
             }
         }
 
+        private static void SplitSnapshots(List<ActivitySnapshot> activeSnapshots, DateTime activeTimePoint, List<ActivitySnapshot> currSnapshots, List<ActivitySnapshot> nextSnapshots)
+        {
+            DateTime nextTimePoint = activeTimePoint.AddSeconds(Parameters.LogTimeUnit);
+            foreach (ActivitySnapshot s in activeSnapshots)
+            {
+                if (s.Time < nextTimePoint)
+                {
+                    currSnapshots.Add(s);
+                }
+                else
+                {
+                    nextSnapshots.Add(s);
+                }
+            }
+        }
+
+        private static void MaybeCommitSummary(DateTime currTimePoint)
+        {
+            if (currTimePoint > activeTimePoint)
+            {
+                // Separate snapshots belonging to the current and the next interval
+                List<ActivitySnapshot> currSnapshots = new List<ActivitySnapshot>();
+                List<ActivitySnapshot> nextSnapshots = new List<ActivitySnapshot>();
+                SplitSnapshots(activeSnapshots, activeTimePoint, currSnapshots, nextSnapshots);
+
+                // Summarize the previous interval
+                ActivitySummary summary = GetActivitySummary(currSnapshots, activeTimePoint);
+
+                if (summary.Entries.Count >= 1)
+                {
+                    Persistence.Store(summary);
+                    currentLog.Add(summary);
+                    if (currentLog == selectedLog)
+                    {
+                        OnCurrentLogExtended(summary);
+                    }
+                }
+
+                // Start a new interval
+                activeSnapshots = nextSnapshots;
+                activeTimePoint = currTimePoint;
+
+                // Consider the end of the day
+                bool dateChanged = (currTimePoint.Date > activeTimePoint.Date);
+                if (dateChanged)
+                {
+                    Persistence.Close();
+
+                    currentLog.Clear();
+                    if (currentLog == selectedLog)
+                    {
+                        OnCurrentLogChanged(currTimePoint.Date);
+                    }
+                }
+            }
+        }
+
         public static void RegisterSnapshot(ActivitySnapshot snapshot)
         {
-            bool timePointChanged;
-            bool dateChanged;
-            DateTime currDate;
             DateTime currTimePoint = GetTimePoint(snapshot.Time, Parameters.LogTimeUnit);
-            DateTime summaryTimePoint;
-            if (prevTimePoint == null)
-            {
-                timePointChanged = false;
-                dateChanged = false;
-                currDate = DateTime.MinValue;           // not used
-                summaryTimePoint = DateTime.MinValue;   // not used
-            }
-            else
-            {
-                timePointChanged = (currTimePoint != prevTimePoint.Value);
-                dateChanged = (currTimePoint.Date != prevTimePoint.Value.Date);
-                currDate = currTimePoint.Date;
-                summaryTimePoint = prevTimePoint.Value;
-            }
-            prevTimePoint = currTimePoint;
 
             if (snapshot.IsWarm)
             {
                 lastActivityTime = snapshot.Time;
-                SetUserStatus(UserStatus.Active);
+                SetUserStatus(UserStatus.Active);               
+                MaybeCommitSummary(currTimePoint);  // because a warm snapshot guarantees that none of the existing snapshots will be removed
             }
             else
             {
@@ -293,11 +335,12 @@ namespace Herring
                     SetUserStatus(UserStatus.Away);
 
                     // ...and remove previous snapshots which also had no keyboard nor mouse actions
-                    // (unfortunatelly only withing the current time point)
-                    while (currentSnapshots.Count >= 1 && currentSnapshots.Last().IsWarm == false)
+                    while (activeSnapshots.Count >= 1 && activeSnapshots.Last().IsWarm == false)
                     {
-                        currentSnapshots.RemoveAt(currentSnapshots.Count - 1);
+                        activeSnapshots.RemoveAt(activeSnapshots.Count - 1);
                     }
+
+                    MaybeCommitSummary(currTimePoint);  // because no further snapshots will be removed (this is a delayed commit)
                 }
                 else if (inactivityTime.TotalSeconds >= Parameters.InactivityThreshold_Idle)
                 {
@@ -305,38 +348,11 @@ namespace Herring
                 }
             }
 
-            if (timePointChanged)
-            {
-                // summarize the previous interval
-                ActivitySummary summary = GetActivitySummary(currentSnapshots, summaryTimePoint);
-                Persistence.Store(summary);
-
-                currentLog.Add(summary);
-                if (currentLog == selectedLog)
-                {
-                    OnCurrentLogExtended(summary);
-                }
-
-                currentSnapshots.Clear();
-            }
-
-            if (dateChanged)
-            {
-                System.Diagnostics.Debug.Assert(timePointChanged);
-                Persistence.Close();
-
-                currentLog.Clear();
-                if (currentLog == selectedLog)
-                {
-                    OnCurrentLogChanged(currDate);
-                }
-            }
-
             if (userStatus == UserStatus.Active || userStatus == UserStatus.Passive)
             {
-                currentSnapshots.Add(snapshot);
+                Debug.Assert(snapshot.IsWarm);
+                activeSnapshots.Add(snapshot);
             }
-
         }
 
 
