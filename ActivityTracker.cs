@@ -344,7 +344,6 @@ namespace Herring
 
             if (userStatus == UserStatus.Active || userStatus == UserStatus.Passive)
             {
-                Debug.Assert(snapshot.IsWarm);
                 activeSnapshots.Add(snapshot);
             }
         }
