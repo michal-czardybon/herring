@@ -198,6 +198,8 @@ namespace Herring
                             MouseIntensity = sumMouse / count
                         };
 
+                    summary.Entries.Add(newEntry);
+                    
                     // Counting the total share per process path
                     if (processShare.Keys.Contains(newEntry.App.Path))
                     {
