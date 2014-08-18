@@ -263,17 +263,20 @@ namespace Herring
             bool dateChanged;
             DateTime currDate;
             DateTime currTimePoint = GetTimePoint(snapshot.Time, Parameters.LogTimeUnit);
+            DateTime summaryTimePoint;
             if (prevTimePoint == null)
             {
                 timePointChanged = false;
                 dateChanged = false;
-                currDate = DateTime.MinValue;   // not used
+                currDate = DateTime.MinValue;           // not used
+                summaryTimePoint = DateTime.MinValue;   // not used
             }
             else
             {
                 timePointChanged = (currTimePoint != prevTimePoint.Value);
                 dateChanged = (currTimePoint.Date != prevTimePoint.Value.Date);
                 currDate = currTimePoint.Date;
+                summaryTimePoint = prevTimePoint.Value;
             }
             prevTimePoint = currTimePoint;
 
@@ -305,7 +308,7 @@ namespace Herring
             if (timePointChanged)
             {
                 // summarize the previous interval
-                ActivitySummary summary = GetActivitySummary(currentSnapshots, prevTimePoint.Value);
+                ActivitySummary summary = GetActivitySummary(currentSnapshots, summaryTimePoint);
                 Persistence.Store(summary);
 
                 currentLog.Add(summary);
@@ -317,15 +320,9 @@ namespace Herring
                 currentSnapshots.Clear();
             }
 
-            if (userStatus == UserStatus.Active || userStatus == UserStatus.Passive)
-            {
-                currentSnapshots.Add(snapshot);
-            }
-
             if (dateChanged)
             {
                 System.Diagnostics.Debug.Assert(timePointChanged);
-
                 Persistence.Close();
 
                 currentLog.Clear();
@@ -333,6 +330,11 @@ namespace Herring
                 {
                     OnCurrentLogChanged(currDate);
                 }
+            }
+
+            if (userStatus == UserStatus.Active || userStatus == UserStatus.Passive)
+            {
+                currentSnapshots.Add(snapshot);
             }
 
         }
