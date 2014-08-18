@@ -188,6 +188,7 @@ namespace Herring
                             thisTitle = commonTitle;
                         }
                     }
+                    Debug.Assert(count >= 1);
                     ActivityEntry newEntry =
                         new ActivityEntry
                         {
