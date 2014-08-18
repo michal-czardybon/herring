@@ -377,19 +377,30 @@ namespace Herring
 
         private void notifyIcon_MouseClick(object sender, MouseEventArgs e)
         {
-            this.WindowState = FormWindowState.Normal;
-            this.ShowInTaskbar = true;
-            notifyIcon.Visible = false;
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                this.Show();
+                notifyIcon.Visible = false;
+            }
         }
 
-        private void MainForm_Resize(object sender, EventArgs e)
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (this.WindowState == FormWindowState.Minimized)
+            if (e.CloseReason == CloseReason.UserClosing)
             {
                 notifyIcon.Visible = true;
-                notifyIcon.ShowBalloonTip(3000);
+                notifyIcon.ShowBalloonTip(500);
                 this.ShowInTaskbar = false;
+                this.Hide();
+                e.Cancel = true;
             }
+        }
+
+
+        private void closeMenuItem_Click(object sender, EventArgs e)
+        {
+            this.FormClosing -= this.MainForm_FormClosing;
+            this.Close();
         }
 
 

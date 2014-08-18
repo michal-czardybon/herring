@@ -75,6 +75,8 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.notifyIconMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.closeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainTabControl.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.rulesTabPage.SuspendLayout();
@@ -82,6 +84,7 @@
             this.tabPage5.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.notifyIconMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer
@@ -476,11 +479,26 @@
             // 
             this.notifyIcon.BalloonTipText = "Working in the background";
             this.notifyIcon.BalloonTipTitle = "Herring Tracker";
+            this.notifyIcon.ContextMenuStrip = this.notifyIconMenuStrip;
             this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
             this.notifyIcon.Text = "HerringTracker";
             this.notifyIcon.Visible = true;
             this.notifyIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseClick);
             this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
+            // 
+            // notifyIconMenuStrip
+            // 
+            this.notifyIconMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.closeMenuItem});
+            this.notifyIconMenuStrip.Name = "notifyIconMenuStrip";
+            this.notifyIconMenuStrip.Size = new System.Drawing.Size(153, 48);
+            // 
+            // closeMenuItem
+            // 
+            this.closeMenuItem.Name = "closeMenuItem";
+            this.closeMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.closeMenuItem.Text = "Close";
+            this.closeMenuItem.Click += new System.EventHandler(this.closeMenuItem_Click);
             // 
             // MainForm
             // 
@@ -493,8 +511,8 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "Herring";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
-            this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.mainTabControl.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.rulesTabPage.ResumeLayout(false);
@@ -504,6 +522,7 @@
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.notifyIconMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -555,6 +574,8 @@
         private System.Windows.Forms.ComboBox periodComboBox;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NotifyIcon notifyIcon;
+        private System.Windows.Forms.ContextMenuStrip notifyIconMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem closeMenuItem;
     }
 }
 
