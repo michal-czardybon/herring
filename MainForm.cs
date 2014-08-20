@@ -380,6 +380,7 @@ namespace Herring
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
                 this.Show();
+                this.ShowInTaskbar = true;
                 notifyIcon.Visible = false;
             }
         }
