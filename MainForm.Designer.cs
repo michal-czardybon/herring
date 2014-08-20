@@ -491,12 +491,12 @@
             this.notifyIconMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.closeMenuItem});
             this.notifyIconMenuStrip.Name = "notifyIconMenuStrip";
-            this.notifyIconMenuStrip.Size = new System.Drawing.Size(153, 48);
+            this.notifyIconMenuStrip.Size = new System.Drawing.Size(104, 26);
             // 
             // closeMenuItem
             // 
             this.closeMenuItem.Name = "closeMenuItem";
-            this.closeMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.closeMenuItem.Size = new System.Drawing.Size(103, 22);
             this.closeMenuItem.Text = "Close";
             this.closeMenuItem.Click += new System.EventHandler(this.closeMenuItem_Click);
             // 
