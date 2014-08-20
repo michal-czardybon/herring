@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace Herring
 {
-    static class ActivityTracker
+    public static class ActivityTracker
     {
         private static List<ActivitySummary> currentLog;   // being tracked right now (today)
         private static List<ActivitySummary> selectedLog;  // being displayed
@@ -77,7 +77,7 @@ namespace Herring
             return new DateTime(time.Year, time.Month, time.Day, time.Hour, neededTotalSeconds / 60, neededTotalSeconds % 60);
         }
 
-        private static bool AreTitlesNearlyEqual(string title1, string title2, int maxDiff, out string title)
+        public static bool AreTitlesNearlyEqual(string title1, string title2, int maxDiff, out string title)
         {
             // Count the common characters from the beginning
             int i = 0;

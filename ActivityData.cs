@@ -7,7 +7,7 @@ using System.Linq;
 namespace Herring
 {
     /// Information about an application installed in the system
-    class AppInfo
+    public class AppInfo
     {
         public string       Name;
         public string       Path;
@@ -16,7 +16,7 @@ namespace Herring
     }
 
     /// The basic piece of information about user activity
-    class ActivitySample
+    public class ActivitySample
     {
         public AppInfo  App;
         public string   Title;
@@ -25,7 +25,7 @@ namespace Herring
     }
 
     // Information gathered at a single time moment
-    class ActivitySnapshot : ActivitySample
+    public class ActivitySnapshot : ActivitySample
     {
         public DateTime Time;   // This is the END of the time-span        
 
@@ -52,13 +52,13 @@ namespace Herring
         }
     }
 
-    class ActivityEntry : ActivitySample
+    public class ActivityEntry : ActivitySample
     {
         public double Share;
     }
         
     // Information got from many time quantuums
-    class ActivitySummary
+    public class ActivitySummary
     {
         public DateTime TimePoint;  // This is the START of the time span
         public TimeSpan Span;
@@ -74,7 +74,7 @@ namespace Herring
         public double TotalTime;
     }
 
-    enum UserStatus
+    public enum UserStatus
     {
         Away,
         Passive,

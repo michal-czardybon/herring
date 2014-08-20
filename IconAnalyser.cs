@@ -6,7 +6,7 @@ using System.Drawing.Imaging;
 
 namespace Herring
 {
-    class ColorBin
+    public class ColorBin
     {
         private double r;
         private double g;
