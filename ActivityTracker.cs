@@ -295,10 +295,6 @@ namespace Herring
                     }
                 }
 
-                // Start a new interval
-                activeSnapshots = nextSnapshots;
-                activeTimePoint = currTimePoint;
-
                 // Consider the end of the day
                 bool dateChanged = (currTimePoint.Date > activeTimePoint.Date);
                 if (dateChanged)
@@ -311,6 +307,10 @@ namespace Herring
                         OnCurrentLogChanged(currTimePoint.Date);
                     }
                 }
+
+                // Start a new interval
+                activeSnapshots = nextSnapshots;
+                activeTimePoint = currTimePoint;
             }
         }
 
