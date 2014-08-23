@@ -77,6 +77,10 @@
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.notifyIconMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.titleLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statsLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.mainTabControl.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.rulesTabPage.SuspendLayout();
@@ -85,6 +89,7 @@
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.notifyIconMenuStrip.SuspendLayout();
+            this.statusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer
@@ -500,12 +505,45 @@
             this.closeMenuItem.Text = "Close";
             this.closeMenuItem.Click += new System.EventHandler(this.closeMenuItem_Click);
             // 
+            // statusStrip
+            // 
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusLabel,
+            this.titleLabel,
+            this.statsLabel});
+            this.statusStrip.Location = new System.Drawing.Point(0, 522);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(1260, 24);
+            this.statusStrip.TabIndex = 3;
+            this.statusStrip.Text = "statusStrip";
+            // 
+            // statusLabel
+            // 
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(42, 19);
+            this.statusLabel.Text = "<text>";
+            // 
+            // titleLabel
+            // 
+            this.titleLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this.titleLabel.Name = "titleLabel";
+            this.titleLabel.Size = new System.Drawing.Size(47, 19);
+            this.titleLabel.Text = "<title>";
+            // 
+            // statsLabel
+            // 
+            this.statsLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this.statsLabel.Name = "statsLabel";
+            this.statsLabel.Size = new System.Drawing.Size(51, 19);
+            this.statsLabel.Text = "<stats>";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1260, 546);
             this.Controls.Add(this.mainTabControl);
+            this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -523,7 +561,10 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.notifyIconMenuStrip.ResumeLayout(false);
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -576,6 +617,10 @@
         private System.Windows.Forms.NotifyIcon notifyIcon;
         private System.Windows.Forms.ContextMenuStrip notifyIconMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem closeMenuItem;
+        private System.Windows.Forms.StatusStrip statusStrip;
+        private System.Windows.Forms.ToolStripStatusLabel statusLabel;
+        private System.Windows.Forms.ToolStripStatusLabel titleLabel;
+        private System.Windows.Forms.ToolStripStatusLabel statsLabel;
     }
 }
 

@@ -64,6 +64,7 @@ namespace Herring
         {
             ActivitySnapshot snapshot = monitor.GetActivitySnapshot();
             ActivityTracker.RegisterSnapshot(snapshot);
+            this.RefreshStatus(snapshot);
         }
 
         private void AddToActivitiesList(ActivitySummary summary)
@@ -277,7 +278,13 @@ namespace Herring
                 summaryListView.Items.Add(item);
                 totalTime += span;
             }
+        }
 
+        private void RefreshStatus(ActivitySnapshot snapshot)
+        {
+            statusLabel.Text = snapshot.App.Name;
+            titleLabel.Text = snapshot.Title;
+            statsLabel.Text = "keyboard: " + snapshot.KeyboardIntensity.ToString("F2") + ", mouse: " + snapshot.MouseIntensity.ToString("F2");
         }
 
         private void CurrentLogExtended(ActivitySummary summary)
