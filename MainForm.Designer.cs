@@ -72,8 +72,7 @@
             this.buttonPrevDay = new System.Windows.Forms.Button();
             this.todayButton = new System.Windows.Forms.Button();
             this.datePicker = new System.Windows.Forms.DateTimePicker();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
+            this.chartPanel = new System.Windows.Forms.Panel();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.notifyIconMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -82,15 +81,17 @@
             this.titleLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.applicationLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statsLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.chartBox = new System.Windows.Forms.PictureBox();
             this.mainTabControl.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.rulesTabPage.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.chartPanel.SuspendLayout();
             this.notifyIconMenuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartBox)).BeginInit();
             this.SuspendLayout();
             // 
             // timer
@@ -106,10 +107,10 @@
             this.mainTabControl.Controls.Add(this.tabPage5);
             this.mainTabControl.Controls.Add(this.tabPage4);
             this.mainTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainTabControl.Location = new System.Drawing.Point(0, 74);
+            this.mainTabControl.Location = new System.Drawing.Point(0, 87);
             this.mainTabControl.Name = "mainTabControl";
             this.mainTabControl.SelectedIndex = 0;
-            this.mainTabControl.Size = new System.Drawing.Size(1260, 472);
+            this.mainTabControl.Size = new System.Drawing.Size(1260, 435);
             this.mainTabControl.TabIndex = 0;
             // 
             // tabPage2
@@ -118,7 +119,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1252, 446);
+            this.tabPage2.Size = new System.Drawing.Size(1252, 409);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Activities";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -138,7 +139,7 @@
             this.activitiesListView.GridLines = true;
             this.activitiesListView.Location = new System.Drawing.Point(3, 3);
             this.activitiesListView.Name = "activitiesListView";
-            this.activitiesListView.Size = new System.Drawing.Size(1246, 440);
+            this.activitiesListView.Size = new System.Drawing.Size(1246, 403);
             this.activitiesListView.TabIndex = 0;
             this.activitiesListView.UseCompatibleStateImageBehavior = false;
             this.activitiesListView.View = System.Windows.Forms.View.Details;
@@ -183,7 +184,7 @@
             this.rulesTabPage.Location = new System.Drawing.Point(4, 22);
             this.rulesTabPage.Name = "rulesTabPage";
             this.rulesTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.rulesTabPage.Size = new System.Drawing.Size(1252, 446);
+            this.rulesTabPage.Size = new System.Drawing.Size(1252, 422);
             this.rulesTabPage.TabIndex = 2;
             this.rulesTabPage.Text = "Rules";
             this.rulesTabPage.UseVisualStyleBackColor = true;
@@ -204,7 +205,7 @@
             this.rulesListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rulesListView.Location = new System.Drawing.Point(3, 3);
             this.rulesListView.Name = "rulesListView";
-            this.rulesListView.Size = new System.Drawing.Size(1246, 440);
+            this.rulesListView.Size = new System.Drawing.Size(1246, 416);
             this.rulesListView.TabIndex = 0;
             this.rulesListView.UseCompatibleStateImageBehavior = false;
             this.rulesListView.View = System.Windows.Forms.View.Details;
@@ -259,7 +260,7 @@
             this.tabPage3.Controls.Add(this.categoriesListView);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1252, 446);
+            this.tabPage3.Size = new System.Drawing.Size(1252, 422);
             this.tabPage3.TabIndex = 3;
             this.tabPage3.Text = "Categories";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -276,7 +277,7 @@
             this.categoriesListView.GridLines = true;
             this.categoriesListView.Location = new System.Drawing.Point(0, 0);
             this.categoriesListView.Name = "categoriesListView";
-            this.categoriesListView.Size = new System.Drawing.Size(1252, 446);
+            this.categoriesListView.Size = new System.Drawing.Size(1252, 422);
             this.categoriesListView.TabIndex = 0;
             this.categoriesListView.UseCompatibleStateImageBehavior = false;
             this.categoriesListView.View = System.Windows.Forms.View.Details;
@@ -301,7 +302,7 @@
             this.tabPage5.Controls.Add(this.summaryListView);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(1252, 446);
+            this.tabPage5.Size = new System.Drawing.Size(1252, 422);
             this.tabPage5.TabIndex = 5;
             this.tabPage5.Text = "Summary";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -317,7 +318,7 @@
             this.summaryListView.GridLines = true;
             this.summaryListView.Location = new System.Drawing.Point(0, 0);
             this.summaryListView.Name = "summaryListView";
-            this.summaryListView.Size = new System.Drawing.Size(1252, 446);
+            this.summaryListView.Size = new System.Drawing.Size(1252, 422);
             this.summaryListView.TabIndex = 0;
             this.summaryListView.UseCompatibleStateImageBehavior = false;
             this.summaryListView.View = System.Windows.Forms.View.Details;
@@ -341,7 +342,7 @@
             // 
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1252, 446);
+            this.tabPage4.Size = new System.Drawing.Size(1252, 422);
             this.tabPage4.TabIndex = 4;
             this.tabPage4.Text = "Timesheet";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -460,26 +461,18 @@
             this.datePicker.TabIndex = 0;
             this.datePicker.ValueChanged += new System.EventHandler(this.datePicker_ValueChanged);
             // 
-            // panel2
+            // chartPanel
             // 
-            this.panel2.AutoScroll = true;
-            this.panel2.BackColor = System.Drawing.Color.White;
-            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel2.Controls.Add(this.label1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(0, 32);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1260, 42);
-            this.panel2.TabIndex = 2;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 12);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(120, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "A very nice chart here...";
+            this.chartPanel.AutoScroll = true;
+            this.chartPanel.BackColor = System.Drawing.Color.White;
+            this.chartPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.chartPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.chartPanel.Controls.Add(this.chartBox);
+            this.chartPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.chartPanel.Location = new System.Drawing.Point(0, 32);
+            this.chartPanel.Name = "chartPanel";
+            this.chartPanel.Size = new System.Drawing.Size(1260, 55);
+            this.chartPanel.TabIndex = 2;
             // 
             // notifyIcon
             // 
@@ -546,6 +539,14 @@
             this.statsLabel.Size = new System.Drawing.Size(51, 19);
             this.statsLabel.Text = "<stats>";
             // 
+            // chartBox
+            // 
+            this.chartBox.Location = new System.Drawing.Point(0, 0);
+            this.chartBox.Name = "chartBox";
+            this.chartBox.Size = new System.Drawing.Size(191, 42);
+            this.chartBox.TabIndex = 0;
+            this.chartBox.TabStop = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -553,7 +554,7 @@
             this.ClientSize = new System.Drawing.Size(1260, 546);
             this.Controls.Add(this.mainTabControl);
             this.Controls.Add(this.statusStrip);
-            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.chartPanel);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
@@ -567,11 +568,11 @@
             this.tabPage5.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            this.chartPanel.ResumeLayout(false);
             this.notifyIconMenuStrip.ResumeLayout(false);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -614,8 +615,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Panel chartPanel;
         private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.ListView summaryListView;
         private System.Windows.Forms.ColumnHeader summaryProcessHeader;
@@ -631,6 +631,7 @@
         private System.Windows.Forms.ToolStripStatusLabel titleLabel;
         private System.Windows.Forms.ToolStripStatusLabel statsLabel;
         private System.Windows.Forms.ToolStripStatusLabel applicationLabel;
+        private System.Windows.Forms.PictureBox chartBox;
     }
 }
 

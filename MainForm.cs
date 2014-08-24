@@ -15,6 +15,7 @@ namespace Herring
         private Monitor monitor;
         private Dictionary<string, int> iconIndices = new Dictionary<string, int>();
         private Font boldFont;
+        private Chart chart = new Chart();
 
         public MainForm()
         {
@@ -344,6 +345,12 @@ namespace Herring
             RefreshActivitiesList();
             RefreshCategories();
             RefreshSummary();
+
+            chart.CreateChart(ActivityTracker.SelectedLog);
+            chartBox.Image = chart.Bitmap;
+            chartBox.Size = new Size(500, 50);
+
+            chartPanel.HorizontalScroll.Visible = true;
         }
 
         private void buttonPrevDay_Click(object sender, EventArgs e)
@@ -418,7 +425,5 @@ namespace Herring
             this.FormClosing -= this.MainForm_FormClosing;
             this.Close();
         }
-
-
     }
 }
