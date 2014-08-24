@@ -348,9 +348,6 @@ namespace Herring
 
             chart.CreateChart(ActivityTracker.SelectedLog);
             chartBox.Image = chart.Bitmap;
-            chartBox.Size = new Size(500, 50);
-
-            chartPanel.HorizontalScroll.Visible = true;
         }
 
         private void buttonPrevDay_Click(object sender, EventArgs e)

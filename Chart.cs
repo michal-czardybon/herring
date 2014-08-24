@@ -8,7 +8,7 @@ namespace Herring
 {
     public class Chart
     {
-        private const int BAR_WIDTH = 5;
+        private const int BAR_WIDTH = 4;
         private const int BAR_HEIGHT = 40;
         private const int TOP_MARGIN = 2;
 
@@ -22,40 +22,42 @@ namespace Herring
             }
         }
 
+        private void DrawSummary(Graphics g, ActivitySummary s)
+        {
+            DateTime time = s.TimePoint;
+            int index = (int)(time - s.TimePoint.Date).TotalSeconds / Parameters.LogTimeUnit;
+            int h = (int)(BAR_HEIGHT * s.TotalShare / 100);
+            g.FillRectangle(Brushes.Silver, index * BAR_WIDTH, TOP_MARGIN + (BAR_HEIGHT - h), BAR_WIDTH - 1, h);
+        }
+
         public void CreateChart(List<ActivitySummary> log)
         {
-            if (log.Count >= 1)
+            bitmap.Dispose();
+            bitmap = new Bitmap(24 * 12 * BAR_WIDTH, BAR_HEIGHT + TOP_MARGIN + 1);
+
+            Graphics g = Graphics.FromImage(bitmap);
+            g.FillRectangle(Brushes.White, 0, 0, bitmap.Width, bitmap.Height);
+
+            foreach (ActivitySummary s in log)
             {
-                DateTime start = log[0].TimePoint;
-                DateTime end = log[log.Count - 1].TimePoint;
-                int length = ((int)((end - start).TotalSeconds) / Parameters.LogTimeUnit + 1);
-
-                bitmap.Dispose();
-                bitmap = new Bitmap(length * BAR_WIDTH, BAR_HEIGHT + TOP_MARGIN + 1);
-
-                Graphics g = Graphics.FromImage(bitmap);
-                g.FillRectangle(Brushes.White, 0, 0, bitmap.Width, bitmap.Height);
-
-                foreach (ActivitySummary s in log)
-                {
-                    DateTime time = s.TimePoint;
-                    int index = (int)(time - start).TotalSeconds / Parameters.LogTimeUnit;
-                    int x1 = index * BAR_WIDTH;
-                    int y1 = BAR_HEIGHT;
-
-                    int h = (int)(BAR_HEIGHT * s.TotalShare / 100);
-                    g.FillRectangle(Brushes.Silver, x1, TOP_MARGIN + (BAR_HEIGHT - h), BAR_WIDTH - 1, h);
-                }
-                g.DrawLine(Pens.Black, 0, BAR_HEIGHT + TOP_MARGIN, bitmap.Width - 1, BAR_HEIGHT + TOP_MARGIN);
-                g.Dispose();
-
-                bitmap.Save("d:\\output.png");
+                DrawSummary(g, s);
             }
-            else
+            g.DrawLine(Pens.Black, 0, BAR_HEIGHT + TOP_MARGIN, bitmap.Width - 1, BAR_HEIGHT + TOP_MARGIN);
+
+            for (int i = 1; i <= 24; ++i)
             {
-                bitmap.Dispose();
-                bitmap = new Bitmap(1, 1);
+                int x = i * BAR_WIDTH * 12 - 1;
+                Pen pen = (i % 8 == 0 ? Pens.Black : Pens.Gray);
+                g.DrawLine(pen, x, 0, x, bitmap.Height);
             }
+            g.Dispose();
+        }
+
+        public void UpdateChart(ActivitySummary summary)
+        {
+            Graphics g = Graphics.FromImage(bitmap);
+            DrawSummary(g, summary);
+            g.Dispose();
         }
 
     }
