@@ -179,6 +179,7 @@ namespace Herring
                             KeyboardIntensity = sumKeyboard / count,
                             MouseIntensity = sumMouse / count
                         };
+                    newEntry.SetCategory();
 
                     summary.Entries.Add(newEntry);
                     

@@ -73,6 +73,7 @@ namespace Herring
                         entry.KeyboardIntensity = 0;
                         entry.MouseIntensity = 0;
                     }
+                    entry.SetCategory();
                     lastSummary.Entries.Add(entry);
                 }
             }

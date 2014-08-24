@@ -23,6 +23,15 @@ namespace Herring
         public string   ApplicationTitle;
         public double   KeyboardIntensity;
         public double   MouseIntensity;
+
+        public string   Category;
+        public int      CategoryIndex;
+
+        public void SetCategory()
+        {
+            Category = RuleManager.MatchCategory(this);
+            CategoryIndex = RuleManager.Categories.IndexOf(Category);
+        }
     }
 
     // Information gathered at a single time moment

@@ -92,7 +92,7 @@ namespace Herring
             {
                 if (e.Share >= Parameters.MinimumShare)
                 {
-                    string category = RuleManager.MatchCategory(e);
+                    string category = e.Category;//RuleManager.MatchCategory(e);
 
                     string[] content = new string[]
                     {
@@ -124,7 +124,9 @@ namespace Herring
                     item.ForeColor =
                         e.Share >= 20.0 ? Color.Black :
                         e.Share >= 10.0 ? Color.FromArgb(64, 64, 64) :
-                                            Color.FromArgb(128, 128, 128);
+                                          Color.FromArgb(128, 128, 128);
+                    item.UseItemStyleForSubItems = false;
+                    item.SubItems[5].ForeColor = Chart.GetColor(e.CategoryIndex + 1);
                     activitiesListView.Items.Add(item);
                 }
             }
