@@ -169,7 +169,7 @@ namespace Herring
             bool[] done = new bool[snapshots.Count];
             for (int i = 0; i < snapshots.Count; ++i)
             {
-                string thisTitle = snapshots[i].Title;
+                string thisTitle = snapshots[i].WindowTitle;
                 if (done[i] == false)
                 {
                     int count = 1;
@@ -179,7 +179,7 @@ namespace Herring
                     {
                         string commonTitle;
                         if (snapshots[j].App.Name == snapshots[i].App.Name &&
-                            AreTitlesNearlyEqual(snapshots[j].Title, thisTitle, Parameters.MaxTitleDifference, out commonTitle))
+                            AreTitlesNearlyEqual(snapshots[j].WindowTitle, thisTitle, Parameters.MaxTitleDifference, out commonTitle))
                         {
                             count++;
                             sumKeyboard += snapshots[j].KeyboardIntensity;
@@ -194,7 +194,7 @@ namespace Herring
                         {
                             Share = 100 * count / Parameters.LogSamplingRate,
                             App = snapshots[i].App,
-                            Title = thisTitle,
+                            WindowTitle = thisTitle,
                             KeyboardIntensity = sumKeyboard / count,
                             MouseIntensity = sumMouse / count
                         };

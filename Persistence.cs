@@ -59,7 +59,7 @@ namespace Herring
                         new ActivityEntry()
                         {
                             App = getApp(parts[2]),
-                            Title = parts[3]
+                            WindowTitle = parts[3]
                         };
                     try
                     {
@@ -131,7 +131,7 @@ namespace Herring
                 writer.Write(";");
                 writer.Write(";");
                 writer.Write(entry.App.Path + ";");
-                writer.Write(entry.Title.Replace(';', ',') + ";");
+                writer.Write(entry.WindowTitle.Replace(';', ',') + ";");
                 writer.Write(entry.Share.ToString("F2") + ";");
                 writer.Write(entry.KeyboardIntensity.ToString("F2") + ";");
                 writer.Write(entry.MouseIntensity.ToString("F2") + ";");

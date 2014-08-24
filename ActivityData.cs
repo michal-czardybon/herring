@@ -19,7 +19,8 @@ namespace Herring
     public class ActivitySample
     {
         public AppInfo  App;
-        public string   Title;
+        public string   WindowTitle;
+        public string   ApplicationTitle;
         public double   KeyboardIntensity;
         public double   MouseIntensity;
     }

@@ -80,6 +80,7 @@
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.titleLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.applicationLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statsLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.mainTabControl.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -509,6 +510,7 @@
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusLabel,
+            this.applicationLabel,
             this.titleLabel,
             this.statsLabel});
             this.statusStrip.Location = new System.Drawing.Point(0, 522);
@@ -529,6 +531,13 @@
             this.titleLabel.Name = "titleLabel";
             this.titleLabel.Size = new System.Drawing.Size(47, 19);
             this.titleLabel.Text = "<title>";
+            // 
+            // applicationLabel
+            // 
+            this.applicationLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this.applicationLabel.Name = "applicationLabel";
+            this.applicationLabel.Size = new System.Drawing.Size(61, 19);
+            this.applicationLabel.Text = "<parent>";
             // 
             // statsLabel
             // 
@@ -621,6 +630,7 @@
         private System.Windows.Forms.ToolStripStatusLabel statusLabel;
         private System.Windows.Forms.ToolStripStatusLabel titleLabel;
         private System.Windows.Forms.ToolStripStatusLabel statsLabel;
+        private System.Windows.Forms.ToolStripStatusLabel applicationLabel;
     }
 }
 

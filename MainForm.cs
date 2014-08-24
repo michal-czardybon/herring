@@ -97,7 +97,7 @@ namespace Herring
                     string[] content = new string[]
                     {
                         /* process: */  e.App.Name,
-                        /* title: */    e.Title,
+                        /* title: */    e.WindowTitle,
                         /* share: */    e.Share.ToString("F1"),
                         /* keyboard: */ e.KeyboardIntensity.ToString("F1"),
                         /* mouse: */    e.MouseIntensity.ToString("F1"),
@@ -251,11 +251,11 @@ namespace Herring
             {
                 foreach (var entry in summary.Entries)
                 {
-                    ActivityId id = new ActivityId { ProcessName = entry.App.Path, WindowTitle = entry.Title };
+                    ActivityId id = new ActivityId { ProcessName = entry.App.Path, WindowTitle = entry.WindowTitle };
 
                     if (summaryItems.ContainsKey(id) == false)
                     {
-                        summaryItems[id] = new ActivityDaySummary { App = entry.App, Title = entry.Title };
+                        summaryItems[id] = new ActivityDaySummary { App = entry.App, WindowTitle = entry.WindowTitle };
                     }
                     summaryItems[id].TotalTime += Parameters.LogTimeUnit * entry.Share / 100.0;
                 }
@@ -271,7 +271,7 @@ namespace Herring
                 string[] content = new string[]
                 {
                     ads.App.Name,
-                    ads.Title,
+                    ads.WindowTitle,
                     span.ToString()
                 };
                 ListViewItem item = new ListViewItem(content);
@@ -283,7 +283,15 @@ namespace Herring
         private void RefreshStatus(ActivitySnapshot snapshot)
         {
             statusLabel.Text = snapshot.App.Name;
-            titleLabel.Text = snapshot.Title;
+            applicationLabel.Text = snapshot.ApplicationTitle;
+            if (snapshot.WindowTitle == snapshot.ApplicationTitle)
+            {
+                titleLabel.Text = "";
+            }
+            else
+            {
+                titleLabel.Text = snapshot.WindowTitle;
+            }
             statsLabel.Text = "keyboard: " + snapshot.KeyboardIntensity.ToString("F2") + ", mouse: " + snapshot.MouseIntensity.ToString("F2");
         }
 
