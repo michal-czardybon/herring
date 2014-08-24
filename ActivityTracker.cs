@@ -114,25 +114,6 @@ namespace Herring
             }
         }
 
-        /*private static void Test_AreTitlesNearlyEqual()
-        {
-            string common;
-            System.Diagnostics.Debug.Assert(AreTitlesNearlyEqual("Inbox (58) out", "Inbox (58) out", 3, out common) == true);
-            System.Diagnostics.Debug.Assert(common == "Inbox (58) out");
-            System.Diagnostics.Debug.Assert(AreTitlesNearlyEqual("aaaaa", "aaa", 3, out common) == true);
-            System.Diagnostics.Debug.Assert(common == "aaa**");
-            System.Diagnostics.Debug.Assert(AreTitlesNearlyEqual("Inbox (58) out", "Inbox (89) out", 3, out common) == true);
-            System.Diagnostics.Debug.Assert(common == "Inbox (**) out");
-            System.Diagnostics.Debug.Assert(AreTitlesNearlyEqual("Inbox (58) out", "Inbox (893) out", 3, out common) == true);
-            System.Diagnostics.Debug.Assert(common == "Inbox (***) out");
-            System.Diagnostics.Debug.Assert(AreTitlesNearlyEqual("Inbox (583) out", "Inbox (89) out", 3, out common) == true);
-            System.Diagnostics.Debug.Assert(common == "Inbox (***) out");
-            System.Diagnostics.Debug.Assert(AreTitlesNearlyEqual("Inbox (5832) out", "Inbox (89) out", 3, out common) == false);
-            System.Diagnostics.Debug.Assert(common == "");
-            System.Diagnostics.Debug.Assert(AreTitlesNearlyEqual("Inbox (*) out", "Inbox (89) out", 3, out common) == true);
-            System.Diagnostics.Debug.Assert(common == "Inbox (**) out");
-        }*/
-
         private static ActivitySummary GetActivitySummary(List<ActivitySnapshot> snapshots, DateTime timePoint)
         {
             ActivitySummary summary;
