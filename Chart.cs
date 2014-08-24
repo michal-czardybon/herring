@@ -14,6 +14,18 @@ namespace Herring
 
         private Bitmap bitmap = new Bitmap(1, 1);
 
+        private Brush[] palette = new Brush[]
+        {
+            Brushes.Silver,
+            Brushes.Blue,
+            Brushes.Red,
+            Brushes.Olive,
+            Brushes.Green,
+            Brushes.Violet,
+            Brushes.Yellow,
+            Brushes.Tomato
+        };
+
         public Bitmap Bitmap
         {
             get
@@ -26,8 +38,25 @@ namespace Herring
         {
             DateTime time = s.TimePoint;
             int index = (int)(time - s.TimePoint.Date).TotalSeconds / Parameters.LogTimeUnit;
-            int h = (int)(BAR_HEIGHT * s.TotalShare / 100);
-            g.FillRectangle(Brushes.Silver, index * BAR_WIDTH, TOP_MARGIN + (BAR_HEIGHT - h), BAR_WIDTH - 1, h);
+            double[] share = new double[RuleManager.Categories.Count + 1];
+            foreach (ActivityEntry e in s.Entries)
+            {
+                string category = RuleManager.MatchCategory(e);
+                int k = RuleManager.Categories.IndexOf(category) + 1;
+                share[k] += e.Share;
+            }
+
+            float y1 = 0;
+            double total = 0;
+            for (int i = 0; i < share.Length; ++i)
+            {
+                Brush brush = palette[i % palette.Length];
+                int x = index * BAR_WIDTH;
+                total += share[i];
+                float y2 = BAR_HEIGHT * (float)total / 100;
+                g.FillRectangle(brush, index * BAR_WIDTH, TOP_MARGIN + (BAR_HEIGHT - y2), BAR_WIDTH - 1, y2 - y1);
+                y1 = y2;
+            }
         }
 
         public void CreateChart(List<ActivitySummary> log)

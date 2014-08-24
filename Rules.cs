@@ -23,6 +23,7 @@ namespace Herring
     static class RuleManager
     {
         public static List<Rule> Rules = new List<Rule>();
+        public static List<string> Categories = new List<string>();
 
         static private UserStatus ParseUserStatus(string value)
         {
@@ -60,6 +61,11 @@ namespace Herring
                         string category = parts[1].Trim();
 
                         rule.Category = category;
+
+                        if (Categories.Contains(category) == false)
+                        {
+                            Categories.Add(category);
+                        }
 
                         MatchCollection matches = Regex.Matches(conditions, @"(?<field>[a-zA-Z_\-]+)\:((""(?<value>([^""]*))"")|(?<value>\S*))");
                         foreach (Match m in matches)

@@ -56,9 +56,8 @@ namespace Herring
             ActivityTracker.CurrentLogExtended += this.CurrentLogExtended;
             ActivityTracker.CurrentLogChanged += this.CurrentLogChanged;
             ActivityTracker.UserStatusChanged += this.UserStatusChanged;
-            RefreshActivitiesList();
-            RefreshCategories();
-            RefreshSummary();
+
+            CurrentLogChanged(DateTime.Now);
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -302,6 +301,7 @@ namespace Herring
             MaybeScrollActivitiesList();
             RefreshCategories();
             RefreshSummary();
+            chart.UpdateChart(summary);
         }
 
         private void CurrentLogChanged(DateTime date)
@@ -311,6 +311,7 @@ namespace Herring
             datePicker.Value = date;
             RefreshCategories();
             RefreshSummary();
+            RefreshChart();
         }
 
         private void UserStatusChanged(UserStatus status)
@@ -332,6 +333,12 @@ namespace Herring
             }
         }
 
+        private void RefreshChart()
+        {
+            chart.CreateChart(ActivityTracker.SelectedLog);
+            chartBox.Image = chart.Bitmap;
+        }
+
         private void datePicker_ValueChanged(object sender, EventArgs e)
         {
             if (datePicker.Value.Date == DateTime.Now.Date)
@@ -345,9 +352,7 @@ namespace Herring
             RefreshActivitiesList();
             RefreshCategories();
             RefreshSummary();
-
-            chart.CreateChart(ActivityTracker.SelectedLog);
-            chartBox.Image = chart.Bitmap;
+            RefreshChart();
         }
 
         private void buttonPrevDay_Click(object sender, EventArgs e)

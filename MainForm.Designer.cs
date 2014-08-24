@@ -106,10 +106,10 @@
             this.mainTabControl.Controls.Add(this.tabPage5);
             this.mainTabControl.Controls.Add(this.tabPage4);
             this.mainTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainTabControl.Location = new System.Drawing.Point(0, 75);
+            this.mainTabControl.Location = new System.Drawing.Point(0, 76);
             this.mainTabControl.Name = "mainTabControl";
             this.mainTabControl.SelectedIndex = 0;
-            this.mainTabControl.Size = new System.Drawing.Size(1260, 447);
+            this.mainTabControl.Size = new System.Drawing.Size(1260, 446);
             this.mainTabControl.TabIndex = 0;
             // 
             // tabPage2
@@ -118,7 +118,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1252, 421);
+            this.tabPage2.Size = new System.Drawing.Size(1252, 420);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Activities";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -138,7 +138,7 @@
             this.activitiesListView.GridLines = true;
             this.activitiesListView.Location = new System.Drawing.Point(3, 3);
             this.activitiesListView.Name = "activitiesListView";
-            this.activitiesListView.Size = new System.Drawing.Size(1246, 415);
+            this.activitiesListView.Size = new System.Drawing.Size(1246, 414);
             this.activitiesListView.TabIndex = 0;
             this.activitiesListView.UseCompatibleStateImageBehavior = false;
             this.activitiesListView.View = System.Windows.Forms.View.Details;
@@ -544,7 +544,7 @@
             this.chartBox.Dock = System.Windows.Forms.DockStyle.Top;
             this.chartBox.Location = new System.Drawing.Point(0, 32);
             this.chartBox.Name = "chartBox";
-            this.chartBox.Size = new System.Drawing.Size(1260, 43);
+            this.chartBox.Size = new System.Drawing.Size(1260, 44);
             this.chartBox.TabIndex = 0;
             this.chartBox.TabStop = false;
             // 
