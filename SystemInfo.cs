@@ -105,7 +105,7 @@ namespace Herring
                 do
                 {
                     applicationText = GetWindowTitle(hWndOwner);
-                    hWndOwner = GetWindow(hWndOwner, 2); // 4 == GW_OWNER
+                    hWndOwner = GetWindow(hWndOwner, 4); // 4 == GW_OWNER
                 }
                 while (hWndOwner != IntPtr.Zero) ;
             }
