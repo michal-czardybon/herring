@@ -23,7 +23,17 @@ namespace Herring
         {
             TextReader reader = new StreamReader(path);
             string header = reader.ReadLine();  // csv header
-            if (header != "time;span;process;title;share;keyboard-intensity;mouse-intensity;")
+            bool hasSubtitle;
+            if (header == "time;span;process;title;subtitle;share;keyboard-intensity;mouse-intensity;")
+            {
+                hasSubtitle = true;
+            }
+            else if (header == "time;span;process;title;share;keyboard-intensity;mouse-intensity;")
+            {
+                // backward compatibility
+                hasSubtitle = false;
+            }
+            else
             {
                 throw new ApplicationException("Incorrect log file format.");
             }
@@ -34,6 +44,18 @@ namespace Herring
                 string line = reader.ReadLine();
                 if (line == null) break;
                 string[] parts = line.Split(new char[] { ';' });
+                if (hasSubtitle == false)
+                {
+                    parts[0] = parts[0];
+                    parts[1] = parts[1];
+                    parts[2] = parts[2];
+                    parts[3] = parts[3];
+
+                    parts[7] = parts[6];
+                    parts[6] = parts[5];
+                    parts[5] = parts[4];
+                    parts[4] = "";
+                }
 
                 if (parts[0] != "")
                 {
@@ -41,9 +63,9 @@ namespace Herring
                     {
                         TimePoint = DateTime.Parse(parts[0]),
                         Span = TimeSpan.Parse(parts[1]),
-                        TotalShare = double.Parse(parts[4]),
-                        TotalKeyboardIntensity = double.Parse(parts[5]),
-                        TotalMouseIntensity = double.Parse(parts[6]),
+                        TotalShare = double.Parse(parts[5]),
+                        TotalKeyboardIntensity = double.Parse(parts[6]),
+                        TotalMouseIntensity = double.Parse(parts[7]),
                         Entries = new List<ActivityEntry>()
                     };
                     data.Add(summary);
@@ -59,13 +81,14 @@ namespace Herring
                         new ActivityEntry()
                         {
                             App = getApp(parts[2]),
-                            WindowTitle = parts[3]
+                            ApplicationTitle = parts[3],
+                            WindowTitle = parts[4]
                         };
                     try
                     {
-                        entry.Share = double.Parse(parts[4]);
-                        entry.KeyboardIntensity = double.Parse(parts[5]);
-                        entry.MouseIntensity = double.Parse(parts[6]);
+                        entry.Share = double.Parse(parts[5]);
+                        entry.KeyboardIntensity = double.Parse(parts[6]);
+                        entry.MouseIntensity = double.Parse(parts[7]);
                     }
                     catch (FormatException)
                     {

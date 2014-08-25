@@ -36,6 +36,7 @@
             this.activitiesListView = new System.Windows.Forms.ListView();
             this.processColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.titleColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.subtitleHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.shareHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.keyboardIntensityHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.mouseIntensityHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -109,7 +110,7 @@
             this.mainTabControl.Location = new System.Drawing.Point(0, 78);
             this.mainTabControl.Name = "mainTabControl";
             this.mainTabControl.SelectedIndex = 0;
-            this.mainTabControl.Size = new System.Drawing.Size(1260, 444);
+            this.mainTabControl.Size = new System.Drawing.Size(1294, 444);
             this.mainTabControl.TabIndex = 0;
             // 
             // tabPage2
@@ -118,7 +119,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1252, 418);
+            this.tabPage2.Size = new System.Drawing.Size(1286, 418);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Activities";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -128,6 +129,7 @@
             this.activitiesListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.processColumnHeader,
             this.titleColumnHeader,
+            this.subtitleHeader,
             this.shareHeader,
             this.keyboardIntensityHeader,
             this.mouseIntensityHeader,
@@ -138,7 +140,7 @@
             this.activitiesListView.GridLines = true;
             this.activitiesListView.Location = new System.Drawing.Point(3, 3);
             this.activitiesListView.Name = "activitiesListView";
-            this.activitiesListView.Size = new System.Drawing.Size(1246, 412);
+            this.activitiesListView.Size = new System.Drawing.Size(1280, 412);
             this.activitiesListView.TabIndex = 0;
             this.activitiesListView.UseCompatibleStateImageBehavior = false;
             this.activitiesListView.View = System.Windows.Forms.View.Details;
@@ -151,7 +153,12 @@
             // titleColumnHeader
             // 
             this.titleColumnHeader.Text = "Window Title";
-            this.titleColumnHeader.Width = 540;
+            this.titleColumnHeader.Width = 550;
+            // 
+            // subtitleHeader
+            // 
+            this.subtitleHeader.Text = "Subtitle";
+            this.subtitleHeader.Width = 180;
             // 
             // shareHeader
             // 
@@ -183,7 +190,7 @@
             this.rulesTabPage.Location = new System.Drawing.Point(4, 22);
             this.rulesTabPage.Name = "rulesTabPage";
             this.rulesTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.rulesTabPage.Size = new System.Drawing.Size(1252, 409);
+            this.rulesTabPage.Size = new System.Drawing.Size(1286, 418);
             this.rulesTabPage.TabIndex = 2;
             this.rulesTabPage.Text = "Rules";
             this.rulesTabPage.UseVisualStyleBackColor = true;
@@ -204,7 +211,7 @@
             this.rulesListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rulesListView.Location = new System.Drawing.Point(3, 3);
             this.rulesListView.Name = "rulesListView";
-            this.rulesListView.Size = new System.Drawing.Size(1246, 403);
+            this.rulesListView.Size = new System.Drawing.Size(1280, 412);
             this.rulesListView.TabIndex = 0;
             this.rulesListView.UseCompatibleStateImageBehavior = false;
             this.rulesListView.View = System.Windows.Forms.View.Details;
@@ -259,7 +266,7 @@
             this.tabPage3.Controls.Add(this.categoriesListView);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1252, 409);
+            this.tabPage3.Size = new System.Drawing.Size(1286, 418);
             this.tabPage3.TabIndex = 3;
             this.tabPage3.Text = "Categories";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -276,7 +283,7 @@
             this.categoriesListView.GridLines = true;
             this.categoriesListView.Location = new System.Drawing.Point(0, 0);
             this.categoriesListView.Name = "categoriesListView";
-            this.categoriesListView.Size = new System.Drawing.Size(1252, 409);
+            this.categoriesListView.Size = new System.Drawing.Size(1286, 418);
             this.categoriesListView.TabIndex = 0;
             this.categoriesListView.UseCompatibleStateImageBehavior = false;
             this.categoriesListView.View = System.Windows.Forms.View.Details;
@@ -301,7 +308,7 @@
             this.tabPage5.Controls.Add(this.summaryListView);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(1252, 409);
+            this.tabPage5.Size = new System.Drawing.Size(1286, 418);
             this.tabPage5.TabIndex = 5;
             this.tabPage5.Text = "Summary";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -317,7 +324,7 @@
             this.summaryListView.GridLines = true;
             this.summaryListView.Location = new System.Drawing.Point(0, 0);
             this.summaryListView.Name = "summaryListView";
-            this.summaryListView.Size = new System.Drawing.Size(1252, 409);
+            this.summaryListView.Size = new System.Drawing.Size(1286, 418);
             this.summaryListView.TabIndex = 0;
             this.summaryListView.UseCompatibleStateImageBehavior = false;
             this.summaryListView.View = System.Windows.Forms.View.Details;
@@ -341,7 +348,7 @@
             // 
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1252, 409);
+            this.tabPage4.Size = new System.Drawing.Size(1286, 418);
             this.tabPage4.TabIndex = 4;
             this.tabPage4.Text = "Timesheet";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -360,7 +367,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1260, 32);
+            this.panel1.Size = new System.Drawing.Size(1294, 32);
             this.panel1.TabIndex = 1;
             // 
             // periodComboBox
@@ -506,7 +513,7 @@
             this.statsLabel});
             this.statusStrip.Location = new System.Drawing.Point(0, 522);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(1260, 24);
+            this.statusStrip.Size = new System.Drawing.Size(1294, 24);
             this.statusStrip.TabIndex = 3;
             this.statusStrip.Text = "statusStrip";
             // 
@@ -544,7 +551,7 @@
             this.chartBox.Dock = System.Windows.Forms.DockStyle.Top;
             this.chartBox.Location = new System.Drawing.Point(0, 32);
             this.chartBox.Name = "chartBox";
-            this.chartBox.Size = new System.Drawing.Size(1260, 46);
+            this.chartBox.Size = new System.Drawing.Size(1294, 46);
             this.chartBox.TabIndex = 0;
             this.chartBox.TabStop = false;
             // 
@@ -552,7 +559,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1260, 546);
+            this.ClientSize = new System.Drawing.Size(1294, 546);
             this.Controls.Add(this.mainTabControl);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.chartBox);
@@ -602,6 +609,7 @@
         private System.Windows.Forms.ListView rulesListView;
         private System.Windows.Forms.ColumnHeader processHeader;
         private System.Windows.Forms.ColumnHeader titleHeader;
+        private System.Windows.Forms.ColumnHeader subtitleHeader;
         private System.Windows.Forms.ColumnHeader keyboardMinHeader;
         private System.Windows.Forms.ColumnHeader keyboardMaxHeader;
         private System.Windows.Forms.ColumnHeader mouseMinHeader;

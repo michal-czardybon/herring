@@ -75,6 +75,7 @@ namespace Herring
                 {
                     /* time: */    summary.TimePoint.ToString(),
                     /* title: */   "",
+                    /* subtitle: */"",
                     /* share: */   summary.TotalShare.ToString("F1"),
                     /* keyboard:*/ summary.TotalKeyboardIntensity.ToString("F1"),
                     /* mouse:*/    summary.TotalMouseIntensity.ToString("F1"),
@@ -97,7 +98,8 @@ namespace Herring
                     string[] content = new string[]
                     {
                         /* process: */  e.App.Name,
-                        /* title: */    e.WindowTitle,
+                        /* title: */    e.ApplicationTitle,
+                        /* subtitle: */ e.WindowTitle,
                         /* share: */    e.Share.ToString("F1"),
                         /* keyboard: */ e.KeyboardIntensity.ToString("F1"),
                         /* mouse: */    e.MouseIntensity.ToString("F1"),
@@ -131,7 +133,7 @@ namespace Herring
                     {
                         item.SubItems[i].ForeColor = item.ForeColor;
                     }
-                    item.SubItems[5].ForeColor = Chart.GetColor(e.CategoryIndex + 1);
+                    item.SubItems[6].ForeColor = Chart.GetColor(e.CategoryIndex + 1);
                     activitiesListView.Items.Add(item);
                 }
             }
