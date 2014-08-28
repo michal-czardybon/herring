@@ -138,11 +138,12 @@ namespace Herring
             {
                 string path = ConstructFileName(DateTime.Now, true);
                 writer = new StreamWriter(path);
-                writer.WriteLine("time;span;process;title;share;keyboard-intensity;mouse-intensity;");
+                writer.WriteLine("time;span;process;title;subtitle;share;keyboard-intensity;mouse-intensity;");
             }
 
             writer.Write(data.TimePoint.ToString() + ";");
             writer.Write(data.Span.ToString() + ";");
+            writer.Write(";");
             writer.Write(";");
             writer.Write(";");
             writer.Write(data.TotalShare.ToString("F2") + ";");
@@ -155,6 +156,7 @@ namespace Herring
                 writer.Write(";");
                 writer.Write(";");
                 writer.Write(entry.App.Path + ";");
+                writer.Write(entry.ApplicationTitle.Replace(';', ',') + ";");
                 writer.Write(entry.WindowTitle.Replace(';', ',') + ";");
                 writer.Write(entry.Share.ToString("F2") + ";");
                 writer.Write(entry.KeyboardIntensity.ToString("F2") + ";");
