@@ -10,9 +10,28 @@ namespace Herring
     {
         private const int BAR_WIDTH = 4;
         private const int BAR_HEIGHT = 40;
-        private const int TOP_MARGIN = 2;
+        private const int TOP_MARGIN = 4;
 
         private Bitmap bitmap = new Bitmap(1, 1);
+
+        /*static private Color[] palette = new Color[]
+        {
+            Color.FromArgb(192, 192, 192),
+            Color.FromArgb(127, 127, 127),
+
+            Color.FromArgb(225,	0,	 0),
+            Color.FromArgb(50,	225, 0),
+            Color.FromArgb(25,	0,	 225),
+
+            Color.FromArgb(225,	150, 0),
+            Color.FromArgb(0,	225, 200),
+            Color.FromArgb(150,	0,	 225),
+
+            Color.FromArgb(192,	192, 0),
+            Color.FromArgb(0,	100, 225),           
+            Color.FromArgb(225,	0,	 200),
+
+        };*/
 
         static private Color[] palette = new Color[]
         {
