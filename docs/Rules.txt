@@ -1,24 +1,24 @@
-title:"fpdev2.future-processing.com" => FPDev2
-process:postbox.exe title:"svn — " => Progress Tracking
-process:postbox.exe title:"Compose:" keyboard-min:5 => Email Writing
-process:postbox.exe title:"Send Message" keyboard-min:5 => Email Writing
-process:postbox.exe title:"@future-processing.com" status-min:IDLE => Email Reading 
-process:notepad++.exe => Document Writing
 process:Herring.exe => Introspection
 process:ManicTimeClient.exe => Introspection
-process:soffice.bin title:LogPracy => Introspection
-process:chrome.exe title:"Project Kaiser : Osobisty : " => Issue Tracking
-process:chrome.exe title:"Project Kaiser : Personal : " => Issue Tracking
+
 process:chrome.exe => Internet Browsing
-process:i_view32.exe => Image Viewing
+
 process:DllHost.exe title:"Windows Photo Viewer" => Image Viewing
-process:AdaptiveVisionStudio.exe mouse-min:1 => Working with Adaptive Vision Studio
+process:i_view32.exe => Image Viewing
+
+process:AdaptiveVisionStudio.exe mouse-min:1 => Machine Vision
+
 process:Explorer.EXE => File Browsing
+
 process:TortoiseProc.exe => Version Control
+
+process:notepad++.exe => Document Writing
 process:AcroRd32.exe => Document Reading
 process:WINWORD.EXE keyboard-max:10 => Document Reading
 process:WINWORD.EXE keyboard-min:10 => Document Writing
 process:POWERPNT.EXE keyboard-max:10 => Document Reading
+process:POWERPNT.EXE keyboard-min:10 => Document Writing
+
 process:devenv.exe title:"(Running)" => Software Testing
 process:devenv.exe title:"(Debugging)" => Software Debugging
 process:devenv.exe keyboard-min:1 => Software Development
