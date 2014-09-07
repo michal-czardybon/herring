@@ -39,19 +39,20 @@ namespace Herring
 
         static public void Load()
         {
-            //string path = Path.Combine(Persistence.GetApplicationDir(), "Rules.txt");
+            string path = Path.Combine(Persistence.GetApplicationDir(), "Rules.txt");
 
-            if (File.Exists("Rules.txt"))
+            if (File.Exists(path))
             {
-                TextReader reader = new StreamReader("Rules.txt");
+                TextReader reader = new StreamReader(path);
                 //try
                 {
                     while (true)
                     {
-                        Rule rule = new Rule();
 
                         string line = reader.ReadLine();
                         if (line == null) break;
+                        if (line == "") continue;
+
                         string[] parts = line.Split(new string[] { "=>" }, StringSplitOptions.RemoveEmptyEntries);
                         if (parts.Length != 2)
                         {
@@ -60,6 +61,7 @@ namespace Herring
                         string conditions = parts[0].Trim();
                         string category = parts[1].Trim();
 
+                        Rule rule = new Rule();
                         rule.Category = category;
 
                         if (Categories.Contains(category) == false)

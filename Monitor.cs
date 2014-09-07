@@ -131,8 +131,8 @@ namespace Herring
                 {
                     Time = begin,
                     App = appInfo,
-                    WindowTitle = windowTitle,
                     ApplicationTitle = applicationTitle,
+                    WindowTitle = windowTitle,
                     KeyboardIntensity = ActivitySnapshot.GetIntensity(keyPressCount, 6, length),
                     MouseIntensity = ActivitySnapshot.GetIntensity((int)mouseDistance, 1000, length)
                 };

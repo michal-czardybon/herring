@@ -10,10 +10,19 @@ namespace Herring
     {
         private static TextWriter writer;
 
+        public static string GetLocalDataDir()
+        {
+            string dir = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            dir = System.IO.Path.Combine(dir, "Herring Activity Tracker");
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+            return dir;
+        }
+
         public static string GetApplicationDir()
         {
             string dir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            dir = System.IO.Path.Combine(dir, "Herring");
+            dir = System.IO.Path.Combine(dir, "Herring Activity Tracker");
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
             return dir;
@@ -108,8 +117,8 @@ namespace Herring
         {
             List<ActivitySummary> data = new List<ActivitySummary>();
 
-            string path = GetApplicationDir();
-            string filePattern = String.Format("herring{0:D4}{1:D2}{2:D2}_*.txt", date.Year, date.Month, date.Day);
+            string path = GetLocalDataDir();
+            string filePattern = String.Format("herring{0:D4}{1:D2}{2:D2}_*.*", date.Year, date.Month, date.Day);
 
             string[] files = Directory.GetFiles(path, filePattern);
             foreach (string f in files)
@@ -127,8 +136,8 @@ namespace Herring
 
         private static string ConstructFileName(DateTime date, bool full)
         {
-            string name = String.Format("herring{0:D4}{1:D2}{2:D2}_{3:D2}{4:D2}{5:D2}.txt", date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second);
-            string path = Path.Combine(GetApplicationDir(), name);
+            string name = String.Format("herring{0:D4}{1:D2}{2:D2}_{3:D2}{4:D2}{5:D2}.csv", date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second);
+            string path = Path.Combine(GetLocalDataDir(), name);
             return path;
         }
 
