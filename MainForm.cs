@@ -20,7 +20,7 @@ namespace Herring
         public MainForm()
         {
             InitializeComponent();
-            activitiesListView.SmallImageList = new ImageList();
+            activitiesListView.SmallImageList = summaryListView.SmallImageList = new ImageList();            
             mainTabControl.SelectedIndex = 0;
             
             // Start the timer at a moment that guarantees maximum margin from the time unit boundaries, like this:
@@ -67,6 +67,25 @@ namespace Herring
             this.RefreshStatus(snapshot);
         }
 
+        private int GetIconIndex(AppInfo app)
+        {
+            if (iconIndices.ContainsKey(app.Name))
+            {
+                return iconIndices[app.Name];
+            }
+            else if (app.Icon != null)
+            {
+                int result = iconIndices.Count;
+                iconIndices.Add(app.Name, result);
+                activitiesListView.SmallImageList.Images.Add(ShellIcon.ConvertIconToBitmap(app.Icon));
+                return result;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
         private void AddToActivitiesList(ActivitySummary summary)
         {
             // Header
@@ -106,21 +125,7 @@ namespace Herring
                         /* category: */ category
                     };
 
-                    int iconIndex;
-                    if (iconIndices.ContainsKey(e.App.Name))
-                    {
-                        iconIndex = iconIndices[e.App.Name];
-                    }
-                    else if (e.App.Icon != null)
-                    {
-                        iconIndex = iconIndices.Count;
-                        iconIndices.Add(e.App.Name, iconIndex);
-                        activitiesListView.SmallImageList.Images.Add(ShellIcon.ConvertIconToBitmap(e.App.Icon));
-                    }
-                    else
-                    {
-                        iconIndex = -1;
-                    }
+                    int iconIndex = GetIconIndex(e.App);
 
                     ListViewItem item = new ListViewItem(content, iconIndex);
 
@@ -249,6 +254,7 @@ namespace Herring
         struct ActivityId
         {
             public string ProcessName;
+            public string ApplicationTitle;
             public string WindowTitle;
         }
 
@@ -260,11 +266,22 @@ namespace Herring
             {
                 foreach (var entry in summary.Entries)
                 {
-                    ActivityId id = new ActivityId { ProcessName = entry.App.Path, WindowTitle = entry.WindowTitle };
+                    ActivityId id = new ActivityId
+                    {
+                        ProcessName = entry.App.Path,
+                        ApplicationTitle = entry.ApplicationTitle,
+                        WindowTitle = entry.WindowTitle
+                    };
 
                     if (summaryItems.ContainsKey(id) == false)
                     {
-                        summaryItems[id] = new ActivityDaySummary { App = entry.App, WindowTitle = entry.WindowTitle };
+                        summaryItems[id] =
+                            new ActivityDaySummary
+                            {
+                                 App = entry.App,
+                                 ApplicationTitle = entry.ApplicationTitle,
+                                 WindowTitle = entry.WindowTitle
+                            };
                     }
                     summaryItems[id].TotalTime += Parameters.LogTimeUnit * entry.Share / 100.0;
                 }
@@ -280,10 +297,11 @@ namespace Herring
                 string[] content = new string[]
                 {
                     ads.App.Name,
+                    ads.ApplicationTitle,
                     ads.WindowTitle,
                     span.ToString()
                 };
-                ListViewItem item = new ListViewItem(content);
+                ListViewItem item = new ListViewItem(content, GetIconIndex(ads.App));
                 summaryListView.Items.Add(item);
                 totalTime += span;
             }

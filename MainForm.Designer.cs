@@ -83,6 +83,7 @@
             this.titleLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statsLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.chartBox = new System.Windows.Forms.PictureBox();
+            this.summarySubtitleHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.mainTabControl.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.rulesTabPage.SuspendLayout();
@@ -107,10 +108,10 @@
             this.mainTabControl.Controls.Add(this.tabPage5);
             this.mainTabControl.Controls.Add(this.tabPage4);
             this.mainTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainTabControl.Location = new System.Drawing.Point(0, 78);
+            this.mainTabControl.Location = new System.Drawing.Point(0, 80);
             this.mainTabControl.Name = "mainTabControl";
             this.mainTabControl.SelectedIndex = 0;
-            this.mainTabControl.Size = new System.Drawing.Size(1294, 444);
+            this.mainTabControl.Size = new System.Drawing.Size(1294, 442);
             this.mainTabControl.TabIndex = 0;
             // 
             // tabPage2
@@ -119,7 +120,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1286, 418);
+            this.tabPage2.Size = new System.Drawing.Size(1286, 416);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Activities";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -140,7 +141,7 @@
             this.activitiesListView.GridLines = true;
             this.activitiesListView.Location = new System.Drawing.Point(3, 3);
             this.activitiesListView.Name = "activitiesListView";
-            this.activitiesListView.Size = new System.Drawing.Size(1280, 412);
+            this.activitiesListView.Size = new System.Drawing.Size(1280, 410);
             this.activitiesListView.TabIndex = 0;
             this.activitiesListView.UseCompatibleStateImageBehavior = false;
             this.activitiesListView.View = System.Windows.Forms.View.Details;
@@ -308,7 +309,7 @@
             this.tabPage5.Controls.Add(this.summaryListView);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(1286, 418);
+            this.tabPage5.Size = new System.Drawing.Size(1286, 416);
             this.tabPage5.TabIndex = 5;
             this.tabPage5.Text = "Summary";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -318,13 +319,14 @@
             this.summaryListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.summaryProcessHeader,
             this.summaryTitleHeader,
+            this.summarySubtitleHeader,
             this.summaryTimeHeader});
             this.summaryListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.summaryListView.FullRowSelect = true;
             this.summaryListView.GridLines = true;
             this.summaryListView.Location = new System.Drawing.Point(0, 0);
             this.summaryListView.Name = "summaryListView";
-            this.summaryListView.Size = new System.Drawing.Size(1286, 418);
+            this.summaryListView.Size = new System.Drawing.Size(1286, 416);
             this.summaryListView.TabIndex = 0;
             this.summaryListView.UseCompatibleStateImageBehavior = false;
             this.summaryListView.View = System.Windows.Forms.View.Details;
@@ -336,8 +338,8 @@
             // 
             // summaryTitleHeader
             // 
-            this.summaryTitleHeader.Text = "Window Title";
-            this.summaryTitleHeader.Width = 578;
+            this.summaryTitleHeader.Text = "Application Title";
+            this.summaryTitleHeader.Width = 499;
             // 
             // summaryTimeHeader
             // 
@@ -551,9 +553,14 @@
             this.chartBox.Dock = System.Windows.Forms.DockStyle.Top;
             this.chartBox.Location = new System.Drawing.Point(0, 32);
             this.chartBox.Name = "chartBox";
-            this.chartBox.Size = new System.Drawing.Size(1294, 46);
+            this.chartBox.Size = new System.Drawing.Size(1294, 48);
             this.chartBox.TabIndex = 0;
             this.chartBox.TabStop = false;
+            // 
+            // summarySubtitleHeader
+            // 
+            this.summarySubtitleHeader.Text = "Window Title";
+            this.summarySubtitleHeader.Width = 197;
             // 
             // MainForm
             // 
@@ -640,6 +647,7 @@
         private System.Windows.Forms.ToolStripStatusLabel statsLabel;
         private System.Windows.Forms.ToolStripStatusLabel applicationLabel;
         private System.Windows.Forms.PictureBox chartBox;
+        private System.Windows.Forms.ColumnHeader summarySubtitleHeader;
     }
 }
 
