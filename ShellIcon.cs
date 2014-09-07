@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
 using System.Drawing;
+using System.IO;
 
 namespace Herring
 {
@@ -57,9 +58,12 @@ namespace Herring
 
         private static Icon GetIcon(string fileName, uint flags)
         {
+            if (File.Exists(fileName) == false)
+            {
+                return null;
+            }
             SHFILEINFO shinfo = new SHFILEINFO();
             IntPtr hImgSmall = Win32.SHGetFileInfo(fileName, 0, ref shinfo, (uint)Marshal.SizeOf(shinfo), Win32.SHGFI_ICON | flags);
-
             if (shinfo.hIcon == IntPtr.Zero)
             {
                 return null;
