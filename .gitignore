@@ -3,3 +3,6 @@
 test/bin
 test/obj
 *.suo
+
+install/Output/HerringActivityTracker_0.5.1_Setup.exe
+Herring.csproj.user
