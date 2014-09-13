@@ -121,6 +121,12 @@ namespace Herring
             // Prepare AppInfo object
             AppInfo appInfo = GetApp(path);
 
+            string doc = ""; ;
+            if (appInfo.Name == "chrome.exe")
+            {
+                doc = SystemInfo.GetChromeUrl();
+            }
+
             // Measure the time span since the previous snapshot
             DateTime end = DateTime.Now;
             TimeSpan length = end - begin;
@@ -133,6 +139,7 @@ namespace Herring
                     App = appInfo,
                     ApplicationTitle = applicationTitle,
                     WindowTitle = windowTitle,
+                    DocumentName = doc,
                     KeyboardIntensity = ActivitySnapshot.GetIntensity(keyPressCount, 6, length),
                     MouseIntensity = ActivitySnapshot.GetIntensity((int)mouseDistance, 1000, length)
                 };

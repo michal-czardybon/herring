@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
 using System.Drawing;
+using System.Diagnostics;
+using System.Windows.Automation;
+using System.Text.RegularExpressions;
 
 namespace Herring
 {
@@ -86,12 +89,84 @@ namespace Herring
         [DllImport("psapi.dll")]
         private static extern uint GetModuleFileNameEx(IntPtr hWnd, IntPtr hModule, StringBuilder lpFileName, int nSize);
 
+        public delegate bool Win32Callback(IntPtr hwnd, IntPtr lParam);
+
+        [DllImport("user32.Dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool EnumChildWindows(IntPtr parentHandle, Win32Callback callback, IntPtr lParam);
+
         private static string GetWindowTitle(IntPtr hWnd)
         {
             int length = GetWindowTextLength(hWnd);
             StringBuilder text = new StringBuilder(length + 1);
             GetWindowText(hWnd, text, text.Capacity);
             return text.ToString();
+        }
+
+        public static string GetChromeUrl()
+        {
+            IntPtr hWnd = GetForegroundWindow();
+            if (hWnd == IntPtr.Zero) return "(ZERO)";
+
+            AutomationElement elm = AutomationElement.FromHandle(hWnd);
+
+            // manually walk through the tree, searching using TreeScope.Descendants is too slow (even if it's more reliable)
+            AutomationElement elmUrlBar = null;
+            try
+            {
+                var elm1 = elm.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, "Google Chrome"));
+                if (elm1 == null) { return "(NOT RIGHT)"; } // not the right chrome.exe
+                var elm2 = TreeWalker.RawViewWalker.GetLastChild(elm1); // I don't know a Condition for this for finding
+                var elm3 = elm2.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, ""));
+                var elm4 = TreeWalker.RawViewWalker.GetNextSibling(elm3); // I don't know a Condition for this for finding
+                var elm7 = elm4.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.ToolBar));
+                elmUrlBar = elm7.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Custom));                
+            }
+            catch
+            {
+                // Chrome has probably changed something, and above walking needs to be modified. :(
+                // put an assertion here or something to make sure you don't miss it
+                return "(EXCEPTION)";
+            }
+
+            // make sure it's valid
+            if (elmUrlBar == null)
+            {
+                // it's not..
+                return "(INVALID 1)";
+            }
+
+            // elmUrlBar is now the URL bar element. we have to make sure that it's out of keyboard focus if we want to get a valid URL
+            if ((bool)elmUrlBar.GetCurrentPropertyValue(AutomationElement.HasKeyboardFocusProperty))
+            {
+                return "(INVALID 2)";
+            }
+
+            // there might not be a valid pattern to use, so we have to make sure we have one
+            AutomationPattern[] patterns = elmUrlBar.GetSupportedPatterns();
+            if (patterns.Length == 1)
+            {
+                string ret = "";
+                try
+                {
+                    ret = ((ValuePattern)elmUrlBar.GetCurrentPattern(patterns[0])).Current.Value;
+                }
+                catch { }
+                if (ret != "")
+                {
+                    // must match a domain name (and possibly "https://" in front)
+                    if (Regex.IsMatch(ret, @"^(https:\/\/)?[a-zA-Z0-9\-\.]+(\.[a-zA-Z]{2,4}).*$"))
+                    {
+                        // prepend http:// to the url, because Chrome hides it if it's not SSL
+                        if (!ret.StartsWith("http"))
+                        {
+                            ret = "http://" + ret;
+                        }
+                        return ret;
+                    }
+                }
+            }
+            return "(FAILED)";
         }
 
         public static void GetTopWindowText(out string windowText, out string applicationText)

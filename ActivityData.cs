@@ -21,6 +21,7 @@ namespace Herring
         public AppInfo  App;
         public string   WindowTitle;
         public string   ApplicationTitle;
+        public string   DocumentName;
         public double   KeyboardIntensity;
         public double   MouseIntensity;
 
