@@ -20,6 +20,7 @@ namespace Herring
         public MainForm()
         {
             InitializeComponent();
+
             activitiesListView.SmallImageList = summaryListView.SmallImageList = new ImageList();            
             mainTabControl.SelectedIndex = 0;
             
@@ -58,6 +59,8 @@ namespace Herring
             ActivityTracker.UserStatusChanged += this.UserStatusChanged;
 
             CurrentLogChanged(DateTime.Now);
+
+            HideToTray();
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -424,10 +427,7 @@ namespace Herring
         {
             if (e.CloseReason == CloseReason.UserClosing)
             {
-                notifyIcon.Visible = true;
-                notifyIcon.ShowBalloonTip(500);
-                this.ShowInTaskbar = false;
-                this.Hide();
+                HideToTray();
                 e.Cancel = true;
             }
         }
@@ -503,6 +503,14 @@ EndFragment:100000
             {
                 Clipboard.SetText(text, TextDataFormat.UnicodeText);
             }
+        }
+
+        private void HideToTray()
+        {
+            notifyIcon.Visible = true;
+            notifyIcon.ShowBalloonTip(500);
+            this.ShowInTaskbar = false;
+            this.Hide();
         }
     }
 }
