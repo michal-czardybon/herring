@@ -33,6 +33,29 @@ namespace Herring
             Category = RuleManager.MatchCategory(this);
             CategoryIndex = RuleManager.Categories.IndexOf(Category);
         }
+
+        public string ValidDocumentName
+        {
+            get
+            {
+                return DocumentName == null || DocumentName.StartsWith("(") ? "" : DocumentName;
+            }
+        }
+
+        public string Subtitle
+        {
+            get
+            {
+                if (WindowTitle != "")
+                {
+                    return WindowTitle + " | " + ValidDocumentName;
+                }
+                else
+                {
+                    return ValidDocumentName;
+                }
+            }
+        }
     }
 
     // Information gathered at a single time moment

@@ -10,6 +10,7 @@ namespace Herring
     {
         public string Process = "";
         public string Title = "";
+        //public string Document = "";
         public double KeyboardMin = 0.0;
         public double KeyboardMax = double.PositiveInfinity;
         public double MouseMin = 0.0;

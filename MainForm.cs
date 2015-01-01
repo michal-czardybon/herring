@@ -113,12 +113,13 @@ namespace Herring
                 if (e.Share >= Parameters.MinimumShare)
                 {
                     string category = e.Category;//RuleManager.MatchCategory(e);
+                    string subtitle = e.Subtitle;
 
                     string[] content = new string[]
                     {
                         /* process: */  e.App.Name,
                         /* title: */    e.ApplicationTitle,
-                        /* subtitle: */ e.WindowTitle,
+                        /* subtitle: */ subtitle,
                         /* share: */    e.Share.ToString("F1"),
                         /* keyboard: */ e.KeyboardIntensity.ToString("F1"),
                         /* mouse: */    e.MouseIntensity.ToString("F1"),
@@ -280,7 +281,8 @@ namespace Herring
                             {
                                  App = entry.App,
                                  ApplicationTitle = entry.ApplicationTitle,
-                                 WindowTitle = entry.WindowTitle
+                                 WindowTitle = entry.WindowTitle,
+                                 DocumentName = entry.DocumentName
                             };
                     }
                     summaryItems[id].TotalTime += Parameters.LogTimeUnit * entry.Share / 100.0;
@@ -298,7 +300,7 @@ namespace Herring
                 {
                     ads.App.Name,
                     ads.ApplicationTitle,
-                    ads.WindowTitle,
+                    ads.Subtitle,
                     span.ToString()
                 };
                 ListViewItem item = new ListViewItem(content, GetIconIndex(ads.App));
@@ -319,6 +321,7 @@ namespace Herring
             {
                 titleLabel.Text = snapshot.WindowTitle;
             }
+            documentLabel.Text = snapshot.DocumentName;
             statsLabel.Text = "keyboard: " + snapshot.KeyboardIntensity.ToString("F2") + ", mouse: " + snapshot.MouseIntensity.ToString("F2");
         }
 
@@ -453,6 +456,48 @@ namespace Herring
         {
             this.FormClosing -= this.MainForm_FormClosing;
             this.Close();
+        }
+
+        private void summaryListView_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (summaryListView.FocusedItem.Bounds.Contains(e.Location) == true)
+                {
+                    sampleMenuStrip.Show(Cursor.Position);
+                }
+            } 
+        }
+
+        private void copyMenuItem_Click(object sender, EventArgs e)
+        {
+            string text = summaryListView.FocusedItem.SubItems[1].Text;
+            string url = summaryListView.FocusedItem.SubItems[2].Text;
+
+            if (url.StartsWith("http"))
+            {
+
+                string html = @"Version:0.9
+StartHTML:000089
+EndHTML:100000
+StartFragment:000089
+EndFragment:100000
+<HTML>
+<head>
+<title>HTML clipboard</title>
+</head>
+<body>
+<!–StartFragment–><a href=""{0}"">{1}</a><!–EndFragment–>
+</body>
+</html>";
+
+                string link = String.Format(html, url, text);
+                Clipboard.SetText(link, TextDataFormat.Html);
+            }
+            else
+            {
+                Clipboard.SetText(text, TextDataFormat.UnicodeText);
+            }
         }
     }
 }

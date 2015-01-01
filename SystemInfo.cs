@@ -114,13 +114,21 @@ namespace Herring
             AutomationElement elmUrlBar = null;
             try
             {
-                var elm1 = elm.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, "Google Chrome"));
+                /*var elm1 = elm.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, "Google Chrome"));
                 if (elm1 == null) { return "(NOT RIGHT)"; } // not the right chrome.exe
                 var elm2 = TreeWalker.RawViewWalker.GetLastChild(elm1); // I don't know a Condition for this for finding
                 var elm3 = elm2.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, ""));
                 var elm4 = TreeWalker.RawViewWalker.GetNextSibling(elm3); // I don't know a Condition for this for finding
                 var elm7 = elm4.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.ToolBar));
-                elmUrlBar = elm7.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Custom));                
+                elmUrlBar = elm7.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Custom));*/
+
+                var elm1 = elm.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, "Google Chrome"));
+                if (elm1 == null) { return "(NOT RIGHT)"; }  // not the right chrome.exe
+                var elm2 = TreeWalker.RawViewWalker.GetLastChild(elm1);
+                var elm3 = elm2.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.HelpTextProperty, "TopContainerView"));
+                var elm4 = elm3.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.ToolBar));
+                var elm5 = elm4.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.HelpTextProperty, "LocationBarView"));
+                elmUrlBar = elm5.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Edit));
             }
             catch
             {

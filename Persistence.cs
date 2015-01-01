@@ -33,14 +33,23 @@ namespace Herring
             TextReader reader = new StreamReader(path);
             string header = reader.ReadLine();  // csv header
             bool hasSubtitle;
+            bool hasDocument;
+            if (header == "time;span;process;title;subtitle;document;share;keyboard-intensity;mouse-intensity;")
+            {
+                hasSubtitle = true;
+                hasDocument = true;
+            }
+            else
             if (header == "time;span;process;title;subtitle;share;keyboard-intensity;mouse-intensity;")
             {
                 hasSubtitle = true;
+                hasDocument = false;
             }
-            else if (header == "time;span;process;title;share;keyboard-intensity;mouse-intensity;")
+            else
+            if (header == "time;span;process;title;share;keyboard-intensity;mouse-intensity;")
             {
-                // backward compatibility
                 hasSubtitle = false;
+                hasDocument = false;
             }
             else
             {
@@ -52,18 +61,23 @@ namespace Herring
             {
                 string line = reader.ReadLine();
                 if (line == null) break;
-                string[] parts = line.Split(new char[] { ';' });
+                List<string> parts = new List<string>(line.Split(new char[] { ';' }));
+                while (parts.Count < 9) parts.Add("");
+
                 if (hasSubtitle == false)
                 {
-                    parts[0] = parts[0];
-                    parts[1] = parts[1];
-                    parts[2] = parts[2];
-                    parts[3] = parts[3];
-
                     parts[7] = parts[6];
                     parts[6] = parts[5];
                     parts[5] = parts[4];
-                    parts[4] = "";
+                    parts[4] = "";          // subtitle
+                }
+                if (hasDocument == false)
+                {
+                    parts[8] = parts[7];
+                    parts[7] = parts[6];
+                    parts[6] = parts[5];
+                    parts[5] = parts[4];
+                    parts[4] = "";          // document
                 }
 
                 if (parts[0] != "")
@@ -72,9 +86,9 @@ namespace Herring
                     {
                         TimePoint = DateTime.Parse(parts[0]),
                         Span = TimeSpan.Parse(parts[1]),
-                        TotalShare = double.Parse(parts[5]),
-                        TotalKeyboardIntensity = double.Parse(parts[6]),
-                        TotalMouseIntensity = double.Parse(parts[7]),
+                        TotalShare = double.Parse(parts[6]),
+                        TotalKeyboardIntensity = double.Parse(parts[7]),
+                        TotalMouseIntensity = double.Parse(parts[8]),
                         Entries = new List<ActivityEntry>()
                     };
                     data.Add(summary);
@@ -91,13 +105,15 @@ namespace Herring
                         {
                             App = getApp(parts[2]),
                             ApplicationTitle = parts[3],
-                            WindowTitle = parts[4]
+                            WindowTitle = parts[4],
+                            DocumentName = parts[5]
                         };
+                    System.Diagnostics.Debug.Assert(entry.DocumentName != null);
                     try
                     {
-                        entry.Share = double.Parse(parts[5]);
-                        entry.KeyboardIntensity = double.Parse(parts[6]);
-                        entry.MouseIntensity = double.Parse(parts[7]);
+                        entry.Share = double.Parse(parts[6]);
+                        entry.KeyboardIntensity = double.Parse(parts[7]);
+                        entry.MouseIntensity = double.Parse(parts[8]);
                     }
                     catch (FormatException)
                     {
@@ -147,11 +163,12 @@ namespace Herring
             {
                 string path = ConstructFileName(DateTime.Now, true);
                 writer = new StreamWriter(path);
-                writer.WriteLine("time;span;process;title;subtitle;share;keyboard-intensity;mouse-intensity;");
+                writer.WriteLine("time;span;process;title;subtitle;document;share;keyboard-intensity;mouse-intensity;");
             }
 
             writer.Write(data.TimePoint.ToString() + ";");
             writer.Write(data.Span.ToString() + ";");
+            writer.Write(";");
             writer.Write(";");
             writer.Write(";");
             writer.Write(";");
@@ -167,6 +184,7 @@ namespace Herring
                 writer.Write(entry.App.Path + ";");
                 writer.Write(entry.ApplicationTitle.Replace(';', ',') + ";");
                 writer.Write(entry.WindowTitle.Replace(';', ',') + ";");
+                writer.Write(entry.DocumentName.Replace(';', ',') + ";");
                 writer.Write(entry.Share.ToString("F2") + ";");
                 writer.Write(entry.KeyboardIntensity.ToString("F2") + ";");
                 writer.Write(entry.MouseIntensity.ToString("F2") + ";");

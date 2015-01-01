@@ -152,6 +152,7 @@ namespace Herring
             {
                 string thisTitle = snapshots[i].ApplicationTitle;
                 string thisSubtitle = snapshots[i].WindowTitle;
+                string thisDocument = snapshots[i].ValidDocumentName;
                 if (done[i] == false)
                 {
                     int count = 1;
@@ -170,6 +171,11 @@ namespace Herring
                             sumMouse += snapshots[j].MouseIntensity;
                             done[j] = true;
                             thisTitle = commonTitle;
+                            thisSubtitle = commonSubtitle;
+                            if (thisDocument == "")
+                            {
+                                thisDocument = snapshots[j].ValidDocumentName;
+                            }
                         }
                     }
                     Debug.Assert(count >= 1);
@@ -180,6 +186,7 @@ namespace Herring
                             App = snapshots[i].App,
                             ApplicationTitle = thisTitle,
                             WindowTitle = thisSubtitle,
+                            DocumentName = thisDocument,
                             KeyboardIntensity = sumKeyboard / count,
                             MouseIntensity = sumMouse / count
                         };
