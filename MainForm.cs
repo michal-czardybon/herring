@@ -464,7 +464,7 @@ namespace Herring
             {
                 if (summaryListView.FocusedItem.Bounds.Contains(e.Location) == true)
                 {
-                    sampleMenuStrip.Show(Cursor.Position);
+                    copyFromSummaryMenuStrip.Show(Cursor.Position);
                 }
             } 
         }
@@ -474,6 +474,30 @@ namespace Herring
             string text = summaryListView.FocusedItem.SubItems[1].Text;
             string url = summaryListView.FocusedItem.SubItems[2].Text;
 
+            PutItemToClipboard(text, url);
+        }
+
+        private void activitiesListView_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (activitiesListView.FocusedItem.Bounds.Contains(e.Location) == true)
+                {
+                    copyFromActivitiesMenuStrip.Show(Cursor.Position);
+                }
+            } 
+        }
+
+        private void copyFromActivitiesItem_Click(object sender, EventArgs e)
+        {
+            string text = activitiesListView.FocusedItem.SubItems[1].Text;
+            string url = activitiesListView.FocusedItem.SubItems[2].Text;
+
+            PutItemToClipboard(text, url);
+        }
+
+        private static void PutItemToClipboard(string text, string url)
+        {
             if (url.StartsWith("http"))
             {
 

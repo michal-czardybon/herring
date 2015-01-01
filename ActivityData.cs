@@ -46,13 +46,13 @@ namespace Herring
         {
             get
             {
-                if (WindowTitle != "")
+                if (WindowTitle != "" && ValidDocumentName != "")
                 {
                     return WindowTitle + " | " + ValidDocumentName;
                 }
                 else
                 {
-                    return ValidDocumentName;
+                    return WindowTitle + ValidDocumentName; // one of them is empty
                 }
             }
         }

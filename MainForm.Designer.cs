@@ -51,7 +51,7 @@
             this.titleLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statsLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.chartBox = new System.Windows.Forms.PictureBox();
-            this.sampleMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.copyFromSummaryMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.documentLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabPage5 = new System.Windows.Forms.TabPage();
@@ -86,16 +86,19 @@
             this.mouseIntensityHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.categoryHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.mainTabControl = new System.Windows.Forms.TabControl();
+            this.copyFromActivitiesMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.notifyIconMenuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartBox)).BeginInit();
-            this.sampleMenuStrip.SuspendLayout();
+            this.copyFromSummaryMenuStrip.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.rulesTabPage.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.mainTabControl.SuspendLayout();
+            this.copyFromActivitiesMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer
@@ -306,12 +309,12 @@
             this.chartBox.TabIndex = 0;
             this.chartBox.TabStop = false;
             // 
-            // sampleMenuStrip
+            // copyFromSummaryMenuStrip
             // 
-            this.sampleMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.copyFromSummaryMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.copyMenuItem});
-            this.sampleMenuStrip.Name = "sampleMenuStrip";
-            this.sampleMenuStrip.Size = new System.Drawing.Size(103, 26);
+            this.copyFromSummaryMenuStrip.Name = "sampleMenuStrip";
+            this.copyFromSummaryMenuStrip.Size = new System.Drawing.Size(103, 26);
             // 
             // copyMenuItem
             // 
@@ -363,12 +366,12 @@
             // summaryTitleHeader
             // 
             this.summaryTitleHeader.Text = "Application Title";
-            this.summaryTitleHeader.Width = 499;
+            this.summaryTitleHeader.Width = 524;
             // 
             // summarySubtitleHeader
             // 
-            this.summarySubtitleHeader.Text = "Window Title";
-            this.summarySubtitleHeader.Width = 197;
+            this.summarySubtitleHeader.Text = "Subtitle";
+            this.summarySubtitleHeader.Width = 240;
             // 
             // summaryTimeHeader
             // 
@@ -525,6 +528,7 @@
             this.activitiesListView.TabIndex = 0;
             this.activitiesListView.UseCompatibleStateImageBehavior = false;
             this.activitiesListView.View = System.Windows.Forms.View.Details;
+            this.activitiesListView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.activitiesListView_MouseClick);
             // 
             // processColumnHeader
             // 
@@ -534,12 +538,12 @@
             // titleColumnHeader
             // 
             this.titleColumnHeader.Text = "Window Title";
-            this.titleColumnHeader.Width = 550;
+            this.titleColumnHeader.Width = 524;
             // 
             // subtitleHeader
             // 
             this.subtitleHeader.Text = "Subtitle";
-            this.subtitleHeader.Width = 214;
+            this.subtitleHeader.Width = 240;
             // 
             // shareHeader
             // 
@@ -575,6 +579,20 @@
             this.mainTabControl.Size = new System.Drawing.Size(1294, 442);
             this.mainTabControl.TabIndex = 0;
             // 
+            // copyFromActivitiesMenuStrip
+            // 
+            this.copyFromActivitiesMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1});
+            this.copyFromActivitiesMenuStrip.Name = "sampleMenuStrip";
+            this.copyFromActivitiesMenuStrip.Size = new System.Drawing.Size(153, 48);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem1.Text = "Copy";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.copyFromActivitiesItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -595,12 +613,13 @@
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartBox)).EndInit();
-            this.sampleMenuStrip.ResumeLayout(false);
+            this.copyFromSummaryMenuStrip.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.rulesTabPage.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.mainTabControl.ResumeLayout(false);
+            this.copyFromActivitiesMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -629,7 +648,7 @@
         private System.Windows.Forms.ToolStripStatusLabel statsLabel;
         private System.Windows.Forms.ToolStripStatusLabel applicationLabel;
         private System.Windows.Forms.PictureBox chartBox;
-        private System.Windows.Forms.ContextMenuStrip sampleMenuStrip;
+        private System.Windows.Forms.ContextMenuStrip copyFromSummaryMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem copyMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel documentLabel;
         private System.Windows.Forms.TabPage tabPage5;
@@ -664,6 +683,8 @@
         private System.Windows.Forms.ColumnHeader mouseIntensityHeader;
         private System.Windows.Forms.ColumnHeader categoryHeader;
         private System.Windows.Forms.TabControl mainTabControl;
+        private System.Windows.Forms.ContextMenuStrip copyFromActivitiesMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
     }
 }
 
