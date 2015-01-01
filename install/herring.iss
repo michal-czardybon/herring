@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Herring Activity Tracker"
-#define MyAppVersion "0.6.0"
+#define MyAppVersion "1.0.0"
 #define MyAppPublisher "Michał Czardybon"
 #define MyAppURL "http://herring.zohosites.com"
 #define MyAppExeName "Herring.exe"
@@ -27,6 +27,7 @@ Compression=lzma
 SolidCompression=yes
 ArchitecturesInstallIn64BitMode=x64
 SetupIconFile=..\icons\Herring_32.ico
+PrivilegesRequired=admin
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -42,6 +43,7 @@ Source: "..\docs\Rules.txt"; DestDir: "{userappdata}\{#MyAppName}"; Flags: onlyi
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}";
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
+Name: "{commonstartup}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
