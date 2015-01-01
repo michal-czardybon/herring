@@ -405,25 +405,6 @@ namespace Herring
             Parameters.AutoScroll = autoScrollCheckBox.Checked;
         }
 
-        private void periodComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            switch (periodComboBox.Text)
-            {
-                case "FiveMinutes":
-                    Parameters.LogTimeMode = LogTimeMode.FiveMinutes;
-                    break;
-                case "FifteenMinutes":
-                    Parameters.LogTimeMode = LogTimeMode.FifteenMinutes;
-                    break;
-                case "OneHour":
-                    Parameters.LogTimeMode = LogTimeMode.OneHour;
-                    break;
-                case "WholeDay":
-                    Parameters.LogTimeMode = LogTimeMode.WholeDay;
-                    break;
-            }
-        }
-
         private void notifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             notifyIcon_MouseClick(sender, e);

@@ -32,8 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
-            this.periodComboBox = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.autoScrollCheckBox = new System.Windows.Forms.CheckBox();
             this.labelUserStatus = new System.Windows.Forms.Label();
             this.labelUserIs = new System.Windows.Forms.Label();
@@ -108,8 +106,6 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.periodComboBox);
-            this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.autoScrollCheckBox);
             this.panel1.Controls.Add(this.labelUserStatus);
             this.panel1.Controls.Add(this.labelUserIs);
@@ -122,31 +118,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1294, 32);
             this.panel1.TabIndex = 1;
-            // 
-            // periodComboBox
-            // 
-            this.periodComboBox.Enabled = false;
-            this.periodComboBox.FormattingEnabled = true;
-            this.periodComboBox.Items.AddRange(new object[] {
-            "5 minutes",
-            "15 minutes",
-            "1 hours",
-            "1 day"});
-            this.periodComboBox.Location = new System.Drawing.Point(664, 6);
-            this.periodComboBox.Name = "periodComboBox";
-            this.periodComboBox.Size = new System.Drawing.Size(121, 21);
-            this.periodComboBox.TabIndex = 9;
-            this.periodComboBox.Text = "5 minutes";
-            this.periodComboBox.SelectedIndexChanged += new System.EventHandler(this.periodComboBox_SelectedIndexChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(584, 10);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(55, 13);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "Time Unit:";
             // 
             // autoScrollCheckBox
             // 
@@ -637,8 +608,6 @@
         private System.Windows.Forms.Label labelUserIs;
         private System.Windows.Forms.CheckBox autoScrollCheckBox;
         private System.Windows.Forms.Panel chartPanel;
-        private System.Windows.Forms.ComboBox periodComboBox;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NotifyIcon notifyIcon;
         private System.Windows.Forms.ContextMenuStrip notifyIconMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem closeMenuItem;
