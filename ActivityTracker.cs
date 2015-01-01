@@ -77,7 +77,12 @@ namespace Herring
             return new DateTime(time.Year, time.Month, time.Day, time.Hour, neededTotalSeconds / 60, neededTotalSeconds % 60);
         }
 
-        public static bool AreTitlesNearlyEqual(string title1, string title2, int maxDiff, out string title)
+        public static bool AreTitlesNearlyEqual(string title1, string title2, out string title)
+        {
+            return AreTitlesNearlyEqual(title1, title2, Parameters.MaxTitleDifferenceLength, Parameters.MaxTitleDifferenceRatio, out title);
+        }
+
+        public static bool AreTitlesNearlyEqual(string title1, string title2, int maxDiff, double maxRatio, out string title)
         {
             // Count the common characters from the beginning
             int i = 0;
@@ -102,7 +107,10 @@ namespace Herring
             int diffLen2 = q - i;
             int diffLen = Math.Max(diffLen1, diffLen2);
 
-            if (diffLen <= maxDiff)
+            int equalLength = i + j;
+            if (diffLen <= equalLength &&
+                    (diffLen <= maxDiff ||
+                     diffLen <= equalLength * maxRatio))
             {
                 title = title1.Substring(0, i) + new String('*', diffLen) + title1.Substring(p);
                 return true;
@@ -163,8 +171,8 @@ namespace Herring
                         string commonTitle;
                         string commonSubtitle;
                         if (snapshots[j].App.Name == snapshots[i].App.Name &&
-                            AreTitlesNearlyEqual(snapshots[j].ApplicationTitle, thisTitle,    Parameters.MaxTitleDifference, out commonTitle) &&
-                            AreTitlesNearlyEqual(snapshots[j].WindowTitle,      thisSubtitle, Parameters.MaxTitleDifference, out commonSubtitle))
+                            AreTitlesNearlyEqual(snapshots[j].ApplicationTitle, thisTitle,    out commonTitle) &&
+                            AreTitlesNearlyEqual(snapshots[j].WindowTitle,      thisSubtitle, out commonSubtitle))
                         {
                             count++;
                             sumKeyboard += snapshots[j].KeyboardIntensity;

@@ -22,6 +22,7 @@ namespace Herring
         public static bool AutoScroll = false;
 
         public static double MinimumShare = 3.0;
-        public static int MaxTitleDifference = 3;
+        public static int MaxTitleDifferenceLength = 20;
+        public static double MaxTitleDifferenceRatio = 0.3;
     }
 }
