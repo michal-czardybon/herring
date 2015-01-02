@@ -20,6 +20,7 @@ namespace Herring
         public static int InactivityThreshold_Away = 120;   // [s] after this time the user is assumed AWAY of the computer
 
         public static bool AutoScroll = false;
+        public static bool TrackActivity = true;
 
         public static double MinimumShare = 3.0;
         public static int    MaxTitleDifferenceLength = 3;

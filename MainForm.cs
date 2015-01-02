@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -59,15 +60,16 @@ namespace Herring
             ActivityTracker.UserStatusChanged += this.UserStatusChanged;
 
             CurrentLogChanged(DateTime.Now);
-
-            HideToTray();
         }
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            ActivitySnapshot snapshot = monitor.GetActivitySnapshot();
-            ActivityTracker.RegisterSnapshot(snapshot);
-            this.RefreshStatus(snapshot);
+            if (Parameters.TrackActivity == true)
+            {
+                ActivitySnapshot snapshot = monitor.GetActivitySnapshot();
+                ActivityTracker.RegisterSnapshot(snapshot);
+                this.RefreshStatus(snapshot);
+            }
         }
 
         private int GetIconIndex(AppInfo app)
@@ -408,6 +410,11 @@ namespace Herring
             Parameters.AutoScroll = autoScrollCheckBox.Checked;
         }
 
+        private void trackCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            Parameters.TrackActivity = trackCheckBox.Checked;
+        }
+
         private void notifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             notifyIcon_MouseClick(sender, e);
@@ -437,6 +444,16 @@ namespace Herring
         {
             this.FormClosing -= this.MainForm_FormClosing;
             this.Close();
+        }
+
+        private void exitButton_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Activity tracking is about to be turned off. Are you sure?", "Herring Activity Tracker", MessageBoxButtons.OKCancel);
+            if (result == DialogResult.OK)
+            {
+                this.FormClosing -= this.MainForm_FormClosing;
+                this.Close();
+            }
         }
 
         private void summaryListView_MouseClick(object sender, MouseEventArgs e)
@@ -511,6 +528,11 @@ EndFragment:100000
             notifyIcon.ShowBalloonTip(500);
             this.ShowInTaskbar = false;
             this.Hide();
+        }
+
+        private void MainForm_Shown(object sender, EventArgs e)
+        {   
+            //this.Invoke(HideToTray());
         }
     }
 }

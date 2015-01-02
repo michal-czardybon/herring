@@ -32,6 +32,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
+            this.trackCheckBox = new System.Windows.Forms.CheckBox();
+            this.exitButton = new System.Windows.Forms.Button();
             this.autoScrollCheckBox = new System.Windows.Forms.CheckBox();
             this.labelUserStatus = new System.Windows.Forms.Label();
             this.labelUserIs = new System.Windows.Forms.Label();
@@ -47,11 +49,11 @@
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.applicationLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.titleLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.documentLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statsLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.chartBox = new System.Windows.Forms.PictureBox();
             this.copyFromSummaryMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.documentLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.summaryListView = new System.Windows.Forms.ListView();
             this.summaryProcessHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -106,6 +108,8 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.trackCheckBox);
+            this.panel1.Controls.Add(this.exitButton);
             this.panel1.Controls.Add(this.autoScrollCheckBox);
             this.panel1.Controls.Add(this.labelUserStatus);
             this.panel1.Controls.Add(this.labelUserIs);
@@ -118,6 +122,30 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1294, 32);
             this.panel1.TabIndex = 1;
+            // 
+            // trackCheckBox
+            // 
+            this.trackCheckBox.AutoSize = true;
+            this.trackCheckBox.Checked = true;
+            this.trackCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.trackCheckBox.Location = new System.Drawing.Point(565, 9);
+            this.trackCheckBox.Name = "trackCheckBox";
+            this.trackCheckBox.Size = new System.Drawing.Size(91, 17);
+            this.trackCheckBox.TabIndex = 9;
+            this.trackCheckBox.Text = "Track Activity";
+            this.trackCheckBox.UseVisualStyleBackColor = true;
+            this.trackCheckBox.CheckedChanged += new System.EventHandler(this.trackCheckBox_CheckedChanged);
+            // 
+            // exitButton
+            // 
+            this.exitButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.exitButton.Location = new System.Drawing.Point(1213, 5);
+            this.exitButton.Name = "exitButton";
+            this.exitButton.Size = new System.Drawing.Size(75, 23);
+            this.exitButton.TabIndex = 8;
+            this.exitButton.Text = "Exit";
+            this.exitButton.UseVisualStyleBackColor = true;
+            this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
             // 
             // autoScrollCheckBox
             // 
@@ -236,7 +264,7 @@
             this.titleLabel,
             this.documentLabel,
             this.statsLabel});
-            this.statusStrip.Location = new System.Drawing.Point(0, 522);
+            this.statusStrip.Location = new System.Drawing.Point(0, 682);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(1294, 24);
             this.statusStrip.TabIndex = 3;
@@ -261,6 +289,13 @@
             this.titleLabel.Name = "titleLabel";
             this.titleLabel.Size = new System.Drawing.Size(47, 19);
             this.titleLabel.Text = "<title>";
+            // 
+            // documentLabel
+            // 
+            this.documentLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this.documentLabel.Name = "documentLabel";
+            this.documentLabel.Size = new System.Drawing.Size(82, 19);
+            this.documentLabel.Text = "<document>";
             // 
             // statsLabel
             // 
@@ -294,19 +329,12 @@
             this.copyMenuItem.Text = "Copy";
             this.copyMenuItem.Click += new System.EventHandler(this.copyMenuItem_Click);
             // 
-            // documentLabel
-            // 
-            this.documentLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
-            this.documentLabel.Name = "documentLabel";
-            this.documentLabel.Size = new System.Drawing.Size(82, 19);
-            this.documentLabel.Text = "<document>";
-            // 
             // tabPage5
             // 
             this.tabPage5.Controls.Add(this.summaryListView);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(1286, 416);
+            this.tabPage5.Size = new System.Drawing.Size(1286, 576);
             this.tabPage5.TabIndex = 5;
             this.tabPage5.Text = "Summary";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -323,7 +351,7 @@
             this.summaryListView.GridLines = true;
             this.summaryListView.Location = new System.Drawing.Point(0, 0);
             this.summaryListView.Name = "summaryListView";
-            this.summaryListView.Size = new System.Drawing.Size(1286, 416);
+            this.summaryListView.Size = new System.Drawing.Size(1286, 576);
             this.summaryListView.TabIndex = 0;
             this.summaryListView.UseCompatibleStateImageBehavior = false;
             this.summaryListView.View = System.Windows.Forms.View.Details;
@@ -354,7 +382,7 @@
             this.tabPage3.Controls.Add(this.categoriesListView);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1286, 416);
+            this.tabPage3.Size = new System.Drawing.Size(1286, 576);
             this.tabPage3.TabIndex = 3;
             this.tabPage3.Text = "Categories";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -371,7 +399,7 @@
             this.categoriesListView.GridLines = true;
             this.categoriesListView.Location = new System.Drawing.Point(0, 0);
             this.categoriesListView.Name = "categoriesListView";
-            this.categoriesListView.Size = new System.Drawing.Size(1286, 416);
+            this.categoriesListView.Size = new System.Drawing.Size(1286, 576);
             this.categoriesListView.TabIndex = 0;
             this.categoriesListView.UseCompatibleStateImageBehavior = false;
             this.categoriesListView.View = System.Windows.Forms.View.Details;
@@ -397,7 +425,7 @@
             this.rulesTabPage.Location = new System.Drawing.Point(4, 22);
             this.rulesTabPage.Name = "rulesTabPage";
             this.rulesTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.rulesTabPage.Size = new System.Drawing.Size(1286, 416);
+            this.rulesTabPage.Size = new System.Drawing.Size(1286, 576);
             this.rulesTabPage.TabIndex = 2;
             this.rulesTabPage.Text = "Rules";
             this.rulesTabPage.UseVisualStyleBackColor = true;
@@ -418,7 +446,7 @@
             this.rulesListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rulesListView.Location = new System.Drawing.Point(3, 3);
             this.rulesListView.Name = "rulesListView";
-            this.rulesListView.Size = new System.Drawing.Size(1280, 410);
+            this.rulesListView.Size = new System.Drawing.Size(1280, 570);
             this.rulesListView.TabIndex = 0;
             this.rulesListView.UseCompatibleStateImageBehavior = false;
             this.rulesListView.View = System.Windows.Forms.View.Details;
@@ -474,7 +502,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1286, 416);
+            this.tabPage2.Size = new System.Drawing.Size(1286, 576);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Activities";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -495,7 +523,7 @@
             this.activitiesListView.GridLines = true;
             this.activitiesListView.Location = new System.Drawing.Point(3, 3);
             this.activitiesListView.Name = "activitiesListView";
-            this.activitiesListView.Size = new System.Drawing.Size(1280, 410);
+            this.activitiesListView.Size = new System.Drawing.Size(1280, 570);
             this.activitiesListView.TabIndex = 0;
             this.activitiesListView.UseCompatibleStateImageBehavior = false;
             this.activitiesListView.View = System.Windows.Forms.View.Details;
@@ -547,7 +575,7 @@
             this.mainTabControl.Location = new System.Drawing.Point(0, 80);
             this.mainTabControl.Name = "mainTabControl";
             this.mainTabControl.SelectedIndex = 0;
-            this.mainTabControl.Size = new System.Drawing.Size(1294, 442);
+            this.mainTabControl.Size = new System.Drawing.Size(1294, 602);
             this.mainTabControl.TabIndex = 0;
             // 
             // copyFromActivitiesMenuStrip
@@ -555,12 +583,12 @@
             this.copyFromActivitiesMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1});
             this.copyFromActivitiesMenuStrip.Name = "sampleMenuStrip";
-            this.copyFromActivitiesMenuStrip.Size = new System.Drawing.Size(153, 48);
+            this.copyFromActivitiesMenuStrip.Size = new System.Drawing.Size(103, 26);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(102, 22);
             this.toolStripMenuItem1.Text = "Copy";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.copyFromActivitiesItem_Click);
             // 
@@ -568,7 +596,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1294, 546);
+            this.ClientSize = new System.Drawing.Size(1294, 706);
             this.Controls.Add(this.mainTabControl);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.chartBox);
@@ -578,6 +606,7 @@
             this.Text = "Herring";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.notifyIconMenuStrip.ResumeLayout(false);
@@ -654,6 +683,8 @@
         private System.Windows.Forms.TabControl mainTabControl;
         private System.Windows.Forms.ContextMenuStrip copyFromActivitiesMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.Button exitButton;
+        private System.Windows.Forms.CheckBox trackCheckBox;
     }
 }
 
