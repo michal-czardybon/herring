@@ -498,23 +498,7 @@ namespace Herring
         {
             if (url.StartsWith("http"))
             {
-
-                string html = @"Version:0.9
-StartHTML:000089
-EndHTML:100000
-StartFragment:000089
-EndFragment:100000
-<HTML>
-<head>
-<title>HTML clipboard</title>
-</head>
-<body>
-<!–StartFragment–><a href=""{0}"">{1}</a><!–EndFragment–>
-</body>
-</html>";
-
-                string link = String.Format(html, url, text);
-                Clipboard.SetText(link, TextDataFormat.Html);
+                ClipboardHelper.CopyToClipboard(String.Format("<a href=\"{0}\">{1}</a>", url, text), text + "\n" + url);
             }
             else
             {
