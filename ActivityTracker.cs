@@ -79,10 +79,10 @@ namespace Herring
 
         public static bool AreTitlesNearlyEqual(string title1, string title2, out string title)
         {
-            return AreTitlesNearlyEqual(title1, title2, Parameters.MaxTitleDifferenceLength, Parameters.MaxTitleDifferenceRatio, out title);
+            return AreTitlesNearlyEqual(title1, title2, Parameters.MaxTitleDifferenceLength, out title);
         }
 
-        public static bool AreTitlesNearlyEqual(string title1, string title2, int maxDiff, double maxRatio, out string title)
+        public static bool AreTitlesNearlyEqual(string title1, string title2, int maxDiff, out string title)
         {
             // Count the common characters from the beginning
             int i = 0;
@@ -109,8 +109,7 @@ namespace Herring
 
             int equalLength = i + j;
             if (diffLen <= equalLength &&
-                    (diffLen <= maxDiff ||
-                     diffLen <= equalLength * maxRatio))
+                diffLen <= maxDiff)
             {
                 title = title1.Substring(0, i) + new String('*', diffLen) + title1.Substring(p);
                 return true;
