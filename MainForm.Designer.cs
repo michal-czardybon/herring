@@ -601,14 +601,14 @@
             this.followLinkInSummaryMenuItem.Name = "followLinkInSummaryMenuItem";
             this.followLinkInSummaryMenuItem.Size = new System.Drawing.Size(134, 22);
             this.followLinkInSummaryMenuItem.Text = "Follow Link";
-            this.followLinkInSummaryMenuItem.Click += new System.EventHandler(this.followLinkMenuItem_Click);
+            this.followLinkInSummaryMenuItem.Click += new System.EventHandler(this.followLinkSummaryMenuItem_Click);
             // 
             // followLinkToolStripMenuItem
             // 
             this.followLinkToolStripMenuItem.Name = "followLinkToolStripMenuItem";
             this.followLinkToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.followLinkToolStripMenuItem.Text = "Follow Link";
-            this.followLinkToolStripMenuItem.Click += new System.EventHandler(this.followLinkMenuItem_Click);
+            this.followLinkToolStripMenuItem.Click += new System.EventHandler(this.followLinkActivitiesMenuItem_Click);
             // 
             // MainForm
             // 

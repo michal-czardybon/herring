@@ -494,9 +494,15 @@ namespace Herring
             PutItemToClipboard(text, url);
         }
 
-        private void followLinkMenuItem_Click(object sender, EventArgs e)
+        private void followLinkActivitiesMenuItem_Click(object sender, EventArgs e)
         {
             string url = activitiesListView.FocusedItem.SubItems[2].Text;
+            System.Diagnostics.Process.Start(url);
+        }
+
+        private void followLinkSummaryMenuItem_Click(object sender, EventArgs e)
+        {
+            string url = summaryListView.FocusedItem.SubItems[2].Text;
             System.Diagnostics.Process.Start(url);
         }
 
