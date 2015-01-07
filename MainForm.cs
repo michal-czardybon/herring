@@ -462,7 +462,7 @@ namespace Herring
             {
                 if (summaryListView.FocusedItem.Bounds.Contains(e.Location) == true)
                 {
-                    copyFromSummaryMenuStrip.Show(Cursor.Position);
+                    summaryMenuStrip.Show(Cursor.Position);
                 }
             } 
         }
@@ -481,7 +481,7 @@ namespace Herring
             {
                 if (activitiesListView.FocusedItem.Bounds.Contains(e.Location) == true)
                 {
-                    copyFromActivitiesMenuStrip.Show(Cursor.Position);
+                    activitiesMenuStrip.Show(Cursor.Position);
                 }
             } 
         }
@@ -492,6 +492,12 @@ namespace Herring
             string url = activitiesListView.FocusedItem.SubItems[2].Text;
 
             PutItemToClipboard(text, url);
+        }
+
+        private void followLinkMenuItem_Click(object sender, EventArgs e)
+        {
+            string url = activitiesListView.FocusedItem.SubItems[2].Text;
+            System.Diagnostics.Process.Start(url);
         }
 
         private static void PutItemToClipboard(string text, string url)
@@ -518,5 +524,6 @@ namespace Herring
         {   
             //this.Invoke(HideToTray());
         }
+
     }
 }
