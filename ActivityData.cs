@@ -103,6 +103,7 @@ namespace Herring
         public double TotalMouseIntensity;
     }
 
+    // FIXME: Keyboard and mouse intensity is parasite here
     class ActivityDaySummary : ActivitySample
     {
         public double TotalTime;

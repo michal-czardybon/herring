@@ -157,6 +157,7 @@ namespace Herring
             bool[] done = new bool[snapshots.Count];
             for (int i = 0; i < snapshots.Count; ++i)
             {
+                string thisApp = snapshots[i].App.Name;
                 string thisTitle = snapshots[i].ApplicationTitle;
                 string thisSubtitle = snapshots[i].WindowTitle;
                 string thisDocument = snapshots[i].ValidDocumentName;
@@ -168,21 +169,16 @@ namespace Herring
                     for (int j = i + 1; j < snapshots.Count; ++j)
                     {
                         string commonTitle;
-                        string commonSubtitle;
-                        if (snapshots[j].App.Name == snapshots[i].App.Name &&
-                            AreTitlesNearlyEqual(snapshots[j].ApplicationTitle, thisTitle,    out commonTitle) &&
-                            AreTitlesNearlyEqual(snapshots[j].WindowTitle,      thisSubtitle, out commonSubtitle))
+                        if (snapshots[j].App.Name == thisApp &&
+                            snapshots[j].WindowTitle == thisSubtitle &&
+                            snapshots[j].ValidDocumentName == thisDocument &&
+                            AreTitlesNearlyEqual(snapshots[j].ApplicationTitle, thisTitle, out commonTitle))
                         {
                             count++;
                             sumKeyboard += snapshots[j].KeyboardIntensity;
                             sumMouse += snapshots[j].MouseIntensity;
                             done[j] = true;
                             thisTitle = commonTitle;
-                            thisSubtitle = commonSubtitle;
-                            if (thisDocument == "")
-                            {
-                                thisDocument = snapshots[j].ValidDocumentName;
-                            }
                         }
                     }
                     Debug.Assert(count >= 1);

@@ -286,7 +286,7 @@ namespace Herring
                             {
                                  App = entry.App,
                                  ApplicationTitle = entry.ApplicationTitle,
-                                 WindowTitle = entry.WindowTitle,
+                                 WindowTitle = "",  // ignored in day summary
                                  DocumentName = entry.DocumentName
                             };
                     }
@@ -294,11 +294,48 @@ namespace Herring
                 }
             }
 
-            List<ActivityDaySummary> summaryList = summaryItems.Values.ToList();
-            summaryList.Sort((a, b) => (int)(b.TotalTime - a.TotalTime));
+            List<ActivityDaySummary> summaryList1 = summaryItems.Values.ToList();
+            summaryList1.Sort((a, b) => a.App.Name.CompareTo(b.App.Name));
+
+            List<ActivityDaySummary> summaryList2 = new List<ActivityDaySummary>();
+
+            // merge
+            // FIXME: O(n^2) within an application
+            bool[] done = new bool[summaryList1.Count];
+            for (int i = 0; i < summaryList1.Count; ++i)
+            {
+                if (done[i] == false)
+                {
+                    string thisApp = summaryList1[i].App.Name;
+                    string thisTitle = summaryList1[i].ApplicationTitle;
+                    string thisDocument = summaryList1[i].ValidDocumentName;
+                    string commonTitle;
+
+                    ActivityDaySummary newSummary = summaryList1[i];
+
+                    for (int j = i + 1; j < summaryList1.Count; ++j)
+                    {
+                        if (summaryList1[j].App.Name != thisApp)
+                        {
+                            break;
+                        }
+                        if (summaryList1[j].ValidDocumentName == thisDocument &&
+                            ActivityTracker.AreTitlesNearlyEqual(summaryList1[j].ApplicationTitle, thisTitle, out commonTitle))
+                        {
+                            thisTitle = commonTitle;
+                            newSummary.ApplicationTitle = commonTitle;
+                            newSummary.TotalTime += summaryList1[j].TotalTime;
+                            done[j] = true;
+                        }
+                    }
+                    summaryList2.Add(newSummary);
+                }
+            }
+
+            summaryList2.Sort((a, b) => (int)(b.TotalTime - a.TotalTime));
 
             TimeSpan totalTime = TimeSpan.Zero;
-            foreach (var ads in summaryList)
+            foreach (var ads in summaryList2)
             {
                 TimeSpan span = TimeSpan.FromSeconds(ads.TotalTime);
                 string[] content = new string[]

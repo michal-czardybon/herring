@@ -54,11 +54,12 @@
             this.chartBox = new System.Windows.Forms.PictureBox();
             this.summaryMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.followLinkInSummaryMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.summaryListView = new System.Windows.Forms.ListView();
             this.summaryProcessHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.summaryTitleHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.summarySubtitleHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.summaryDocumentHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.summaryTimeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.categoriesListView = new System.Windows.Forms.ListView();
@@ -88,7 +89,6 @@
             this.mainTabControl = new System.Windows.Forms.TabControl();
             this.activitiesMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.followLinkInSummaryMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.followLinkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.notifyIconMenuStrip.SuspendLayout();
@@ -332,6 +332,13 @@
             this.copyMenuItem.Text = "Copy";
             this.copyMenuItem.Click += new System.EventHandler(this.copyMenuItem_Click);
             // 
+            // followLinkInSummaryMenuItem
+            // 
+            this.followLinkInSummaryMenuItem.Name = "followLinkInSummaryMenuItem";
+            this.followLinkInSummaryMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.followLinkInSummaryMenuItem.Text = "Follow Link";
+            this.followLinkInSummaryMenuItem.Click += new System.EventHandler(this.followLinkSummaryMenuItem_Click);
+            // 
             // tabPage5
             // 
             this.tabPage5.Controls.Add(this.summaryListView);
@@ -347,7 +354,7 @@
             this.summaryListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.summaryProcessHeader,
             this.summaryTitleHeader,
-            this.summarySubtitleHeader,
+            this.summaryDocumentHeader,
             this.summaryTimeHeader});
             this.summaryListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.summaryListView.FullRowSelect = true;
@@ -370,10 +377,10 @@
             this.summaryTitleHeader.Text = "Application Title";
             this.summaryTitleHeader.Width = 524;
             // 
-            // summarySubtitleHeader
+            // summaryDocumentHeader
             // 
-            this.summarySubtitleHeader.Text = "Subtitle";
-            this.summarySubtitleHeader.Width = 240;
+            this.summaryDocumentHeader.Text = "Document";
+            this.summaryDocumentHeader.Width = 240;
             // 
             // summaryTimeHeader
             // 
@@ -587,26 +594,19 @@
             this.toolStripMenuItem1,
             this.followLinkToolStripMenuItem});
             this.activitiesMenuStrip.Name = "sampleMenuStrip";
-            this.activitiesMenuStrip.Size = new System.Drawing.Size(153, 70);
+            this.activitiesMenuStrip.Size = new System.Drawing.Size(135, 48);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(134, 22);
             this.toolStripMenuItem1.Text = "Copy";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.copyFromActivitiesItem_Click);
-            // 
-            // followLinkInSummaryMenuItem
-            // 
-            this.followLinkInSummaryMenuItem.Name = "followLinkInSummaryMenuItem";
-            this.followLinkInSummaryMenuItem.Size = new System.Drawing.Size(134, 22);
-            this.followLinkInSummaryMenuItem.Text = "Follow Link";
-            this.followLinkInSummaryMenuItem.Click += new System.EventHandler(this.followLinkSummaryMenuItem_Click);
             // 
             // followLinkToolStripMenuItem
             // 
             this.followLinkToolStripMenuItem.Name = "followLinkToolStripMenuItem";
-            this.followLinkToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.followLinkToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.followLinkToolStripMenuItem.Text = "Follow Link";
             this.followLinkToolStripMenuItem.Click += new System.EventHandler(this.followLinkActivitiesMenuItem_Click);
             // 
@@ -671,7 +671,7 @@
         private System.Windows.Forms.ListView summaryListView;
         private System.Windows.Forms.ColumnHeader summaryProcessHeader;
         private System.Windows.Forms.ColumnHeader summaryTitleHeader;
-        private System.Windows.Forms.ColumnHeader summarySubtitleHeader;
+        private System.Windows.Forms.ColumnHeader summaryDocumentHeader;
         private System.Windows.Forms.ColumnHeader summaryTimeHeader;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.ListView categoriesListView;
