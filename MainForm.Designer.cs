@@ -91,6 +91,7 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.followLinkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.summaryTopTimeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.timeStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1.SuspendLayout();
             this.notifyIconMenuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -266,7 +267,8 @@
             this.applicationLabel,
             this.titleLabel,
             this.documentLabel,
-            this.statsLabel});
+            this.statsLabel,
+            this.timeStatusLabel});
             this.statusStrip.Location = new System.Drawing.Point(0, 682);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(1294, 24);
@@ -367,6 +369,7 @@
             this.summaryListView.TabIndex = 0;
             this.summaryListView.UseCompatibleStateImageBehavior = false;
             this.summaryListView.View = System.Windows.Forms.View.Details;
+            this.summaryListView.SelectedIndexChanged += new System.EventHandler(this.summaryListView_SelectedIndexChanged);
             this.summaryListView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.summaryListView_MouseClick);
             // 
             // summaryProcessHeader
@@ -617,6 +620,13 @@
             this.summaryTopTimeHeader.Text = "Top Time";
             this.summaryTopTimeHeader.Width = 118;
             // 
+            // timeStatusLabel
+            // 
+            this.timeStatusLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this.timeStatusLabel.Name = "timeStatusLabel";
+            this.timeStatusLabel.Size = new System.Drawing.Size(51, 19);
+            this.timeStatusLabel.Text = "<time>";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -713,6 +723,7 @@
         private System.Windows.Forms.ToolStripMenuItem followLinkInSummaryMenuItem;
         private System.Windows.Forms.ToolStripMenuItem followLinkToolStripMenuItem;
         private System.Windows.Forms.ColumnHeader summaryTopTimeHeader;
+        private System.Windows.Forms.ToolStripStatusLabel timeStatusLabel;
     }
 }
 

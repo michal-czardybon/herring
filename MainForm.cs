@@ -577,5 +577,21 @@ namespace Herring
             //this.Invoke(HideToTray());
         }
 
+        private void summaryListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            double totalTime = 0;
+            double totalTopTime = 0;
+            foreach (ListViewItem item in summaryListView.SelectedItems)
+            {
+                double time = TimeSpan.Parse(item.SubItems[3].Text).TotalSeconds;
+                totalTime += time;
+                double topTime = TimeSpan.Parse(item.SubItems[4].Text).TotalSeconds;
+                totalTopTime += topTime;
+            }
+            TimeSpan span1 = TimeSpan.FromSeconds(totalTime);
+            TimeSpan span2 = TimeSpan.FromSeconds(totalTopTime);
+            timeStatusLabel.Text = span1.ToString() + " / " + span2.ToString();
+        }
+
     }
 }
