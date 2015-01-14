@@ -270,6 +270,7 @@ namespace Herring
             Dictionary<ActivityId, ActivityDaySummary> summaryItems = new Dictionary<ActivityId, ActivityDaySummary>();
             foreach (var summary in ActivityTracker.SelectedLog)
             {
+                bool isFirst = true;
                 foreach (var entry in summary.Entries)
                 {
                     ActivityId id = new ActivityId
@@ -291,6 +292,11 @@ namespace Herring
                             };
                     }
                     summaryItems[id].TotalTime += Parameters.LogTimeUnit * entry.Share / 100.0;
+                    if (isFirst)
+                    {
+                        summaryItems[id].TopTime += Parameters.LogTimeUnit;
+                    }
+                    isFirst = false;
                 }
             }
 
@@ -325,6 +331,7 @@ namespace Herring
                             thisTitle = commonTitle;
                             newSummary.ApplicationTitle = commonTitle;
                             newSummary.TotalTime += summaryList1[j].TotalTime;
+                            newSummary.TopTime += summaryList1[j].TopTime;
                             done[j] = true;
                         }
                     }
@@ -332,18 +339,20 @@ namespace Herring
                 }
             }
 
-            summaryList2.Sort((a, b) => (int)(b.TotalTime - a.TotalTime));
+            summaryList2.Sort((a, b) => (int)(b.Score - a.Score));
 
             TimeSpan totalTime = TimeSpan.Zero;
             foreach (var ads in summaryList2)
             {
                 TimeSpan span = TimeSpan.FromSeconds(ads.TotalTime);
+                TimeSpan topSpan = TimeSpan.FromSeconds(ads.TopTime);
                 string[] content = new string[]
                 {
                     ads.App.Name,
                     ads.ApplicationTitle,
                     ads.Subtitle,
-                    span.ToString()
+                    span.ToString(),
+                    topSpan.ToString()
                 };
                 ListViewItem item = new ListViewItem(content, GetIconIndex(ads.App));
                 summaryListView.Items.Add(item);

@@ -90,6 +90,7 @@
             this.activitiesMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.followLinkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.summaryTopTimeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1.SuspendLayout();
             this.notifyIconMenuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -355,7 +356,8 @@
             this.summaryProcessHeader,
             this.summaryTitleHeader,
             this.summaryDocumentHeader,
-            this.summaryTimeHeader});
+            this.summaryTimeHeader,
+            this.summaryTopTimeHeader});
             this.summaryListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.summaryListView.FullRowSelect = true;
             this.summaryListView.GridLines = true;
@@ -610,6 +612,11 @@
             this.followLinkToolStripMenuItem.Text = "Follow Link";
             this.followLinkToolStripMenuItem.Click += new System.EventHandler(this.followLinkActivitiesMenuItem_Click);
             // 
+            // summaryTopTimeHeader
+            // 
+            this.summaryTopTimeHeader.Text = "Top Time";
+            this.summaryTopTimeHeader.Width = 118;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -705,6 +712,7 @@
         private System.Windows.Forms.CheckBox trackCheckBox;
         private System.Windows.Forms.ToolStripMenuItem followLinkInSummaryMenuItem;
         private System.Windows.Forms.ToolStripMenuItem followLinkToolStripMenuItem;
+        private System.Windows.Forms.ColumnHeader summaryTopTimeHeader;
     }
 }
 
