@@ -23,6 +23,6 @@ namespace Herring
         public static bool TrackActivity = true;
 
         public static double MinimumShare = 3.0;
-        public static int    MaxTitleDifferenceLength = 3;
+        public static int    MaxTitleDifferenceLength = 5;
     }
 }
