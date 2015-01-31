@@ -119,8 +119,8 @@ namespace Herring
         {
             foreach (var rule in Rules)
             {
-                if (sample.App.Name.Contains(rule.Process) &&
-                    sample.ApplicationTitle.Contains(rule.Title) &&
+                if (sample.App.Name.ToLower().Contains(rule.Process.ToLower()) &&
+                    sample.ApplicationTitle.ToLower().Contains(rule.Title.ToLower()) &&
                     //sample.WindowTitle.Contains(rule.Title) &&
                     sample.KeyboardIntensity >= rule.KeyboardMin &&
                     sample.KeyboardIntensity <= rule.KeyboardMax &&
