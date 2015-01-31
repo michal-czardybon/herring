@@ -1,16 +1,17 @@
+// Syntax hint: [process:<text>][title:<text>][keyboard-min:<value>][keyboard-max:<value>][mouse-min:<value>][mouse-max:<value>] => <category-name>
+
 process:Herring.exe => Introspection
-process:ManicTimeClient.exe => Introspection
 
 process:chrome.exe => Internet Browsing
+process:firefox.exe => Internet Browsing
 
 process:DllHost.exe title:"Windows Photo Viewer" => Image Viewing
 process:i_view32.exe => Image Viewing
 
-process:AdaptiveVisionStudio.exe mouse-min:1 => Machine Vision
-
 process:Explorer.EXE => File Browsing
 
 process:TortoiseProc.exe => Version Control
+process:GitExtensions.exe => Version Control
 
 process:notepad++.exe => Document Writing
 process:AcroRd32.exe => Document Reading

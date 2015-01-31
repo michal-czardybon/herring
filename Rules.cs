@@ -53,6 +53,7 @@ namespace Herring
                         string line = reader.ReadLine();
                         if (line == null) break;
                         if (line == "") continue;
+                        if (line.StartsWith("//")) continue;
 
                         string[] parts = line.Split(new string[] { "=>" }, StringSplitOptions.RemoveEmptyEntries);
                         if (parts.Length != 2)
