@@ -100,7 +100,12 @@ namespace Herring
             int length = GetWindowTextLength(hWnd);
             StringBuilder text = new StringBuilder(length + 1);
             GetWindowText(hWnd, text, text.Capacity);
-            return text.ToString();
+            string ret = text.ToString();
+            if (ret.EndsWith("- Google Chrome"))
+            {
+                ret = ret.Substring(0, ret.Length - 15);
+            }
+            return ret;
         }
 
         public static string GetChromeUrl()
