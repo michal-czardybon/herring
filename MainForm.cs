@@ -339,7 +339,7 @@ namespace Herring
                 }
             }
 
-            summaryList2.Sort((a, b) => (int)(b.Score - a.Score));
+            summaryList2.Sort((a, b) => (int)(a.TopTime != b.TopTime ? b.TopTime - a.TopTime : b.TotalTime - a.TotalTime));
 
             TimeSpan totalTime = TimeSpan.Zero;
             foreach (var ads in summaryList2)

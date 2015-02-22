@@ -108,14 +108,6 @@ namespace Herring
     {
         public double TotalTime;
         public double TopTime;
-
-        public int Score
-        {
-            get
-            {
-                return (int)(TotalTime * 5 + TopTime);
-            }
-        }
     }
 
     public enum UserStatus
