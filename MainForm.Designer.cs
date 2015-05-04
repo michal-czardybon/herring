@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
+            this.reportButton = new System.Windows.Forms.Button();
             this.trackCheckBox = new System.Windows.Forms.CheckBox();
             this.exitButton = new System.Windows.Forms.Button();
             this.autoScrollCheckBox = new System.Windows.Forms.CheckBox();
@@ -51,6 +52,7 @@
             this.titleLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.documentLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statsLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.timeStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.chartBox = new System.Windows.Forms.PictureBox();
             this.summaryMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -61,6 +63,7 @@
             this.summaryTitleHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.summaryDocumentHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.summaryTimeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.summaryTopTimeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.categoriesListView = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -90,8 +93,6 @@
             this.activitiesMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.followLinkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.summaryTopTimeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.timeStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1.SuspendLayout();
             this.notifyIconMenuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -112,6 +113,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.reportButton);
             this.panel1.Controls.Add(this.trackCheckBox);
             this.panel1.Controls.Add(this.exitButton);
             this.panel1.Controls.Add(this.autoScrollCheckBox);
@@ -126,6 +128,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1294, 32);
             this.panel1.TabIndex = 1;
+            // 
+            // reportButton
+            // 
+            this.reportButton.Location = new System.Drawing.Point(662, 4);
+            this.reportButton.Name = "reportButton";
+            this.reportButton.Size = new System.Drawing.Size(54, 24);
+            this.reportButton.TabIndex = 10;
+            this.reportButton.Text = "Report...";
+            this.reportButton.UseVisualStyleBackColor = true;
+            this.reportButton.Click += new System.EventHandler(this.reportButton_Click);
             // 
             // trackCheckBox
             // 
@@ -309,6 +321,13 @@
             this.statsLabel.Size = new System.Drawing.Size(51, 19);
             this.statsLabel.Text = "<stats>";
             // 
+            // timeStatusLabel
+            // 
+            this.timeStatusLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this.timeStatusLabel.Name = "timeStatusLabel";
+            this.timeStatusLabel.Size = new System.Drawing.Size(51, 19);
+            this.timeStatusLabel.Text = "<time>";
+            // 
             // chartBox
             // 
             this.chartBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
@@ -391,6 +410,11 @@
             // 
             this.summaryTimeHeader.Text = "Total Time";
             this.summaryTimeHeader.Width = 139;
+            // 
+            // summaryTopTimeHeader
+            // 
+            this.summaryTopTimeHeader.Text = "Top Time";
+            this.summaryTopTimeHeader.Width = 118;
             // 
             // tabPage3
             // 
@@ -615,18 +639,6 @@
             this.followLinkToolStripMenuItem.Text = "Follow Link";
             this.followLinkToolStripMenuItem.Click += new System.EventHandler(this.followLinkActivitiesMenuItem_Click);
             // 
-            // summaryTopTimeHeader
-            // 
-            this.summaryTopTimeHeader.Text = "Top Time";
-            this.summaryTopTimeHeader.Width = 118;
-            // 
-            // timeStatusLabel
-            // 
-            this.timeStatusLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
-            this.timeStatusLabel.Name = "timeStatusLabel";
-            this.timeStatusLabel.Size = new System.Drawing.Size(51, 19);
-            this.timeStatusLabel.Text = "<time>";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -724,6 +736,7 @@
         private System.Windows.Forms.ToolStripMenuItem followLinkToolStripMenuItem;
         private System.Windows.Forms.ColumnHeader summaryTopTimeHeader;
         private System.Windows.Forms.ToolStripStatusLabel timeStatusLabel;
+        private System.Windows.Forms.Button reportButton;
     }
 }
 

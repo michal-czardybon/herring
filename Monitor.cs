@@ -8,7 +8,7 @@ using System.IO;
 
 namespace Herring
 {
-    delegate AppInfo GetAppDelegate(string path);
+    public delegate AppInfo GetAppDelegate(string path);
 
     class Monitor
     {

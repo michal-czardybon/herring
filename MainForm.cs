@@ -14,6 +14,7 @@ namespace Herring
     public partial class MainForm : Form
     {
         private Monitor monitor;
+        private ReportForm reportForm;
         private Dictionary<string, int> iconIndices = new Dictionary<string, int>();
         private Font boldFont;
         private Chart chart = new Chart();
@@ -54,6 +55,9 @@ namespace Herring
 
             monitor = new Monitor();
             monitor.Start();
+
+            reportForm = new ReportForm(monitor.GetApp);
+
             ActivityTracker.SetCurrentActivityLog( Persistence.Load(monitor.GetApp) );
             ActivityTracker.CurrentLogExtended += this.CurrentLogExtended;
             ActivityTracker.CurrentLogChanged += this.CurrentLogChanged;
@@ -597,6 +601,11 @@ namespace Herring
             TimeSpan span1 = TimeSpan.FromSeconds(totalTime);
             TimeSpan span2 = TimeSpan.FromSeconds(totalTopTime);
             timeStatusLabel.Text = span1.ToString() + " / " + span2.ToString();
+        }
+
+        private void reportButton_Click(object sender, EventArgs e)
+        {
+            reportForm.ShowDialog();
         }
 
     }
