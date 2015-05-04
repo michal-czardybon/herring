@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Herring Activity Tracker"
-#define MyAppVersion "1.1.3"
+#define MyAppVersion "1.1.4"
 #define MyAppPublisher "Michał Czardybon"
 #define MyAppURL "http://herring.zohosites.com"
 #define MyAppExeName "Herring.exe"
