@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Text;
+using System.Windows.Forms;
+
 /// <summary>      
 /// Helper to  encode and set HTML fragment to clipboard.<br/>      
 /// See <br/>      
@@ -8,7 +10,6 @@ using System.Text;
 /// <remarks>      
 /// The MIT License  (MIT) Copyright (c) 2014 Arthur Teplitzki.      
 ///  </remarks>      
-using System.Windows.Forms;
 public static class ClipboardHelper
 {
     #region Fields and Consts

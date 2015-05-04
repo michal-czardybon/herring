@@ -101,6 +101,8 @@ namespace Herring
             StringBuilder text = new StringBuilder(length + 1);
             GetWindowText(hWnd, text, text.Capacity);
             string ret = text.ToString();
+
+            // Remove an annoying suffix in Google Chrome
             if (ret.EndsWith("- Google Chrome"))
             {
                 ret = ret.Substring(0, ret.Length - 15);
