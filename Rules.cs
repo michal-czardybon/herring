@@ -10,7 +10,7 @@ namespace Herring
     {
         public string Process = "";
         public string Title = "";
-        //public string Document = "";
+        public string Document = "";
         public double KeyboardMin = 0.0;
         public double KeyboardMax = double.PositiveInfinity;
         public double MouseMin = 0.0;
@@ -84,6 +84,9 @@ namespace Herring
                                 case "title":
                                     rule.Title = value;
                                     break;
+                                case "document":
+                                    rule.Document = value;
+                                    break;
                                 case "keyboard-min":
                                     rule.KeyboardMin = double.Parse(value);
                                     break;
@@ -121,6 +124,7 @@ namespace Herring
             {
                 if (sample.App.Name.ToLower().Contains(rule.Process.ToLower()) &&
                     sample.ApplicationTitle.ToLower().Contains(rule.Title.ToLower()) &&
+                    sample.ValidDocumentName.ToLower().Contains(rule.Document.ToLower()) &&
                     //sample.WindowTitle.Contains(rule.Title) &&
                     sample.KeyboardIntensity >= rule.KeyboardMin &&
                     sample.KeyboardIntensity <= rule.KeyboardMax &&
