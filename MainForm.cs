@@ -226,6 +226,16 @@ namespace Herring
                 }
             }
 
+            TimeSpan totalSpan;
+            if (ActivityTracker.SelectedLog.Count == 0)
+            {
+                totalSpan = TimeSpan.Zero;
+            }
+            else
+            {
+                totalSpan = ActivityTracker.SelectedLog.Last().TimePoint - ActivityTracker.SelectedLog.First().TimePoint;
+            }
+
             List<KeyValuePair<string, CategoryStats>> statsList = stats.ToList();
             statsList.Sort((a, b) => (int)(1000 * (b.Value.ShareSum - a.Value.ShareSum)));
 
@@ -250,9 +260,23 @@ namespace Herring
             {
                 string[] content = new string[]
                 {
-                    "Total",
+                    "Total Time",
                     totalTime.ToString(),
                     "100.0"
+                };
+                ListViewItem item = new ListViewItem(content);
+                item.Font = boldFont;
+                categoriesListView.Items.Add(item);
+            }
+            {
+                double e = 
+                    totalSpan.TotalSeconds >= 1 ? (100.0 * totalTime.TotalSeconds / totalSpan.TotalSeconds) : 0;
+
+                string[] content = new string[]
+                {
+                    "Total Span",
+                    totalSpan.ToString(),
+                    e.ToString("F2")
                 };
                 ListViewItem item = new ListViewItem(content);
                 item.Font = boldFont;
