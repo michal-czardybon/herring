@@ -568,6 +568,30 @@ namespace Herring
             PutItemToClipboard(text, url);
         }
 
+        private void copyProjectKaiserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string text = activitiesListView.FocusedItem.SubItems[1].Text;
+            string url = activitiesListView.FocusedItem.SubItems[2].Text;
+
+            if (text.StartsWith("Project Kaiser : Osobisty : "))
+            {
+                text = text.Substring(28);
+            }
+            else if (text.StartsWith("Project Kaiser : Personal : "))
+            {
+                text = text.Substring(28);
+            }
+
+            PutItemToClipboard(text, url);
+        }
+
+        private void activitiesMenuStrip_Opening(object sender, CancelEventArgs e)
+        {
+            string text = activitiesListView.FocusedItem.SubItems[1].Text;
+
+            copyProjectKaiserToolStripMenuItem.Enabled = text.StartsWith("Project Kaiser");
+        }
+
         private void followLinkActivitiesMenuItem_Click(object sender, EventArgs e)
         {
             string url = activitiesListView.FocusedItem.SubItems[2].Text;

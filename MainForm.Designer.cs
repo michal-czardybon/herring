@@ -93,6 +93,7 @@
             this.activitiesMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.followLinkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyProjectKaiserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.notifyIconMenuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -621,23 +622,32 @@
             // 
             this.activitiesMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
+            this.copyProjectKaiserToolStripMenuItem,
             this.followLinkToolStripMenuItem});
             this.activitiesMenuStrip.Name = "sampleMenuStrip";
-            this.activitiesMenuStrip.Size = new System.Drawing.Size(135, 48);
+            this.activitiesMenuStrip.Size = new System.Drawing.Size(185, 92);
+            this.activitiesMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.activitiesMenuStrip_Opening);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(134, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(184, 22);
             this.toolStripMenuItem1.Text = "Copy";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.copyFromActivitiesItem_Click);
             // 
             // followLinkToolStripMenuItem
             // 
             this.followLinkToolStripMenuItem.Name = "followLinkToolStripMenuItem";
-            this.followLinkToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.followLinkToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.followLinkToolStripMenuItem.Text = "Follow Link";
             this.followLinkToolStripMenuItem.Click += new System.EventHandler(this.followLinkActivitiesMenuItem_Click);
+            // 
+            // copyProjectKaiserToolStripMenuItem
+            // 
+            this.copyProjectKaiserToolStripMenuItem.Name = "copyProjectKaiserToolStripMenuItem";
+            this.copyProjectKaiserToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.copyProjectKaiserToolStripMenuItem.Text = "Copy (Project Kaiser)";
+            this.copyProjectKaiserToolStripMenuItem.Click += new System.EventHandler(this.copyProjectKaiserToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -737,6 +747,7 @@
         private System.Windows.Forms.ColumnHeader summaryTopTimeHeader;
         private System.Windows.Forms.ToolStripStatusLabel timeStatusLabel;
         private System.Windows.Forms.Button reportButton;
+        private System.Windows.Forms.ToolStripMenuItem copyProjectKaiserToolStripMenuItem;
     }
 }
 
