@@ -92,8 +92,10 @@
             this.mainTabControl = new System.Windows.Forms.TabControl();
             this.activitiesMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.followLinkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyProjectKaiserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.followLinkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.notifyIconMenuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -105,6 +107,7 @@
             this.tabPage2.SuspendLayout();
             this.mainTabControl.SuspendLayout();
             this.activitiesMenuStrip.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer
@@ -607,6 +610,7 @@
             // 
             // mainTabControl
             // 
+            this.mainTabControl.Controls.Add(this.tabPage1);
             this.mainTabControl.Controls.Add(this.tabPage2);
             this.mainTabControl.Controls.Add(this.rulesTabPage);
             this.mainTabControl.Controls.Add(this.tabPage3);
@@ -625,7 +629,7 @@
             this.copyProjectKaiserToolStripMenuItem,
             this.followLinkToolStripMenuItem});
             this.activitiesMenuStrip.Name = "sampleMenuStrip";
-            this.activitiesMenuStrip.Size = new System.Drawing.Size(185, 92);
+            this.activitiesMenuStrip.Size = new System.Drawing.Size(185, 70);
             this.activitiesMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.activitiesMenuStrip_Opening);
             // 
             // toolStripMenuItem1
@@ -635,6 +639,13 @@
             this.toolStripMenuItem1.Text = "Copy";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.copyFromActivitiesItem_Click);
             // 
+            // copyProjectKaiserToolStripMenuItem
+            // 
+            this.copyProjectKaiserToolStripMenuItem.Name = "copyProjectKaiserToolStripMenuItem";
+            this.copyProjectKaiserToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.copyProjectKaiserToolStripMenuItem.Text = "Copy (Project Kaiser)";
+            this.copyProjectKaiserToolStripMenuItem.Click += new System.EventHandler(this.copyProjectKaiserToolStripMenuItem_Click);
+            // 
             // followLinkToolStripMenuItem
             // 
             this.followLinkToolStripMenuItem.Name = "followLinkToolStripMenuItem";
@@ -642,12 +653,27 @@
             this.followLinkToolStripMenuItem.Text = "Follow Link";
             this.followLinkToolStripMenuItem.Click += new System.EventHandler(this.followLinkActivitiesMenuItem_Click);
             // 
-            // copyProjectKaiserToolStripMenuItem
+            // tabPage1
             // 
-            this.copyProjectKaiserToolStripMenuItem.Name = "copyProjectKaiserToolStripMenuItem";
-            this.copyProjectKaiserToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-            this.copyProjectKaiserToolStripMenuItem.Text = "Copy (Project Kaiser)";
-            this.copyProjectKaiserToolStripMenuItem.Click += new System.EventHandler(this.copyProjectKaiserToolStripMenuItem_Click);
+            this.tabPage1.Controls.Add(this.label1);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(1286, 576);
+            this.tabPage1.TabIndex = 6;
+            this.tabPage1.Text = "Start";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(3, 3);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(1280, 570);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Welcome to Herring Activity Tracker";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // MainForm
             // 
@@ -677,6 +703,7 @@
             this.tabPage2.ResumeLayout(false);
             this.mainTabControl.ResumeLayout(false);
             this.activitiesMenuStrip.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -748,6 +775,8 @@
         private System.Windows.Forms.ToolStripStatusLabel timeStatusLabel;
         private System.Windows.Forms.Button reportButton;
         private System.Windows.Forms.ToolStripMenuItem copyProjectKaiserToolStripMenuItem;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.Label label1;
     }
 }
 

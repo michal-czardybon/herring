@@ -627,6 +627,7 @@ namespace Herring
             notifyIcon.Visible = true;
             notifyIcon.ShowBalloonTip(500);
             this.ShowInTaskbar = false;
+            mainTabControl.SelectedTab = tabPage1;
             this.Hide();
         }
 
