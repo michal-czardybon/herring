@@ -82,13 +82,18 @@ namespace Herring
 
                 if (parts[0] != "")
                 {
+                    double keyboardIntensity;
+                    double mouseIntensity;
+                    double.TryParse(parts[7], out keyboardIntensity);
+                    double.TryParse(parts[8], out mouseIntensity);
+
                     ActivitySummary summary = new ActivitySummary()
                     {
                         TimePoint = DateTime.Parse(parts[0]),
                         Span = TimeSpan.Parse(parts[1]),
                         TotalShare = double.Parse(parts[6]),
-                        TotalKeyboardIntensity = double.Parse(parts[7]),
-                        TotalMouseIntensity = double.Parse(parts[8]),
+                        TotalKeyboardIntensity = keyboardIntensity,
+                        TotalMouseIntensity = mouseIntensity,
                         Entries = new List<ActivityEntry>()
                     };
                     data.Add(summary);

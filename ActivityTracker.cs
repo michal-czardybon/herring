@@ -127,14 +127,22 @@ namespace Herring
             
             if (snapshots.Count >= 1)
             {
+                double keyboardIntensity =
+                    snapshots.Count >= 1
+                    ? (from x in snapshots select x.KeyboardIntensity).Average()
+                    : 0.0;
+                double mouseIntensity =
+                    snapshots.Count >= 1
+                    ? (from x in snapshots select x.MouseIntensity).Average()
+                    : 0.0;
                 summary =
                     new ActivitySummary
                     {
                         TimePoint = timePoint,
                         Span = new TimeSpan(0, 0, Parameters.LogTimeUnit),
                         TotalShare = 100.0 * snapshots.Count / Parameters.LogSamplingRate,
-                        TotalKeyboardIntensity = (from x in snapshots select x.KeyboardIntensity).Average(),
-                        TotalMouseIntensity = (from x in snapshots select x.MouseIntensity).Average(),
+                        TotalKeyboardIntensity = keyboardIntensity,
+                        TotalMouseIntensity = mouseIntensity,
                         Entries = new List<ActivityEntry>()
                     };
             }
