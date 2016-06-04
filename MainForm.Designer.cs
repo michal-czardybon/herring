@@ -69,6 +69,7 @@
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.rulesTabPage = new System.Windows.Forms.TabPage();
             this.rulesListView = new System.Windows.Forms.ListView();
             this.processHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -90,12 +91,12 @@
             this.mouseIntensityHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.categoryHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.mainTabControl = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
             this.activitiesMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.copyProjectKaiserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.followLinkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.notifyIconMenuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -106,8 +107,8 @@
             this.rulesTabPage.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.mainTabControl.SuspendLayout();
-            this.activitiesMenuStrip.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.activitiesMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer
@@ -435,7 +436,8 @@
             this.categoriesListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2,
-            this.columnHeader3});
+            this.columnHeader3,
+            this.columnHeader4});
             this.categoriesListView.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.categoriesListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.categoriesListView.FullRowSelect = true;
@@ -455,12 +457,17 @@
             // columnHeader2
             // 
             this.columnHeader2.Text = "Total Time";
-            this.columnHeader2.Width = 84;
+            this.columnHeader2.Width = 99;
             // 
             // columnHeader3
             // 
-            this.columnHeader3.Text = "Total Share";
-            this.columnHeader3.Width = 99;
+            this.columnHeader3.Text = "Total Top Time";
+            this.columnHeader3.Width = 102;
+            // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "Total Share";
+            this.columnHeader4.Width = 99;
             // 
             // rulesTabPage
             // 
@@ -622,6 +629,28 @@
             this.mainTabControl.Size = new System.Drawing.Size(1294, 602);
             this.mainTabControl.TabIndex = 0;
             // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.label1);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(1286, 576);
+            this.tabPage1.TabIndex = 6;
+            this.tabPage1.Text = "Start";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(3, 3);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(1280, 570);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Welcome to Herring Activity Tracker";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // activitiesMenuStrip
             // 
             this.activitiesMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -653,28 +682,6 @@
             this.followLinkToolStripMenuItem.Text = "Follow Link";
             this.followLinkToolStripMenuItem.Click += new System.EventHandler(this.followLinkActivitiesMenuItem_Click);
             // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.label1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1286, 576);
-            this.tabPage1.TabIndex = 6;
-            this.tabPage1.Text = "Start";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(3, 3);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(1280, 570);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Welcome to Herring Activity Tracker";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -702,8 +709,8 @@
             this.rulesTabPage.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.mainTabControl.ResumeLayout(false);
-            this.activitiesMenuStrip.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.activitiesMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -744,6 +751,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.TabPage rulesTabPage;
         private System.Windows.Forms.ListView rulesListView;
         private System.Windows.Forms.ColumnHeader processHeader;

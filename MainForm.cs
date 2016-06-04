@@ -202,7 +202,8 @@ namespace Herring
 
         class CategoryStats
         {
-            public double TotalTime;
+            public double TotalActiveTime;
+            public double TotalPresentTime;
             public double ShareSum;
         }
 
@@ -211,8 +212,11 @@ namespace Herring
             categoriesListView.Items.Clear();
             Dictionary<string, CategoryStats> stats = new Dictionary<string, CategoryStats>();
             double totalShareOfAll = 0;
+            double centerNom = 0;
+            double centerDen = 0;
             foreach (var summary in ActivityTracker.SelectedLog)
             {
+                int k = 0;
                 foreach (var entry in summary.Entries)
                 {
                     string category = RuleManager.MatchCategory(entry);
@@ -220,11 +224,18 @@ namespace Herring
                     {
                         stats[category] = new CategoryStats();
                     }
-                    stats[category].TotalTime += Parameters.LogTimeUnit * entry.Share / 100.0;
+                    stats[category].TotalActiveTime += Parameters.LogTimeUnit * entry.Share / 100.0;
+                    if (k++ == 0)
+                    {
+                        stats[category].TotalPresentTime += Parameters.LogTimeUnit;
+                    }
                     stats[category].ShareSum += entry.Share;
                     totalShareOfAll += entry.Share;
                 }
+                centerNom += summary.TimePoint.TimeOfDay.TotalMinutes * summary.TotalShare;
+                centerDen += summary.TotalShare;
             }
+            TimeSpan center = TimeSpan.FromMinutes(centerNom / (centerDen + 0.01));
 
             TimeSpan totalSpan;
             if (ActivityTracker.SelectedLog.Count == 0)
@@ -239,29 +250,34 @@ namespace Herring
             List<KeyValuePair<string, CategoryStats>> statsList = stats.ToList();
             statsList.Sort((a, b) => (int)(1000 * (b.Value.ShareSum - a.Value.ShareSum)));
 
-            TimeSpan totalTime = TimeSpan.Zero;
+            TimeSpan totalActiveTime = TimeSpan.Zero;
+            TimeSpan totalPresentTime = TimeSpan.Zero;
             foreach (var skv in statsList)
             {
                 string name = skv.Key;
                 CategoryStats cs = skv.Value;
-                TimeSpan span = TimeSpan.FromSeconds(cs.TotalTime);
+                TimeSpan activeTime = TimeSpan.FromSeconds(cs.TotalActiveTime);
+                TimeSpan presentTime = TimeSpan.FromSeconds(cs.TotalPresentTime);
                 string[] content = new string[]
                 {
                     name,
-                    span.ToString(),
+                    activeTime.ToString(),
+                    presentTime.ToString(),
                     (100.0 * cs.ShareSum / totalShareOfAll).ToString("F1")
                 };
                 ListViewItem item = new ListViewItem(content);
                 categoriesListView.Items.Add(item);
                 
-                totalTime += span;
+                totalActiveTime += activeTime;
+                totalPresentTime += presentTime;
             }
 
             {
                 string[] content = new string[]
                 {
                     "Total Time",
-                    totalTime.ToString(),
+                    totalActiveTime.ToString(),
+                    totalPresentTime.ToString(),
                     "100.0"
                 };
                 ListViewItem item = new ListViewItem(content);
@@ -269,14 +285,36 @@ namespace Herring
                 categoriesListView.Items.Add(item);
             }
             {
-                double e = 
-                    totalSpan.TotalSeconds >= 1 ? (100.0 * totalTime.TotalSeconds / totalSpan.TotalSeconds) : 0;
+                double intensityActive = 
+                    totalSpan.TotalSeconds >= 1 ? (100.0 * totalActiveTime.TotalSeconds / totalSpan.TotalSeconds) : 0;
+                double intensityPresent =
+                    totalSpan.TotalSeconds >= 1 ? (100.0 * totalPresentTime.TotalSeconds / totalSpan.TotalSeconds) : 0;
 
                 string[] content = new string[]
                 {
+                    "Intensity",
+                    intensityActive.ToString("F2"),
+                    intensityPresent.ToString("F2")
+                };
+                ListViewItem item = new ListViewItem(content);
+                item.Font = boldFont;
+                categoriesListView.Items.Add(item);
+            }
+            {
+                string[] content = new string[]
+                {
                     "Total Span",
-                    totalSpan.ToString(),
-                    e.ToString("F2")
+                    totalSpan.ToString()
+                };
+                ListViewItem item = new ListViewItem(content);
+                item.Font = boldFont;
+                categoriesListView.Items.Add(item);
+            }
+            {
+                string[] content = new string[]
+                {
+                    "Intensity Center",
+                    center.ToString(@"hh\:mm\:ss")
                 };
                 ListViewItem item = new ListViewItem(content);
                 item.Font = boldFont;
