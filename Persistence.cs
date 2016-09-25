@@ -85,8 +85,22 @@ namespace Herring
 
                 double keyboardIntensity;
                 double mouseIntensity;
-                double.TryParse(parts[7], out keyboardIntensity);
-                double.TryParse(parts[8], out mouseIntensity);
+                if (double.TryParse(parts[7], out keyboardIntensity) == false)
+                {
+                    // Try English
+                    if (double.TryParse(parts[7], NumberStyles.Float, culture, out keyboardIntensity) == false)
+                    {
+                        throw new ApplicationException("Cannot parse a real number.");
+                    }
+                }
+                if (double.TryParse(parts[8], out mouseIntensity) == false)
+                {
+                    // Try English
+                    if (double.TryParse(parts[8], NumberStyles.Float, culture, out mouseIntensity) == false)
+                    {
+                        throw new ApplicationException("Cannot parse a real number.");
+                    }
+                }
 
                 double share;
                 if (double.TryParse(parts[6], out share) == false)
