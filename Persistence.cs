@@ -80,22 +80,43 @@ namespace Herring
                     parts[4] = "";          // document
                 }
 
+                CultureInfo culture = CultureInfo.CreateSpecificCulture("en-US");
+                DateTimeStyles styles = DateTimeStyles.None;
+
+                double keyboardIntensity;
+                double mouseIntensity;
+                double.TryParse(parts[7], out keyboardIntensity);
+                double.TryParse(parts[8], out mouseIntensity);
+
+                double share;
+                if (double.TryParse(parts[6], out share) == false)
+                {
+                    // Try English
+                    if (double.TryParse(parts[6], NumberStyles.Float, culture, out share) == false)
+                    {
+                        throw new ApplicationException("Cannot parse a real number.");
+                    }
+                }
+
                 if (parts[0] != "")
                 {
-                    double keyboardIntensity;
-                    double mouseIntensity;
-                    double.TryParse(parts[7], out keyboardIntensity);
-                    double.TryParse(parts[8], out mouseIntensity);
-
-                    ActivitySummary summary = new ActivitySummary()
+                    DateTime date;
+                    if (DateTime.TryParse(parts[0], out date) == false)
                     {
-                        TimePoint = DateTime.Parse(parts[0]),
-                        Span = TimeSpan.Parse(parts[1]),
-                        TotalShare = double.Parse(parts[6]),
-                        TotalKeyboardIntensity = keyboardIntensity,
-                        TotalMouseIntensity = mouseIntensity,
-                        Entries = new List<ActivityEntry>()
-                    };
+                        // Try English
+                        if (DateTime.TryParse(parts[0], culture, styles, out date) == false)
+                        {
+                            throw new ApplicationException("Cannot parse a date string.");
+                        }
+                    }
+
+                    ActivitySummary summary = new ActivitySummary();
+                    summary.TimePoint = date;
+                    summary.Span = TimeSpan.Parse(parts[1]);
+                    summary.TotalShare = share;
+                    summary.TotalKeyboardIntensity = keyboardIntensity;
+                    summary.TotalMouseIntensity = mouseIntensity;
+                    summary.Entries = new List<ActivityEntry>();
                     data.Add(summary);
                     lastSummary = summary;
                 }
@@ -114,18 +135,9 @@ namespace Herring
                             DocumentName = parts[5]
                         };
                     System.Diagnostics.Debug.Assert(entry.DocumentName != null);
-                    try
-                    {
-                        entry.Share = double.Parse(parts[6]);
-                        entry.KeyboardIntensity = double.Parse(parts[7]);
-                        entry.MouseIntensity = double.Parse(parts[8]);
-                    }
-                    catch (FormatException)
-                    {
-                        entry.Share = 0;
-                        entry.KeyboardIntensity = 0;
-                        entry.MouseIntensity = 0;
-                    }
+                    entry.Share = share;
+                    entry.KeyboardIntensity = keyboardIntensity;
+                    entry.MouseIntensity = mouseIntensity;
                     entry.SetCategory();
                     lastSummary.Entries.Add(entry);
                 }
