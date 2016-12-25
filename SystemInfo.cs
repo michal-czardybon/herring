@@ -115,12 +115,13 @@ namespace Herring
             IntPtr hWnd = GetForegroundWindow();
             if (hWnd == IntPtr.Zero) return "(ZERO)";
 
-            AutomationElement elm = AutomationElement.FromHandle(hWnd);
-
             // manually walk through the tree, searching using TreeScope.Descendants is too slow (even if it's more reliable)
             AutomationElement elmUrlBar = null;
+
             try
             {
+                AutomationElement elm = AutomationElement.FromHandle(hWnd);
+
                 /*var elm1 = elm.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, "Google Chrome"));
                 if (elm1 == null) { return "(NOT RIGHT)"; } // not the right chrome.exe
                 var elm2 = TreeWalker.RawViewWalker.GetLastChild(elm1); // I don't know a Condition for this for finding
@@ -150,7 +151,7 @@ namespace Herring
             {
                 // Chrome has probably changed something, and above walking needs to be modified. :(
                 // put an assertion here or something to make sure you don't miss it
-                return "(EXCEPTION)";
+                return "(EXCEPTION 1)";
             }
 
             // make sure it's valid
@@ -166,30 +167,39 @@ namespace Herring
                 return "(INVALID 2)";
             }
 
-            // there might not be a valid pattern to use, so we have to make sure we have one
-            AutomationPattern[] patterns = elmUrlBar.GetSupportedPatterns();
-            if (patterns.Length == 1)
+            try
             {
-                string ret = "";
-                try
+                // there might not be a valid pattern to use, so we have to make sure we have one
+                AutomationPattern[] patterns = elmUrlBar.GetSupportedPatterns();
+                if (patterns.Length == 1)
                 {
-                    ret = ((ValuePattern)elmUrlBar.GetCurrentPattern(patterns[0])).Current.Value;
-                }
-                catch { }
-                if (ret != "")
-                {
-                    // must match a domain name (and possibly "https://" in front)
-                    if (Regex.IsMatch(ret, @"^(https:\/\/)?[a-zA-Z0-9\-\.]+(\.[a-zA-Z]{2,4}).*$"))
+                    string ret = "";
+                    try
                     {
-                        // prepend http:// to the url, because Chrome hides it if it's not SSL
-                        if (!ret.StartsWith("http"))
+                        ret = ((ValuePattern)elmUrlBar.GetCurrentPattern(patterns[0])).Current.Value;
+                    }
+                    catch { }
+                    if (ret != "")
+                    {
+                        // must match a domain name (and possibly "https://" in front)
+                        if (Regex.IsMatch(ret, @"^(https:\/\/)?[a-zA-Z0-9\-\.]+(\.[a-zA-Z]{2,4}).*$"))
                         {
-                            ret = "http://" + ret;
+                            // prepend http:// to the url, because Chrome hides it if it's not SSL
+                            if (!ret.StartsWith("http"))
+                            {
+                                ret = "http://" + ret;
+                            }
+                            return ret;
                         }
-                        return ret;
                     }
                 }
             }
+            catch
+            {
+                return "(EXCEPTION 2)";
+
+            }
+
             return "(FAILED)";
         }
 
