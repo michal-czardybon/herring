@@ -53,7 +53,6 @@
             this.documentLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statsLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.timeStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.chartBox = new System.Windows.Forms.PictureBox();
             this.summaryMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.followLinkInSummaryMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -82,7 +81,7 @@
             this.statusMaxHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.categoryNameHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.activitiesListView = new System.Windows.Forms.ListView();
+            this.activitiesListView = new Herring.OptimizedListView();
             this.processColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.titleColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.subtitleHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -90,6 +89,10 @@
             this.keyboardIntensityHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.mouseIntensityHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.categoryHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.mainTabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
@@ -97,18 +100,24 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.copyProjectKaiserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.followLinkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chart = new Herring.ChartView();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.notifyIconMenuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chartBox)).BeginInit();
             this.summaryMenuStrip.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.rulesTabPage.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.mainTabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.activitiesMenuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer
@@ -333,17 +342,6 @@
             this.timeStatusLabel.Size = new System.Drawing.Size(51, 19);
             this.timeStatusLabel.Text = "<time>";
             // 
-            // chartBox
-            // 
-            this.chartBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.chartBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.chartBox.Dock = System.Windows.Forms.DockStyle.Top;
-            this.chartBox.Location = new System.Drawing.Point(0, 32);
-            this.chartBox.Name = "chartBox";
-            this.chartBox.Size = new System.Drawing.Size(1294, 48);
-            this.chartBox.TabIndex = 0;
-            this.chartBox.TabStop = false;
-            // 
             // summaryMenuStrip
             // 
             this.summaryMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -371,7 +369,7 @@
             this.tabPage5.Controls.Add(this.summaryListView);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(1286, 576);
+            this.tabPage5.Size = new System.Drawing.Size(1286, 574);
             this.tabPage5.TabIndex = 5;
             this.tabPage5.Text = "Summary";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -389,7 +387,7 @@
             this.summaryListView.GridLines = true;
             this.summaryListView.Location = new System.Drawing.Point(0, 0);
             this.summaryListView.Name = "summaryListView";
-            this.summaryListView.Size = new System.Drawing.Size(1286, 576);
+            this.summaryListView.Size = new System.Drawing.Size(1286, 574);
             this.summaryListView.TabIndex = 0;
             this.summaryListView.UseCompatibleStateImageBehavior = false;
             this.summaryListView.View = System.Windows.Forms.View.Details;
@@ -426,7 +424,7 @@
             this.tabPage3.Controls.Add(this.categoriesListView);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1286, 576);
+            this.tabPage3.Size = new System.Drawing.Size(1286, 574);
             this.tabPage3.TabIndex = 3;
             this.tabPage3.Text = "Categories";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -444,7 +442,7 @@
             this.categoriesListView.GridLines = true;
             this.categoriesListView.Location = new System.Drawing.Point(0, 0);
             this.categoriesListView.Name = "categoriesListView";
-            this.categoriesListView.Size = new System.Drawing.Size(1286, 576);
+            this.categoriesListView.Size = new System.Drawing.Size(1286, 574);
             this.categoriesListView.TabIndex = 0;
             this.categoriesListView.UseCompatibleStateImageBehavior = false;
             this.categoriesListView.View = System.Windows.Forms.View.Details;
@@ -475,7 +473,7 @@
             this.rulesTabPage.Location = new System.Drawing.Point(4, 22);
             this.rulesTabPage.Name = "rulesTabPage";
             this.rulesTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.rulesTabPage.Size = new System.Drawing.Size(1286, 576);
+            this.rulesTabPage.Size = new System.Drawing.Size(1286, 574);
             this.rulesTabPage.TabIndex = 2;
             this.rulesTabPage.Text = "Rules";
             this.rulesTabPage.UseVisualStyleBackColor = true;
@@ -496,7 +494,7 @@
             this.rulesListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rulesListView.Location = new System.Drawing.Point(3, 3);
             this.rulesListView.Name = "rulesListView";
-            this.rulesListView.Size = new System.Drawing.Size(1280, 570);
+            this.rulesListView.Size = new System.Drawing.Size(1280, 568);
             this.rulesListView.TabIndex = 0;
             this.rulesListView.UseCompatibleStateImageBehavior = false;
             this.rulesListView.View = System.Windows.Forms.View.Details;
@@ -549,10 +547,11 @@
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.activitiesListView);
+            this.tabPage2.Controls.Add(this.panel3);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1286, 576);
+            this.tabPage2.Size = new System.Drawing.Size(1286, 574);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Activities";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -571,9 +570,9 @@
             this.activitiesListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.activitiesListView.FullRowSelect = true;
             this.activitiesListView.GridLines = true;
-            this.activitiesListView.Location = new System.Drawing.Point(3, 3);
+            this.activitiesListView.Location = new System.Drawing.Point(3, 39);
             this.activitiesListView.Name = "activitiesListView";
-            this.activitiesListView.Size = new System.Drawing.Size(1280, 570);
+            this.activitiesListView.Size = new System.Drawing.Size(1280, 532);
             this.activitiesListView.TabIndex = 0;
             this.activitiesListView.UseCompatibleStateImageBehavior = false;
             this.activitiesListView.View = System.Windows.Forms.View.Details;
@@ -615,6 +614,44 @@
             this.categoryHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.categoryHeader.Width = 150;
             // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.label4);
+            this.panel3.Controls.Add(this.textBox1);
+            this.panel3.Controls.Add(this.button1);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel3.Location = new System.Drawing.Point(3, 3);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(1280, 36);
+            this.panel3.TabIndex = 1;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(86, 13);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(63, 13);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "Time range:";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Enabled = false;
+            this.textBox1.Location = new System.Drawing.Point(154, 10);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(112, 20);
+            this.textBox1.TabIndex = 1;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(5, 7);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "Filter";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // mainTabControl
             // 
             this.mainTabControl.Controls.Add(this.tabPage1);
@@ -623,10 +660,10 @@
             this.mainTabControl.Controls.Add(this.tabPage3);
             this.mainTabControl.Controls.Add(this.tabPage5);
             this.mainTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainTabControl.Location = new System.Drawing.Point(0, 80);
+            this.mainTabControl.Location = new System.Drawing.Point(0, 82);
             this.mainTabControl.Name = "mainTabControl";
             this.mainTabControl.SelectedIndex = 0;
-            this.mainTabControl.Size = new System.Drawing.Size(1294, 602);
+            this.mainTabControl.Size = new System.Drawing.Size(1294, 600);
             this.mainTabControl.TabIndex = 0;
             // 
             // tabPage1
@@ -635,7 +672,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1286, 576);
+            this.tabPage1.Size = new System.Drawing.Size(1286, 574);
             this.tabPage1.TabIndex = 6;
             this.tabPage1.Text = "Start";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -646,7 +683,7 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(3, 3);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(1280, 570);
+            this.label1.Size = new System.Drawing.Size(1280, 568);
             this.label1.TabIndex = 0;
             this.label1.Text = "Welcome to Herring Activity Tracker";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -682,6 +719,48 @@
             this.followLinkToolStripMenuItem.Text = "Follow Link";
             this.followLinkToolStripMenuItem.Click += new System.EventHandler(this.followLinkActivitiesMenuItem_Click);
             // 
+            // chart
+            // 
+            this.chart.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.chart.Location = new System.Drawing.Point(3, 0);
+            this.chart.Name = "chart";
+            this.chart.SelectedBar = 0;
+            this.chart.Size = new System.Drawing.Size(1156, 49);
+            this.chart.TabIndex = 4;
+            this.chart.TabStop = false;
+            this.chart.MouseDown += new System.Windows.Forms.MouseEventHandler(this.chartBox_MouseDown);
+            this.chart.MouseMove += new System.Windows.Forms.MouseEventHandler(this.chartBox_MouseMove);
+            this.chart.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chart_MouseUp);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(1171, 10);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(33, 13);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Time:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(1210, 10);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(34, 13);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "00:00";
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.label3);
+            this.panel2.Controls.Add(this.label2);
+            this.panel2.Controls.Add(this.chart);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(0, 32);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1294, 50);
+            this.panel2.TabIndex = 1;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -689,7 +768,7 @@
             this.ClientSize = new System.Drawing.Size(1294, 706);
             this.Controls.Add(this.mainTabControl);
             this.Controls.Add(this.statusStrip);
-            this.Controls.Add(this.chartBox);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
@@ -702,15 +781,19 @@
             this.notifyIconMenuStrip.ResumeLayout(false);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chartBox)).EndInit();
             this.summaryMenuStrip.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.rulesTabPage.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.mainTabControl.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.activitiesMenuStrip.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -736,7 +819,6 @@
         private System.Windows.Forms.ToolStripStatusLabel titleLabel;
         private System.Windows.Forms.ToolStripStatusLabel statsLabel;
         private System.Windows.Forms.ToolStripStatusLabel applicationLabel;
-        private System.Windows.Forms.PictureBox chartBox;
         private System.Windows.Forms.ContextMenuStrip summaryMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem copyMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel documentLabel;
@@ -764,7 +846,7 @@
         private System.Windows.Forms.ColumnHeader statusMaxHeader;
         private System.Windows.Forms.ColumnHeader categoryNameHeader;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.ListView activitiesListView;
+        private OptimizedListView activitiesListView;
         private System.Windows.Forms.ColumnHeader processColumnHeader;
         private System.Windows.Forms.ColumnHeader titleColumnHeader;
         private System.Windows.Forms.ColumnHeader subtitleHeader;
@@ -785,6 +867,14 @@
         private System.Windows.Forms.ToolStripMenuItem copyProjectKaiserToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.Label label1;
+        private ChartView chart;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button button1;
     }
 }
 

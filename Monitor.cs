@@ -127,6 +127,16 @@ namespace Herring
                 doc = SystemInfo.GetChromeUrl();
             }
 
+            if (appInfo.Name == "firefox.exe")
+            {
+                doc = SystemInfo.GetFirefoxUrl();
+            }
+
+            if (appInfo.Name == "devenv.exe")
+            {
+                //doc = SystemInfo.GetVSTab();
+            }
+
             // Measure the time span since the previous snapshot
             DateTime end = DateTime.Now;
             TimeSpan length = end - begin;

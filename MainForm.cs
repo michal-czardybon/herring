@@ -1,23 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Herring
 {
     public partial class MainForm : Form
     {
+        public class ActionListViewItem: ListViewItem
+        {
+            public ActivitySummary summary;
+            public ListViewItem header;
+
+            public ActionListViewItem(string[] content, int imgIndex, ActivitySummary summary, ListViewItem header):
+                base(content, imgIndex)
+            {
+                this.summary = summary;
+                this.header = header;
+            }
+        }
+
         private Monitor monitor;
         private ReportForm reportForm;
         private Dictionary<string, int> iconIndices = new Dictionary<string, int>();
         private Font boldFont;
-        private Chart chart = new Chart();
 
         public MainForm()
         {
@@ -98,23 +106,23 @@ namespace Herring
         private void AddToActivitiesList(ActivitySummary summary)
         {
             // Header
+            
+            string[] contentHeader = new string[]
             {
-                string[] content = new string[]
-                {
-                    /* time: */    summary.TimePoint.ToString(),
-                    /* title: */   "",
-                    /* subtitle: */"",
-                    /* share: */   summary.TotalShare.ToString("F1"),
-                    /* keyboard:*/ summary.TotalKeyboardIntensity.ToString("F1"),
-                    /* mouse:*/    summary.TotalMouseIntensity.ToString("F1"),
-                    /* category:*/ ""
-                };
+                /* time: */    summary.TimePoint.ToString(),
+                /* title: */   "",
+                /* subtitle: */"",
+                /* share: */   summary.TotalShare.ToString("F1"),
+                /* keyboard:*/ summary.TotalKeyboardIntensity.ToString("F1"),
+                /* mouse:*/    summary.TotalMouseIntensity.ToString("F1"),
+                /* category:*/ ""
+            };
 
-                ListViewItem header = new ListViewItem(content);
-                header.BackColor = SystemColors.ActiveCaption;  // ?
-                header.Font = boldFont;
-                activitiesListView.Items.Add(header);
-            }
+            ListViewItem header = new ListViewItem(contentHeader);
+            header.BackColor = SystemColors.ActiveCaption;  // ?
+            header.Font = boldFont;
+            activitiesListView.Items.Add(header);
+            
 
             // Entries
             foreach (ActivityEntry e in summary.Entries)
@@ -137,7 +145,7 @@ namespace Herring
 
                     int iconIndex = GetIconIndex(e.App);
 
-                    ListViewItem item = new ListViewItem(content, iconIndex);
+                    ListViewItem item = new ActionListViewItem(content, iconIndex, summary, header);
 
                     item.UseItemStyleForSubItems = false;
                     item.ForeColor =
@@ -165,15 +173,34 @@ namespace Herring
                 }
             }
         }
-        
+
         private void RefreshActivitiesList()
         {
-            activitiesListView.Items.Clear();
-            foreach (ActivitySummary a in ActivityTracker.SelectedLog)
+            RefreshActivitiesList(datePicker.Value.Date - new TimeSpan(12, 0, 0)
+                , new TimeSpan(24, 0, 0));
+        }
+
+        private void RefreshActivitiesList(DateTime time, TimeSpan timeSpan)
+        {
+            try
             {
-                AddToActivitiesList(a);
+                activitiesListView.BeginUpdate();
+                activitiesListView.Items.Clear();
+                foreach (ActivitySummary a in ActivityTracker.SelectedLog)
+                {
+                    var point = a.TimePoint;
+
+                    if (point < time || point > (time + timeSpan))
+                        continue;
+
+                    AddToActivitiesList(a);
+                }
+                MaybeScrollActivitiesList();
             }
-            MaybeScrollActivitiesList();
+            finally
+            {
+                activitiesListView.EndUpdate();
+            }
         }
 
         private void RefreshRules()
@@ -332,6 +359,12 @@ namespace Herring
 
         private void RefreshSummary()
         {
+            // Full ltimespan
+            RefreshSummary(datePicker.Value, new TimeSpan(24, 0, 0));
+        }
+
+        private void RefreshSummary(DateTime start, TimeSpan timeSpan)
+        {
             summaryListView.Items.Clear();
             Dictionary<ActivityId, ActivityDaySummary> summaryItems = new Dictionary<ActivityId, ActivityDaySummary>();
             foreach (var summary in ActivityTracker.SelectedLog)
@@ -408,21 +441,31 @@ namespace Herring
             summaryList2.Sort((a, b) => (int)(a.TopTime != b.TopTime ? b.TopTime - a.TopTime : b.TotalTime - a.TotalTime));
 
             TimeSpan totalTime = TimeSpan.Zero;
-            foreach (var ads in summaryList2)
+
+            try
             {
-                TimeSpan span = TimeSpan.FromSeconds(ads.TotalTime);
-                TimeSpan topSpan = TimeSpan.FromSeconds(ads.TopTime);
-                string[] content = new string[]
+                summaryListView.BeginUpdate();
+
+                foreach (var ads in summaryList2)
                 {
+                    TimeSpan span = TimeSpan.FromSeconds(ads.TotalTime);
+                    TimeSpan topSpan = TimeSpan.FromSeconds(ads.TopTime);
+                    string[] content = new string[]
+                    {
                     ads.App.Name,
                     ads.ApplicationTitle,
                     ads.Subtitle,
                     span.ToString(),
                     topSpan.ToString()
-                };
-                ListViewItem item = new ListViewItem(content, GetIconIndex(ads.App));
-                summaryListView.Items.Add(item);
-                totalTime += span;
+                    };
+                    ListViewItem item = new ListViewItem(content, GetIconIndex(ads.App));
+                    summaryListView.Items.Add(item);
+                    totalTime += span;
+                }
+            }
+            finally
+            {
+                summaryListView.EndUpdate();
             }
         }
 
@@ -482,8 +525,7 @@ namespace Herring
 
         private void RefreshChart()
         {
-            chart.CreateChart(ActivityTracker.SelectedLog);
-            chartBox.Image = chart.Bitmap;
+            chart.RefreshChart(ActivityTracker.SelectedLog);
         }
 
         private void datePicker_ValueChanged(object sender, EventArgs e)
@@ -695,5 +737,77 @@ namespace Herring
             reportForm.ShowDialog();
         }
 
+        private void chartBox_MouseMove(object sender, MouseEventArgs e)
+        {
+            var bar = chart.SelectedBar;
+
+            label3.Text = string.Format("{0:00}:{1:00}", bar / 12, bar % 12 * 5);
+        }
+
+        private void chartBox_MouseDown(object sender, MouseEventArgs e)
+        {
+
+            if (e.Button == MouseButtons.Left)
+            {
+                if (chart.SelectedBar == -1)
+                    return;
+
+                DateTime point = datePicker.Value.Date;
+                point = point.AddMinutes(chart.SelectedBar * 5);
+
+                mainTabControl.SelectTab(1);
+
+                try
+                {
+                    activitiesListView.BeginUpdate(); // Clear all selection
+                    activitiesListView.ClearSelection();
+
+                    foreach (var a in activitiesListView.Items.OfType<ActionListViewItem>())
+                    {
+                        var span = a.summary.TimePoint - point;
+
+                        // Find first element whithin +/- 10 minutes
+                        if (Math.Abs(span.TotalMinutes) < 10)
+                        {
+                            a.header.Selected = true;
+                            a.header.EnsureVisible(); // Scroll to
+                            return;
+                        }
+                    }
+
+                }
+                finally
+                {
+                    activitiesListView.EndUpdate();
+                }
+            }
+
+
+        }
+
+        private void chart_MouseUp(object sender, MouseEventArgs e)
+        {
+
+            if (chart.SelectionSpan != null && chart.SelectionStart != null)
+            {
+                var span = chart.SelectionSpan.GetValueOrDefault();
+                var time = chart.SelectionStart.GetValueOrDefault();
+
+                textBox1.Text = time.ToShortTimeString() + " -> " + (time + span).ToShortTimeString();
+
+            }
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (chart.SelectionSpan != null && chart.SelectionStart != null)
+            {
+                var span = chart.SelectionSpan.GetValueOrDefault();
+                var time = chart.SelectionStart.GetValueOrDefault() - new DateTime();
+
+                RefreshActivitiesList(datePicker.Value.Date+time, span);
+            }
+        }
     }
 }

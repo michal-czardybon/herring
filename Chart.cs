@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Diagnostics;
 using System.Drawing;
 
 namespace Herring
@@ -102,13 +100,21 @@ namespace Herring
             }
         }
 
-        public void CreateChart(List<ActivitySummary> log)
+        public void CreateChart(List<ActivitySummary> log, int selectedBar, int rangeStart, int rangeEnd)
         {
             bitmap.Dispose();
             bitmap = new Bitmap(24 * 12 * BAR_WIDTH, BAR_HEIGHT + TOP_MARGIN + 1);
 
             Graphics g = Graphics.FromImage(bitmap);
             g.FillRectangle(Brushes.White, 0, 0, bitmap.Width, bitmap.Height);
+
+            if (rangeEnd != -1 && rangeStart != -1)
+            {
+                int start = (rangeStart / BAR_WIDTH) * BAR_WIDTH - 1;
+                int end = (rangeEnd / BAR_WIDTH) * BAR_WIDTH - 1;
+
+                g.FillRectangle(SystemBrushes.Highlight, new Rectangle(start, 0, end - start, bitmap.Height));
+            }
 
             foreach (ActivitySummary s in log)
             {
@@ -122,6 +128,16 @@ namespace Herring
                 Pen pen = (i % 8 == 0 ? Pens.Black : Pens.LightGray);
                 g.DrawLine(pen, x, 0, x, bitmap.Height);
             }
+
+            
+
+            if (selectedBar != -1)
+            {
+                int x = selectedBar * BAR_WIDTH - 1;
+
+                g.DrawLine(Pens.Red, x, 0, x, bitmap.Height);
+            }
+
             g.Dispose();
         }
 
