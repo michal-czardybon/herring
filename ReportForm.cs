@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Herring
@@ -30,13 +25,13 @@ namespace Herring
             DateTime dateFrom = datePickerFrom.Value.Date;
             DateTime dateTo = datePickerTo.Value.Date;
 
-            double[] shares = new double[24 * 12];   // every 5 minutes
+            var shares = new double[24 * 12];   // every 5 minutes
 
-            double[] weekly_nom = new double[7];
-            double[] weekly_den = new double[7];
+            var weekly_nom = new double[7];
+            var weekly_den = new int[7];
 
             int count = 0;
-            for (DateTime d = dateFrom; d <= dateTo; d = d.AddDays(1))
+            for (var d = dateFrom; d <= dateTo; d = d.AddDays(1))
             {
                 count++;
 
@@ -51,40 +46,51 @@ namespace Herring
 
                 int q = ((int)d.DayOfWeek + 6) % 7;
                 weekly_nom[q] += dailyTotal;
-                weekly_den[q] += 1.0;
+                weekly_den[q] += 1;
             }
 
             bitmap.Dispose();
             bitmap = new Bitmap(24 * 12 * BAR_WIDTH, BAR_HEIGHT + TOP_MARGIN + 1);
 
-            Graphics g = Graphics.FromImage(bitmap);
-            g.FillRectangle(Brushes.White, 0, 0, bitmap.Width, bitmap.Height);
-
-            for (int i = 0; i < shares.Length; ++i)
+            using (var g = Graphics.FromImage(bitmap))
             {
-                double value = shares[i] / count;
-                int x1 = i * BAR_WIDTH;
-                int h = (int)(BAR_HEIGHT * value);
-                int y1 = BAR_HEIGHT - h + TOP_MARGIN;
+                g.Clear(Color.White);
 
-                g.FillRectangle(Brushes.Blue, x1, y1, BAR_WIDTH, h);
+                for (int i = 0; i < 24; ++i)
+                {
+                    int x = i * BAR_WIDTH * 12;
+                    g.DrawLine(Pens.DarkGray, new Point(x, 0), new Point(x, bitmap.Width));
+                }
+
+                for (int i = 0; i < shares.Length; ++i)
+                {
+                    double value = shares[i] / count;
+                    int x1 = i * BAR_WIDTH;
+                    int h = (int)(BAR_HEIGHT * value);
+                    int y1 = BAR_HEIGHT - h + TOP_MARGIN;
+
+                    g.FillRectangle(Brushes.Blue, x1, y1, BAR_WIDTH, h);
+                }
             }
-            g.Dispose();
 
             chartBox1.Image = bitmap;
 
-            // Text
-            reportText.Lines =
-                new string[]
+            var lines = new string[7];
+            for (int i = 0; i < 7; ++i)
+            {
+                var name = Enum.GetName(typeof(DayOfWeek), i);
+
+                if (weekly_den[i] > 0)
                 {
-                    String.Format("Monday:    {0:F2}", weekly_nom[0] / weekly_den[0]),
-                    String.Format("Tuesday:   {0:F2}", weekly_nom[1] / weekly_den[1]),
-                    String.Format("Wednesday: {0:F2}", weekly_nom[2] / weekly_den[2]),
-                    String.Format("Thursday:  {0:F2}", weekly_nom[3] / weekly_den[3]),
-                    String.Format("Friday:    {0:F2}", weekly_nom[4] / weekly_den[4]),
-                    String.Format("Saturaday: {0:F2}", weekly_nom[5] / weekly_den[5]),
-                    String.Format("Sunday:    {0:F2}", weekly_nom[6] / weekly_den[6]),
-                };
+                    lines[i] = string.Format("{1,-16}{0:F2}", weekly_nom[i] / weekly_den[i], name+":");
+                }
+                else
+                {
+                    lines[i] = string.Format("{0,-16}Not in range", name+":");
+                }
+            }
+
+            reportText.Lines = lines;
         }
     }
 }
