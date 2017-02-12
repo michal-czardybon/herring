@@ -9,16 +9,87 @@ namespace Herring
 {
     public partial class MainForm : Form
     {
+
         public class ActionListViewItem: ListViewItem
         {
-            public ActivitySummary summary;
-            public ListViewItem header;
+            private ActivitySummary summary;
+            private ListViewItem header;
+            private ActivityEntry entry;
 
-            public ActionListViewItem(string[] content, int imgIndex, ActivitySummary summary, ListViewItem header):
-                base(content, imgIndex)
+            public ActivitySummary Summary
+            {
+                get
+                {
+                    return summary;
+                }
+            }
+
+            public ListViewItem Header
+            {
+                get
+                {
+                    return header;
+                }
+            }
+
+            private void AddColumn(string s)
+            {
+                SubItems.Add(s);
+            }
+
+            private void AddColumn(float f)
+            {
+                SubItems.Add(f.ToString("F1"));
+            }
+
+            private void AddColumn(double d)
+            {
+                SubItems.Add(d.ToString("F1"));
+            }
+
+            private void AddColumn(int i)
+            {
+                SubItems.Add(i.ToString());
+            }
+
+            public ActionListViewItem(ActivityEntry entry, int imgIndex, ActivitySummary summary, ListViewItem header)
             {
                 this.summary = summary;
                 this.header = header;
+                this.entry = entry;
+
+                ImageIndex = imgIndex;
+
+                ForeColor =
+                    entry.Share >= 20.0 ? Color.Black :
+                    entry.Share >= 10.0 ? Color.FromArgb(64, 64, 64) :
+                                          Color.FromArgb(128, 128, 128);
+                
+                // Remove uneccesary extension
+                var processedName = entry.App.Name.ToLower().Replace(".exe", "");
+
+                Text = processedName;                /* process: */
+                AddColumn(entry.ApplicationTitle);    /* title: */
+                AddColumn(entry.Subtitle);            /* subtitle: */
+                AddColumn(entry.Share);               /* share: */
+                AddColumn(entry.KeyboardIntensity);   /* keyboard: */
+                AddColumn(entry.MouseIntensity);      /* mouse: */
+                AddColumn(entry.Category);            /* category: */
+
+                UseItemStyleForSubItems = false;
+                
+                for (int i = 0; i < SubItems.Count - 1; ++i)
+                {
+                    SubItems[i].ForeColor = ForeColor;
+                }
+
+                SubItems[SubItems.Count - 1].ForeColor = Chart.GetColor(entry.CategoryIndex + 1);
+            }
+
+            public void SelectHeader()
+            {
+                Header.Selected = true;
+                Header.EnsureVisible(); 
             }
         }
 
@@ -105,6 +176,10 @@ namespace Herring
 
         private void AddToActivitiesList(ActivitySummary summary)
         {
+            // Nothing to show
+            if (summary.Entries.All(e => e.Share < Parameters.MinimumShare))
+                return;
+
             // Header
             
             string[] contentHeader = new string[]
@@ -125,38 +200,13 @@ namespace Herring
             
 
             // Entries
-            foreach (ActivityEntry e in summary.Entries)
+            foreach (var entry in summary.Entries)
             {
-                if (e.Share >= Parameters.MinimumShare)
+                if (entry.Share >= Parameters.MinimumShare)
                 {
-                    string category = e.Category;//RuleManager.MatchCategory(e);
-                    string subtitle = e.Subtitle;
+                    int iconIndex = GetIconIndex(entry.App);
 
-                    string[] content = new string[]
-                    {
-                        /* process: */  e.App.Name,
-                        /* title: */    e.ApplicationTitle,
-                        /* subtitle: */ subtitle,
-                        /* share: */    e.Share.ToString("F1"),
-                        /* keyboard: */ e.KeyboardIntensity.ToString("F1"),
-                        /* mouse: */    e.MouseIntensity.ToString("F1"),
-                        /* category: */ category
-                    };
-
-                    int iconIndex = GetIconIndex(e.App);
-
-                    ListViewItem item = new ActionListViewItem(content, iconIndex, summary, header);
-
-                    item.UseItemStyleForSubItems = false;
-                    item.ForeColor =
-                        e.Share >= 20.0 ? Color.Black :
-                        e.Share >= 10.0 ? Color.FromArgb(64, 64, 64) :
-                                          Color.FromArgb(128, 128, 128);
-                    for (int i = 0; i < content.Length - 1; ++i)
-                    {
-                        item.SubItems[i].ForeColor = item.ForeColor;
-                    }
-                    item.SubItems[6].ForeColor = Chart.GetColor(e.CategoryIndex + 1);
+                    ListViewItem item = new ActionListViewItem(entry, iconIndex, summary, header); 
                     activitiesListView.Items.Add(item);
                 }
             }
@@ -174,10 +224,12 @@ namespace Herring
             }
         }
 
+        /// <summary>
+        /// Refreshes list with fukk 24-hour span.
+        /// </summary>
         private void RefreshActivitiesList()
         {
-            RefreshActivitiesList(datePicker.Value.Date - new TimeSpan(12, 0, 0)
-                , new TimeSpan(24, 0, 0));
+            RefreshActivitiesList(datePicker.Value.Date, new TimeSpan(24, 0, 0));
         }
 
         private void RefreshActivitiesList(DateTime time, TimeSpan timeSpan)
@@ -357,10 +409,12 @@ namespace Herring
             public string WindowTitle;
         }
 
+        /// <summary>
+        /// Refreshes summary with 24h time span.
+        /// </summary>
         private void RefreshSummary()
         {
-            // Full ltimespan
-            RefreshSummary(datePicker.Value, new TimeSpan(24, 0, 0));
+            RefreshSummary(datePicker.Value.Date, new TimeSpan(24, 0, 0));
         }
 
         private void RefreshSummary(DateTime start, TimeSpan timeSpan)
@@ -576,10 +630,10 @@ namespace Herring
 
         private void notifyIcon_MouseClick(object sender, MouseEventArgs e)
         {
-            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            if (e.Button == MouseButtons.Left)
             {
-                this.Show();
-                this.ShowInTaskbar = true;
+                Show();
+                ShowInTaskbar = true;
                 notifyIcon.Visible = false;
             }
         }
@@ -596,17 +650,18 @@ namespace Herring
 
         private void closeMenuItem_Click(object sender, EventArgs e)
         {
-            this.FormClosing -= this.MainForm_FormClosing;
-            this.Close();
+            FormClosing -= this.MainForm_FormClosing;
+            Close();
         }
 
         private void exitButton_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("Activity tracking is about to be turned off. Are you sure?", "Herring Activity Tracker", MessageBoxButtons.OKCancel);
+
             if (result == DialogResult.OK)
             {
-                this.FormClosing -= this.MainForm_FormClosing;
-                this.Close();
+                FormClosing -= MainForm_FormClosing;
+                Close();
             }
         }
 
@@ -744,8 +799,17 @@ namespace Herring
             label3.Text = string.Format("{0:00}:{1:00}", bar / 12, bar % 12 * 5);
         }
 
-        private void chartBox_MouseDown(object sender, MouseEventArgs e)
+        private void chart_MouseUp(object sender, MouseEventArgs e)
         {
+            if (chart.SelectionSpan != null && chart.SelectionStart != null)
+            {
+                var span = chart.SelectionSpan.GetValueOrDefault();
+                var time = chart.SelectionStart.GetValueOrDefault();
+
+                textBox1.Text = time.ToShortTimeString() + " -> " + (time + span).ToShortTimeString();
+
+                return;
+            }
 
             if (e.Button == MouseButtons.Left)
             {
@@ -764,13 +828,12 @@ namespace Herring
 
                     foreach (var a in activitiesListView.Items.OfType<ActionListViewItem>())
                     {
-                        var span = a.summary.TimePoint - point;
+                        var span = a.Summary.TimePoint - point;
 
                         // Find first element whithin +/- 10 minutes
                         if (Math.Abs(span.TotalMinutes) < 10)
                         {
-                            a.header.Selected = true;
-                            a.header.EnsureVisible(); // Scroll to
+                            a.SelectHeader();
                             return;
                         }
                     }
@@ -780,21 +843,6 @@ namespace Herring
                 {
                     activitiesListView.EndUpdate();
                 }
-            }
-
-
-        }
-
-        private void chart_MouseUp(object sender, MouseEventArgs e)
-        {
-
-            if (chart.SelectionSpan != null && chart.SelectionStart != null)
-            {
-                var span = chart.SelectionSpan.GetValueOrDefault();
-                var time = chart.SelectionStart.GetValueOrDefault();
-
-                textBox1.Text = time.ToShortTimeString() + " -> " + (time + span).ToShortTimeString();
-
             }
 
         }
