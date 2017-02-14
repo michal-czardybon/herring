@@ -93,6 +93,7 @@ namespace Herring
         private void Init()
         {
             BorderStyle = BorderStyle.Fixed3D;
+            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         }
 
         protected override void OnMouseDown(MouseEventArgs e)
@@ -105,14 +106,16 @@ namespace Herring
 
         protected override void OnMouseUp(MouseEventArgs e)
         {
-            if (Math.Abs(selectionStart - selectionEnd) < 5)
+            if (e.Button == MouseButtons.Left)
             {
-                selectionStart = -1;
-                selectionEnd = -1;
+                if (Math.Abs(selectionStart - selectionEnd) < 5)
+                {
+                    selectionStart = -1;
+                    selectionEnd = -1;
 
-                RepaintLog();
+                    RepaintLog();
+                }
             }
-
             base.OnMouseUp(e);
         }
 
@@ -130,15 +133,17 @@ namespace Herring
                 return;
             }
 
-            var newSelection = e.X / 4;
+            if (e.Button == MouseButtons.None)
+            {
+                var newSelection = e.X / 4;
 
-            if (newSelection == hoveredBar)
-                return;
+                if (newSelection == hoveredBar)
+                    return;
 
-            hoveredBar = newSelection;
+                hoveredBar = newSelection;
 
-            RepaintLog();
-
+                RepaintLog();
+            }
 
             base.OnMouseMove(e);
         }
@@ -150,6 +155,7 @@ namespace Herring
                 hoveredBar = -1;
                 RepaintLog();
             }
+
             base.OnMouseLeave(e);
         }
     }

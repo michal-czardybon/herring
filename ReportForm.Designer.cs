@@ -16,6 +16,10 @@
             if (disposing && (components != null))
             {
                 components.Dispose();
+
+                if (bitmap != null)
+                    bitmap.Dispose();
+
             }
             base.Dispose(disposing);
         }
@@ -28,6 +32,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReportForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.calculateButton = new System.Windows.Forms.Button();
             this.datePickerTo = new System.Windows.Forms.DateTimePicker();
@@ -50,7 +55,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(773, 58);
+            this.panel1.Size = new System.Drawing.Size(1164, 58);
             this.panel1.TabIndex = 2;
             // 
             // calculateButton
@@ -108,7 +113,7 @@
             this.chartBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.chartBox1.Location = new System.Drawing.Point(0, 58);
             this.chartBox1.Name = "chartBox1";
-            this.chartBox1.Size = new System.Drawing.Size(773, 158);
+            this.chartBox1.Size = new System.Drawing.Size(1164, 110);
             this.chartBox1.TabIndex = 3;
             this.chartBox1.TabStop = false;
             // 
@@ -116,22 +121,23 @@
             // 
             this.reportText.Dock = System.Windows.Forms.DockStyle.Fill;
             this.reportText.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.reportText.Location = new System.Drawing.Point(0, 216);
+            this.reportText.Location = new System.Drawing.Point(0, 168);
             this.reportText.Multiline = true;
             this.reportText.Name = "reportText";
-            this.reportText.Size = new System.Drawing.Size(773, 162);
+            this.reportText.Size = new System.Drawing.Size(1164, 210);
             this.reportText.TabIndex = 4;
             // 
             // ReportForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(773, 378);
+            this.ClientSize = new System.Drawing.Size(1164, 378);
             this.Controls.Add(this.reportText);
             this.Controls.Add(this.chartBox1);
             this.Controls.Add(this.panel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ReportForm";
-            this.Text = "Report (Under construction)";
+            this.Text = "Report";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartBox1)).EndInit();
