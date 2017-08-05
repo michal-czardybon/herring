@@ -36,7 +36,8 @@ namespace Herring
                 count++;
 
                 double dailyTotal = 0;
-                List<ActivitySummary> summaries = Persistence.Load(getApp, d);
+                List<string> errors;
+                List<ActivitySummary> summaries = Persistence.Load(getApp, d, out errors);
                 foreach (var s in summaries)
                 {
                     int k = (s.TimePoint.Hour * 60 + s.TimePoint.Minute) / 5;

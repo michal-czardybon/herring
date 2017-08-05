@@ -137,12 +137,34 @@ namespace Herring
 
             reportForm = new ReportForm(monitor.GetApp);
 
-            ActivityTracker.SetCurrentActivityLog( Persistence.Load(monitor.GetApp) );
+            List<string> errors = null;
+
+            ActivityTracker.SetCurrentActivityLog( Persistence.Load(monitor.GetApp, out errors));
+
+            if (errors != null && errors.Count != 0)
+            {
+                ReportErrorDuringLoading(errors);
+            }
+
             ActivityTracker.CurrentLogExtended += this.CurrentLogExtended;
             ActivityTracker.CurrentLogChanged += this.CurrentLogChanged;
             ActivityTracker.UserStatusChanged += this.UserStatusChanged;
 
             CurrentLogChanged(DateTime.Now);
+        }
+
+        private void ReportErrorDuringLoading(List<string> errors)
+        {
+            if (errors == null || errors.Count == 0)
+                return;
+
+            errors.Insert(0, "");
+
+            MessageBox.Show("Errors occured during loading saved data:"
+                    + Environment.NewLine + Environment.NewLine + errors.Aggregate((a, b) => a += b.Substring(0,Math.Min(30, b.Length)) + Environment.NewLine)
+                    + Environment.NewLine + "All invalid entries were skipped.",
+
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -584,14 +606,22 @@ namespace Herring
 
         private void datePicker_ValueChanged(object sender, EventArgs e)
         {
+            List<string> errors = null;
+
             if (datePicker.Value.Date == DateTime.Now.Date)
             {
                 ActivityTracker.SetCurrentActivityLog();
             }
             else
-            {
-                ActivityTracker.SetSelectedActivityLog(Persistence.Load(monitor.GetApp, datePicker.Value.Date));
+            {                
+                ActivityTracker.SetSelectedActivityLog(Persistence.Load(monitor.GetApp, datePicker.Value.Date, out errors));
             }
+
+            if (errors != null && errors.Count != 0)
+            {
+                ReportErrorDuringLoading(errors);
+            }
+
             RefreshActivitiesList();
             RefreshCategories();
             RefreshSummary();
