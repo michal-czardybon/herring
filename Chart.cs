@@ -81,7 +81,7 @@ namespace Herring
             }
         }
 
-        public void CreateChart(Log log, int selectedBar, int rangeStart, int rangeEnd)
+        public void CreateChart(Log log, int? selectedBar, int rangeStart, int rangeEnd)
         {
             bitmap.Dispose();
             bitmap = new Bitmap(24 * 12 * BAR_WIDTH, BAR_HEIGHT + TOP_MARGIN + 1);
@@ -113,9 +113,9 @@ namespace Herring
 
             
 
-            if (selectedBar != -1)
+            if (selectedBar != null)
             {
-                int x = selectedBar * BAR_WIDTH - 1;
+                int x = selectedBar.Value  * BAR_WIDTH - 1;
 
                 g.DrawLine(Pens.Red, x, 0, x, bitmap.Height);
             }

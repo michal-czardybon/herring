@@ -726,7 +726,6 @@
             this.chart.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.chart.Location = new System.Drawing.Point(3, 0);
             this.chart.Name = "chart";
-            this.chart.SelectedBar = 0;
             this.chart.Size = new System.Drawing.Size(1156, 49);
             this.chart.TabIndex = 4;
             this.chart.TabStop = false;

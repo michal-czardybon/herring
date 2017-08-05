@@ -688,7 +688,8 @@ namespace Herring
 
         private void exitButton_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Activity tracking is about to be turned off. Are you sure?", "Herring Activity Tracker", MessageBoxButtons.OKCancel);
+            var result = MessageBox.Show("Activity tracking is about to be turned off. Are you sure?", "Herring Activity Tracker", 
+                MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
 
             if (result == DialogResult.OK)
             {
@@ -827,7 +828,7 @@ namespace Herring
         private void UpdateSelectionIndicator()
         {
             var time = chart.SelectionSpan;
-            if (time.HasValue)
+            if (time.HasValue && time.Value.TotalDays > 0)
                 label5.Text = string.Format("{0:00}:{1:00}", time.Value.TotalDays*24, time.Value.Minutes);
             else
                 label5.Text = "--:--";
@@ -835,9 +836,19 @@ namespace Herring
 
         private void chartBox_MouseMove(object sender, MouseEventArgs e)
         {
-            var bar = Math.Max(0, chart.SelectedBar);
+            if (chart.SelectedBar != null)
+            {
+                var bar = chart.SelectedBar.Value;
 
-            label3.Text = string.Format("{0:00}:{1:00}", bar / 12, bar % 12 * 5);
+                label3.Text = string.Format("{0:00}:{1:00}", bar / 12, bar % 12 * 5);
+            }
+            else
+            {
+                if (chart.SelectionStart != null)
+                    label3.Text = string.Format("{0:00}:{1:00}", chart.SelectionStart.Value.Hour, chart.SelectionStart.Value.Minute);
+                else
+                    label3.Text = "--:--";
+            }
 
             UpdateSelectionIndicator();
 
@@ -863,11 +874,11 @@ namespace Herring
 
             if (e.Button == MouseButtons.Left)
             {
-                if (chart.SelectedBar == -1)
+                if (chart.SelectedBar == null)
                     return;
 
                 DateTime point = datePicker.Value.Date;
-                point = point.AddMinutes(chart.SelectedBar * 5);
+                point = point.AddMinutes(chart.SelectedBar.Value * 5);
 
                 mainTabControl.SelectTab(1);
 

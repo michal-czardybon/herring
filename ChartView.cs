@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace Herring
@@ -8,12 +9,13 @@ namespace Herring
     {
         Chart chart = new Chart();
 
-        int hoveredBar = 0;
+        int? hoveredBar;
                 
         // IN 5 min quants
         int selectionStart = -1;
         int selectionEnd = -1;
-        
+        int start = -1;
+
         Log log;
 
         /// <summary>
@@ -54,7 +56,8 @@ namespace Herring
 
         }
 
-        public int SelectedBar
+        [Browsable(false)]
+        public int? SelectedBar
         {
             get
             {
@@ -103,8 +106,7 @@ namespace Herring
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            selectionStart = (e.X / 4) * 4;
-            selectionEnd = (e.X / 4) * 4;
+            start = (e.X / 4) * 4; 
 
             OnSelectionChanged();
 
@@ -119,6 +121,7 @@ namespace Herring
                 {
                     selectionStart = -1;
                     selectionEnd = -1;
+                    start = -1;
 
                     OnSelectionChanged();
 
@@ -130,16 +133,17 @@ namespace Herring
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left && Math.Abs(selectionStart - e.X) >= 5) // Draging
-            {
-                var x = Math.Min(Math.Max(0, e.X), 12 * 24 * 4);
+            var x = Math.Min(Math.Max(0, e.X), 12 * 24 * 4);
 
-                selectionStart = Math.Min(selectionStart, x);
-                selectionEnd =   Math.Max(selectionEnd, x);
-                
+            if (e.Button == MouseButtons.Left && Math.Abs(start - x) >= 5) // Draging
+            {
+     
+                selectionEnd =   Math.Max(start, x);
+                selectionStart = Math.Min(start, x);
+
                 OnSelectionChanged();
 
-                hoveredBar = -1;
+                hoveredBar = null;
 
                 RepaintLog();
 
@@ -163,9 +167,9 @@ namespace Herring
 
         protected override void OnMouseLeave(EventArgs e)
         {
-            if (hoveredBar != -1)
+            if (hoveredBar != null)
             {
-                hoveredBar = -1;
+                hoveredBar = null;
                 RepaintLog();
             }
 
