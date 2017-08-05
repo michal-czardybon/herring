@@ -822,11 +822,29 @@ namespace Herring
             reportForm.ShowDialog();
         }
 
+        private void UpdateSelectionIndicator()
+        {
+            var time = chart.SelectionSpan;
+            if (time.HasValue)
+                label5.Text = string.Format("{0:00}:{1:00}", time.Value.TotalDays*24, time.Value.Minutes);
+            else
+                label5.Text = "--:--";
+        }
+
         private void chartBox_MouseMove(object sender, MouseEventArgs e)
         {
-            var bar = chart.SelectedBar;
+            var bar = Math.Max(0, chart.SelectedBar);
 
             label3.Text = string.Format("{0:00}:{1:00}", bar / 12, bar % 12 * 5);
+
+            UpdateSelectionIndicator();
+
+
+        }
+
+        private void chart_selectionChanged(object sender, EventArgs args)
+        {
+            UpdateSelectionIndicator();
         }
 
         private void chart_MouseUp(object sender, MouseEventArgs e)

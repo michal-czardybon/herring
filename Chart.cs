@@ -110,8 +110,8 @@ namespace Herring
 
             if (rangeEnd != -1 && rangeStart != -1)
             {
-                int start = (rangeStart / BAR_WIDTH) * BAR_WIDTH - 1;
-                int end = (rangeEnd / BAR_WIDTH) * BAR_WIDTH - 1;
+                int start = (rangeStart / BAR_WIDTH) * BAR_WIDTH;
+                int end = (rangeEnd / BAR_WIDTH) * BAR_WIDTH;
 
                 g.FillRectangle(SystemBrushes.Highlight, new Rectangle(start, 0, end - start, bitmap.Height));
             }

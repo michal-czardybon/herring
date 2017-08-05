@@ -9,13 +9,17 @@ namespace Herring
         Chart chart = new Chart();
 
         int hoveredBar = 0;
-
-        
+                
         // IN 5 min quants
         int selectionStart = -1;
         int selectionEnd = -1;
         
         List<ActivitySummary> log;
+
+        /// <summary>
+        /// Informs about changed seletion (start or span).
+        /// </summary>
+        public event EventHandler SelectionChanged;
 
         /// <summary>
         /// Returns only minutes/hours
@@ -98,8 +102,10 @@ namespace Herring
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            selectionStart = e.X;
-            selectionEnd = e.X;
+            selectionStart = (e.X / 4) * 4;
+            selectionEnd = (e.X / 4) * 4;
+
+            OnSelectionChanged();
 
             base.OnMouseDown(e);
         }
@@ -113,6 +119,8 @@ namespace Herring
                     selectionStart = -1;
                     selectionEnd = -1;
 
+                    OnSelectionChanged();
+
                     RepaintLog();
                 }
             }
@@ -123,8 +131,12 @@ namespace Herring
         {
             if (e.Button == MouseButtons.Left && Math.Abs(selectionStart - e.X) >= 5) // Draging
             {
-                selectionStart = Math.Min(selectionStart, e.X);
-                selectionEnd =   Math.Max(selectionEnd, e.X);
+                var x = Math.Min(Math.Max(0, e.X), 12 * 24 * 4);
+
+                selectionStart = Math.Min(selectionStart, x);
+                selectionEnd =   Math.Max(selectionEnd, x);
+                
+                OnSelectionChanged();
 
                 hoveredBar = -1;
 
@@ -157,6 +169,12 @@ namespace Herring
             }
 
             base.OnMouseLeave(e);
+        }
+
+        private void OnSelectionChanged()
+        {
+            if (SelectionChanged != null)
+                SelectionChanged(this, EventArgs.Empty);
         }
     }
 }

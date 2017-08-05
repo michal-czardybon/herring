@@ -104,6 +104,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.notifyIconMenuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -570,7 +572,7 @@
             this.activitiesListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.activitiesListView.FullRowSelect = true;
             this.activitiesListView.GridLines = true;
-            this.activitiesListView.Location = new System.Drawing.Point(3, 39);
+            this.activitiesListView.Location = new System.Drawing.Point(3, 3);
             this.activitiesListView.Name = "activitiesListView";
             this.activitiesListView.Size = new System.Drawing.Size(1280, 532);
             this.activitiesListView.TabIndex = 0;
@@ -619,8 +621,8 @@
             this.panel3.Controls.Add(this.label4);
             this.panel3.Controls.Add(this.textBox1);
             this.panel3.Controls.Add(this.button1);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel3.Location = new System.Drawing.Point(3, 3);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel3.Location = new System.Drawing.Point(3, 535);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(1280, 36);
             this.panel3.TabIndex = 1;
@@ -728,13 +730,14 @@
             this.chart.Size = new System.Drawing.Size(1156, 49);
             this.chart.TabIndex = 4;
             this.chart.TabStop = false;
+            this.chart.SelectionChanged += new System.EventHandler(this.chart_selectionChanged);
             this.chart.MouseMove += new System.Windows.Forms.MouseEventHandler(this.chartBox_MouseMove);
             this.chart.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chart_MouseUp);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(1171, 10);
+            this.label2.Location = new System.Drawing.Point(1165, 10);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(33, 13);
             this.label2.TabIndex = 5;
@@ -743,7 +746,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(1210, 10);
+            this.label3.Location = new System.Drawing.Point(1222, 10);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(34, 13);
             this.label3.TabIndex = 6;
@@ -751,6 +754,8 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.label5);
+            this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.label3);
             this.panel2.Controls.Add(this.label2);
             this.panel2.Controls.Add(this.chart);
@@ -759,6 +764,24 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1294, 50);
             this.panel2.TabIndex = 1;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(1222, 28);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(34, 13);
+            this.label5.TabIndex = 8;
+            this.label5.Text = "00:00";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(1165, 28);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(42, 13);
+            this.label6.TabIndex = 7;
+            this.label6.Text = "Range:";
             // 
             // MainForm
             // 
@@ -874,6 +897,8 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
     }
 }
 
