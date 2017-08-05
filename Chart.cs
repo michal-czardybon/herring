@@ -12,25 +12,6 @@ namespace Herring
 
         private Bitmap bitmap = new Bitmap(1, 1);
 
-        /*static private Color[] palette = new Color[]
-        {
-            Color.FromArgb(192, 192, 192),
-            Color.FromArgb(127, 127, 127),
-
-            Color.FromArgb(225,	0,	 0),
-            Color.FromArgb(50,	225, 0),
-            Color.FromArgb(25,	0,	 225),
-
-            Color.FromArgb(225,	150, 0),
-            Color.FromArgb(0,	225, 200),
-            Color.FromArgb(150,	0,	 225),
-
-            Color.FromArgb(192,	192, 0),
-            Color.FromArgb(0,	100, 225),           
-            Color.FromArgb(225,	0,	 200),
-
-        };*/
-
         static private Color[] palette = new Color[]
         {
             Color.FromArgb(192, 192, 192),
@@ -100,7 +81,7 @@ namespace Herring
             }
         }
 
-        public void CreateChart(List<ActivitySummary> log, int selectedBar, int rangeStart, int rangeEnd)
+        public void CreateChart(Log log, int selectedBar, int rangeStart, int rangeEnd)
         {
             bitmap.Dispose();
             bitmap = new Bitmap(24 * 12 * BAR_WIDTH, BAR_HEIGHT + TOP_MARGIN + 1);
@@ -116,10 +97,11 @@ namespace Herring
                 g.FillRectangle(SystemBrushes.Highlight, new Rectangle(start, 0, end - start, bitmap.Height));
             }
 
-            foreach (ActivitySummary s in log)
+            foreach (ActivitySummary s in log.Activities)
             {
                 DrawSummary(g, s);
             }
+
             g.DrawLine(Pens.Black, 0, BAR_HEIGHT + TOP_MARGIN, bitmap.Width - 1, BAR_HEIGHT + TOP_MARGIN);
 
             for (int i = 1; i <= 24; ++i)
@@ -146,6 +128,7 @@ namespace Herring
             Graphics g = Graphics.FromImage(bitmap);
             DrawSummary(g, summary);
             g.Dispose();
+   
         }
 
     }

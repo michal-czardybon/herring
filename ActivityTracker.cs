@@ -8,8 +8,8 @@ namespace Herring
 {
     public static class ActivityTracker
     {
-        private static List<ActivitySummary> currentLog;   // being tracked right now (today)
-        private static List<ActivitySummary> selectedLog;  // being displayed
+        private static Log currentLog;   // being tracked right now (today)
+        private static Log selectedLog;  // being displayed
 
         private static List<ActivitySnapshot> activeSnapshots = new List<ActivitySnapshot>();
         private static DateTime activeTimePoint = GetTimePoint(DateTime.Now, Parameters.LogTimeUnit);
@@ -27,7 +27,7 @@ namespace Herring
             get { return Parameters.LogSamplingRate; }
         }
 
-        public static List<ActivitySummary> SelectedLog
+        public static Log SelectedLog
         {
             get { return selectedLog;  }
         }
@@ -37,13 +37,13 @@ namespace Herring
             selectedLog = currentLog;
         }
 
-        public static void SetCurrentActivityLog(List<ActivitySummary> log)
+        public static void SetCurrentActivityLog(Log log)
         {
             currentLog = log;
             selectedLog = currentLog;
         }
 
-        public static void SetSelectedActivityLog(List<ActivitySummary> log)
+        public static void SetSelectedActivityLog(Log log)
         {
             selectedLog = log;
         }
@@ -292,7 +292,7 @@ namespace Herring
                 if (summary.Entries.Count >= 1)
                 {
                     Persistence.Store(summary);
-                    currentLog.Add(summary);
+                    currentLog.Activities.Add(summary);
                     if (currentLog == selectedLog)
                     {
                         OnCurrentLogExtended(summary);
@@ -305,7 +305,7 @@ namespace Herring
                 {
                     Persistence.Close();
 
-                    currentLog.Clear();
+                    currentLog.Activities.Clear();
                     if (currentLog == selectedLog)
                     {
                         OnCurrentLogChanged(currTimePoint.Date);

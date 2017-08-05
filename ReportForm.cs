@@ -37,8 +37,8 @@ namespace Herring
 
                 double dailyTotal = 0;
                 List<string> errors;
-                List<ActivitySummary> summaries = Persistence.Load(getApp, d, out errors);
-                foreach (var s in summaries)
+                Log summaries = Persistence.Load(getApp, d, out errors);
+                foreach (var s in summaries.Activities)
                 {
                     int k = (s.TimePoint.Hour * 60 + s.TimePoint.Minute) / 5;
                     shares[k] += s.TotalShare / 100.0;

@@ -14,7 +14,7 @@ namespace Herring
         int selectionStart = -1;
         int selectionEnd = -1;
         
-        List<ActivitySummary> log;
+        Log log;
 
         /// <summary>
         /// Informs about changed seletion (start or span).
@@ -80,11 +80,12 @@ namespace Herring
         public void UpdateChart(ActivitySummary summary)
         {
             chart.UpdateChart(summary);
+            Invalidate();
         }
 
-        public void RefreshChart(List<ActivitySummary> items)
+        public void RefreshChart(Log items)
         {
-            log = new List<ActivitySummary>(items);
+            log = items;
             RepaintLog();
         }
 

@@ -260,7 +260,7 @@ namespace Herring
             {
                 activitiesListView.BeginUpdate();
                 activitiesListView.Items.Clear();
-                foreach (ActivitySummary a in ActivityTracker.SelectedLog)
+                foreach (ActivitySummary a in ActivityTracker.SelectedLog.Activities)
                 {
                     var point = a.TimePoint;
 
@@ -315,7 +315,7 @@ namespace Herring
             double totalShareOfAll = 0;
             double centerNom = 0;
             double centerDen = 0;
-            foreach (var summary in ActivityTracker.SelectedLog)
+            foreach (var summary in ActivityTracker.SelectedLog.Activities)
             {
                 int k = 0;
                 foreach (var entry in summary.Entries)
@@ -339,13 +339,15 @@ namespace Herring
             TimeSpan center = TimeSpan.FromMinutes(centerNom / (centerDen + 0.01));
 
             TimeSpan totalSpan;
-            if (ActivityTracker.SelectedLog.Count == 0)
+            var list = ActivityTracker.SelectedLog.Activities;
+
+            if (list.Count == 0)
             {
                 totalSpan = TimeSpan.Zero;
             }
             else
             {
-                totalSpan = ActivityTracker.SelectedLog.Last().TimePoint - ActivityTracker.SelectedLog.First().TimePoint;
+                totalSpan = list.Last().TimePoint - list.First().TimePoint;
             }
 
             List<KeyValuePair<string, CategoryStats>> statsList = stats.ToList();
@@ -443,7 +445,7 @@ namespace Herring
         {
             summaryListView.Items.Clear();
             Dictionary<ActivityId, ActivityDaySummary> summaryItems = new Dictionary<ActivityId, ActivityDaySummary>();
-            foreach (var summary in ActivityTracker.SelectedLog)
+            foreach (var summary in ActivityTracker.SelectedLog.Activities)
             {
                 bool isFirst = true;
                 foreach (var entry in summary.Entries)

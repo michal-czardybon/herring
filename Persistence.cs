@@ -172,9 +172,9 @@ namespace Herring
             reader.Close();
         }
 
-        public static List<ActivitySummary> Load(GetAppDelegate getApp, DateTime date, out List<string> errors)
+        public static Log Load(GetAppDelegate getApp, DateTime date, out List<string> errors)
         {
-            List<ActivitySummary> data = new List<ActivitySummary>();
+            Log data = new Log();
 
             string path = GetLocalDataDir();
             string filePattern = String.Format("herring{0:D4}{1:D2}{2:D2}_*.*", date.Year, date.Month, date.Day);
@@ -183,7 +183,7 @@ namespace Herring
             List<string> errorLines = new List<string>();
             foreach (string f in files)
             {
-                Load(getApp, f, data, ref errorLines);
+                Load(getApp, f, data.Activities, ref errorLines);
             }
 
             errors = errorLines;
@@ -191,7 +191,7 @@ namespace Herring
             return data;
         }
 
-        public static List<ActivitySummary> Load(GetAppDelegate getApp, out List<string> errors)
+        public static Log Load(GetAppDelegate getApp, out List<string> errors)
         {
             return Load(getApp, DateTime.Now, out errors);
         }
