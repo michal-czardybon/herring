@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace Herring
 {
@@ -97,6 +98,22 @@ namespace Herring
                 g.FillRectangle(SystemBrushes.Highlight, new Rectangle(start, 0, end - start, bitmap.Height));
             }
 
+            using (var brush = new SolidBrush(Color.FromArgb(60, 0, 100, 200)))
+            {
+                foreach (var e in log.Events.Where(ev => ev.Type == Log.EventType.AwayFromComputer))
+                {
+                    var begin = e.Start.Hour * 60 + e.Start.Minute;
+                    var end = (int)(e.Span.TotalHours * 60);
+
+                    g.FillRectangle(brush, 
+                        (begin / 5) * 4, 
+                        0, 
+                        (end / 5) * 4, 
+                        bitmap.Height);
+
+                }
+            }
+
             foreach (ActivitySummary s in log.Activities)
             {
                 DrawSummary(g, s);
@@ -111,7 +128,17 @@ namespace Herring
                 g.DrawLine(pen, x, 0, x, bitmap.Height);
             }
 
-            
+            using (var pen = new Pen(Color.Red, 2))
+            {
+                foreach (var e in log.Events.Where(ev => ev.Type == Log.EventType.WorkignHours))
+                {
+                    var begin = e.Start.Hour * 60 + e.Start.Minute;
+                    var end = begin + (int)(e.Span.TotalHours * 60);
+
+                    g.DrawLine(pen, (begin / 5) * 4, bitmap.Height - 2, (end / 5) * 4, bitmap.Height - 2);
+
+                }
+            }
 
             if (selectedBar != null)
             {

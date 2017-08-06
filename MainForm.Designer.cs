@@ -81,14 +81,6 @@
             this.statusMaxHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.categoryNameHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.activitiesListView = new Herring.OptimizedListView();
-            this.processColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.titleColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.subtitleHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.shareHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.keyboardIntensityHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.mouseIntensityHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.categoryHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel3 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -100,12 +92,25 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.copyProjectKaiserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.followLinkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.chart = new Herring.ChartView();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.chartMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.addEventToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.markWorkingHoursToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeEventToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.activitiesListView = new Herring.OptimizedListView();
+            this.processColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.titleColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.subtitleHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.shareHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.keyboardIntensityHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.mouseIntensityHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.categoryHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chart = new Herring.ChartView();
             this.panel1.SuspendLayout();
             this.notifyIconMenuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -118,8 +123,9 @@
             this.mainTabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.activitiesMenuStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
             this.panel2.SuspendLayout();
+            this.chartMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
             this.SuspendLayout();
             // 
             // timer
@@ -558,64 +564,6 @@
             this.tabPage2.Text = "Activities";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // activitiesListView
-            // 
-            this.activitiesListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.processColumnHeader,
-            this.titleColumnHeader,
-            this.subtitleHeader,
-            this.shareHeader,
-            this.keyboardIntensityHeader,
-            this.mouseIntensityHeader,
-            this.categoryHeader});
-            this.activitiesListView.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.activitiesListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.activitiesListView.FullRowSelect = true;
-            this.activitiesListView.GridLines = true;
-            this.activitiesListView.Location = new System.Drawing.Point(3, 3);
-            this.activitiesListView.Name = "activitiesListView";
-            this.activitiesListView.Size = new System.Drawing.Size(1280, 532);
-            this.activitiesListView.TabIndex = 0;
-            this.activitiesListView.UseCompatibleStateImageBehavior = false;
-            this.activitiesListView.View = System.Windows.Forms.View.Details;
-            this.activitiesListView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.activitiesListView_MouseClick);
-            // 
-            // processColumnHeader
-            // 
-            this.processColumnHeader.Text = "Process Name";
-            this.processColumnHeader.Width = 180;
-            // 
-            // titleColumnHeader
-            // 
-            this.titleColumnHeader.Text = "Window Title";
-            this.titleColumnHeader.Width = 524;
-            // 
-            // subtitleHeader
-            // 
-            this.subtitleHeader.Text = "Subtitle";
-            this.subtitleHeader.Width = 240;
-            // 
-            // shareHeader
-            // 
-            this.shareHeader.Text = "Share";
-            this.shareHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // keyboardIntensityHeader
-            // 
-            this.keyboardIntensityHeader.Text = "Keyboard";
-            this.keyboardIntensityHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // mouseIntensityHeader
-            // 
-            this.mouseIntensityHeader.Text = "Mouse";
-            this.mouseIntensityHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // categoryHeader
-            // 
-            this.categoryHeader.Text = "Category";
-            this.categoryHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.categoryHeader.Width = 150;
-            // 
             // panel3
             // 
             this.panel3.Controls.Add(this.label4);
@@ -721,18 +669,6 @@
             this.followLinkToolStripMenuItem.Text = "Follow Link";
             this.followLinkToolStripMenuItem.Click += new System.EventHandler(this.followLinkActivitiesMenuItem_Click);
             // 
-            // chart
-            // 
-            this.chart.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.chart.Location = new System.Drawing.Point(3, 0);
-            this.chart.Name = "chart";
-            this.chart.Size = new System.Drawing.Size(1156, 49);
-            this.chart.TabIndex = 4;
-            this.chart.TabStop = false;
-            this.chart.SelectionChanged += new System.EventHandler(this.chart_selectionChanged);
-            this.chart.MouseMove += new System.Windows.Forms.MouseEventHandler(this.chartBox_MouseMove);
-            this.chart.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chart_MouseUp);
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -782,6 +718,115 @@
             this.label6.TabIndex = 7;
             this.label6.Text = "Range:";
             // 
+            // chartMenu
+            // 
+            this.chartMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.removeEventToolStripMenuItem,
+            this.addEventToolStripMenuItem,
+            this.toolStripMenuItem2,
+            this.markWorkingHoursToolStripMenuItem});
+            this.chartMenu.Name = "chartMenu";
+            this.chartMenu.Size = new System.Drawing.Size(191, 98);
+            this.chartMenu.Opening += new System.ComponentModel.CancelEventHandler(this.chartMenu_Opening);
+            // 
+            // addEventToolStripMenuItem
+            // 
+            this.addEventToolStripMenuItem.Name = "addEventToolStripMenuItem";
+            this.addEventToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.addEventToolStripMenuItem.Text = "Add new event..";
+            this.addEventToolStripMenuItem.Click += new System.EventHandler(this.addEventToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(187, 6);
+            // 
+            // markWorkingHoursToolStripMenuItem
+            // 
+            this.markWorkingHoursToolStripMenuItem.Name = "markWorkingHoursToolStripMenuItem";
+            this.markWorkingHoursToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.markWorkingHoursToolStripMenuItem.Text = "Mark \'Working Hours\'";
+            this.markWorkingHoursToolStripMenuItem.Click += new System.EventHandler(this.markWorkingHoursToolStripMenuItem_Click);
+            // 
+            // removeEventToolStripMenuItem
+            // 
+            this.removeEventToolStripMenuItem.Enabled = false;
+            this.removeEventToolStripMenuItem.Name = "removeEventToolStripMenuItem";
+            this.removeEventToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.removeEventToolStripMenuItem.Text = "Remove event";
+            // 
+            // activitiesListView
+            // 
+            this.activitiesListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.processColumnHeader,
+            this.titleColumnHeader,
+            this.subtitleHeader,
+            this.shareHeader,
+            this.keyboardIntensityHeader,
+            this.mouseIntensityHeader,
+            this.categoryHeader});
+            this.activitiesListView.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.activitiesListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.activitiesListView.FullRowSelect = true;
+            this.activitiesListView.GridLines = true;
+            this.activitiesListView.Location = new System.Drawing.Point(3, 3);
+            this.activitiesListView.Name = "activitiesListView";
+            this.activitiesListView.Size = new System.Drawing.Size(1280, 532);
+            this.activitiesListView.TabIndex = 0;
+            this.activitiesListView.UseCompatibleStateImageBehavior = false;
+            this.activitiesListView.View = System.Windows.Forms.View.Details;
+            this.activitiesListView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.activitiesListView_MouseClick);
+            // 
+            // processColumnHeader
+            // 
+            this.processColumnHeader.Text = "Process Name";
+            this.processColumnHeader.Width = 180;
+            // 
+            // titleColumnHeader
+            // 
+            this.titleColumnHeader.Text = "Window Title";
+            this.titleColumnHeader.Width = 524;
+            // 
+            // subtitleHeader
+            // 
+            this.subtitleHeader.Text = "Subtitle";
+            this.subtitleHeader.Width = 240;
+            // 
+            // shareHeader
+            // 
+            this.shareHeader.Text = "Share";
+            this.shareHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // keyboardIntensityHeader
+            // 
+            this.keyboardIntensityHeader.Text = "Keyboard";
+            this.keyboardIntensityHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // mouseIntensityHeader
+            // 
+            this.mouseIntensityHeader.Text = "Mouse";
+            this.mouseIntensityHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // categoryHeader
+            // 
+            this.categoryHeader.Text = "Category";
+            this.categoryHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.categoryHeader.Width = 150;
+            // 
+            // chart
+            // 
+            this.chart.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.chart.ContextMenuStrip = this.chartMenu;
+            this.chart.Location = new System.Drawing.Point(3, 0);
+            this.chart.Name = "chart";
+            this.chart.SelectedBar = null;
+            this.chart.Size = new System.Drawing.Size(1156, 49);
+            this.chart.TabIndex = 4;
+            this.chart.TabStop = false;
+            this.chart.SelectionChanged += new System.EventHandler(this.chart_selectionChanged);
+            this.chart.MouseMove += new System.Windows.Forms.MouseEventHandler(this.chartBox_MouseMove);
+            this.chart.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chart_MouseUp);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -812,9 +857,10 @@
             this.mainTabControl.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.activitiesMenuStrip.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.chartMenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -898,6 +944,11 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ContextMenuStrip chartMenu;
+        private System.Windows.Forms.ToolStripMenuItem removeEventToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addEventToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem markWorkingHoursToolStripMenuItem;
     }
 }
 

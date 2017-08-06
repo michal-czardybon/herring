@@ -139,7 +139,7 @@ namespace Herring
 
             List<string> errors = null;
 
-            ActivityTracker.SetCurrentActivityLog( Persistence.Load(monitor.GetApp, out errors));
+            ActivityTracker.SetCurrentActivityLog( Log.Load(monitor.GetApp, DateTime.Now, out errors));
 
             if (errors != null && errors.Count != 0)
             {
@@ -616,7 +616,7 @@ namespace Herring
             }
             else
             {                
-                ActivityTracker.SetSelectedActivityLog(Persistence.Load(monitor.GetApp, datePicker.Value.Date, out errors));
+                ActivityTracker.SetSelectedActivityLog(Log.Load(monitor.GetApp, datePicker.Value.Date, out errors));
             }
 
             if (errors != null && errors.Count != 0)
@@ -829,7 +829,10 @@ namespace Herring
         {
             var time = chart.SelectionSpan;
             if (time.HasValue && time.Value.TotalDays > 0)
-                label5.Text = string.Format("{0:00}:{1:00}", time.Value.TotalDays*24, time.Value.Minutes);
+            {
+                var minutes = (int)(time.Value.TotalDays * 24 * 60);
+                label5.Text = string.Format("{0:00}:{1:00}", minutes / 60, minutes % 60);
+            }
             else
                 label5.Text = "--:--";
         }
@@ -917,6 +920,88 @@ namespace Herring
 
                 RefreshActivitiesList(datePicker.Value.Date+time, span);
             }
+        }
+
+        private void markWorkingHoursToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (chart.SelectionSpan != null && chart.SelectionStart != null)
+            {
+
+                DateTime date = datePicker.Value.Date;
+
+                date = date.AddHours(chart.SelectionStart.Value.Hour);
+                date = date.AddMinutes(chart.SelectionStart.Value.Minute);
+
+                ActivityTracker.SelectedLog.MarkWorkingHours(date, chart.SelectionSpan.Value);
+
+                RefreshChart();                
+            }
+        }
+
+        private void addEventToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (chart.SelectionSpan != null && chart.SelectionStart != null)
+            {
+
+                DateTime date = datePicker.Value.Date;
+
+                date = date.AddHours(chart.SelectionStart.Value.Hour);
+                date = date.AddMinutes(chart.SelectionStart.Value.Minute);
+
+                using (var input = new InputBox())
+                {
+                    if (input.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(input.InputText))
+                    {
+                        ActivityTracker.SelectedLog.AddAwayFromComputer(date, chart.SelectionSpan.Value, input.InputText);
+                    }
+                }
+
+                RefreshChart();
+            }
+        }
+
+        private void chartMenu_Opening(object sender, CancelEventArgs e)
+        {
+            var selectionPresent = chart.SelectionSpan != null && chart.SelectionStart != null;
+
+            addEventToolStripMenuItem.Enabled = selectionPresent;
+            markWorkingHoursToolStripMenuItem.Enabled = selectionPresent;
+            removeEventToolStripMenuItem.DropDownItems.Clear();
+            removeEventToolStripMenuItem.Enabled = false;
+
+            if (!chart.SelectedTime.HasValue)
+            {
+                return;
+            }
+
+            DateTime date = datePicker.Value.Date;
+
+            date = date.AddHours(chart.SelectedTime.Value.Hour);
+            date = date.AddMinutes(chart.SelectedTime.Value.Minute);
+
+            foreach (var ev in ActivityTracker.SelectedLog.Events.Where( evnt => evnt.ContainsTimePoint(date) ))
+            {
+                var start = ev.Start.ToShortTimeString();
+                var end =  (ev.Start + ev.Span).ToShortTimeString();
+
+                var item = new ToolStripMenuItem( start + "->" + end + " : " +  ev.Description ?? "Unknown");
+                item.Tag = ev;
+
+                item.Click += Item_Click;
+
+                removeEventToolStripMenuItem.DropDownItems.Add(item);
+                removeEventToolStripMenuItem.Enabled = true;
+            }
+
+        }
+
+        private void Item_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            Log.Event evnt = (Log.Event)item.Tag;
+
+            ActivityTracker.SelectedLog.RemoveEvent(evnt);
+            RefreshChart();
         }
     }
 }

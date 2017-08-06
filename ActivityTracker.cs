@@ -291,8 +291,8 @@ namespace Herring
 
                 if (summary.Entries.Count >= 1)
                 {
-                    Persistence.Store(summary);
-                    currentLog.Activities.Add(summary);
+                    currentLog.AddSummary(summary);
+                    
                     if (currentLog == selectedLog)
                     {
                         OnCurrentLogExtended(summary);
@@ -303,9 +303,7 @@ namespace Herring
                 bool dateChanged = (currTimePoint.Date > activeTimePoint.Date);
                 if (dateChanged)
                 {
-                    Persistence.Close();
-
-                    currentLog.Activities.Clear();
+                    currentLog.Clear();
                     if (currentLog == selectedLog)
                     {
                         OnCurrentLogChanged(currTimePoint.Date);

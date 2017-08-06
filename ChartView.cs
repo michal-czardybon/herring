@@ -75,6 +75,19 @@ namespace Herring
             }
         }
 
+
+        public DateTime? SelectedTime
+        {
+            get
+            {
+                if (SelectedBar == null)
+                    return null;
+
+                return new DateTime().AddMinutes(SelectedBar.Value * 5);
+
+            }
+        }
+
         public ChartView()
         {
             Init();
@@ -106,9 +119,27 @@ namespace Herring
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            start = (e.X / 4) * 4; 
+            if (e.Button == MouseButtons.Left)
+            {
+                var x = Math.Min(Math.Max(0, e.X), 12 * 24 * 4);
+                start = (x / 4) * 4;
+                selectionStart = -1;
+                selectionEnd = -1;
 
-            OnSelectionChanged();
+                OnSelectionChanged();
+                RepaintLog();
+            }
+            else
+            {
+                var newSelection = e.X / 4;
+
+                if (newSelection == hoveredBar)
+                    return;
+
+                hoveredBar = newSelection;
+
+                RepaintLog();
+            }
 
             base.OnMouseDown(e);
         }
@@ -128,6 +159,18 @@ namespace Herring
                     RepaintLog();
                 }
             }
+            else
+            {
+                var newSelection = e.X / 4;
+
+                if (newSelection == hoveredBar)
+                    return;
+
+                hoveredBar = newSelection;
+
+                RepaintLog();
+            }
+
             base.OnMouseUp(e);
         }
 
@@ -167,11 +210,6 @@ namespace Herring
 
         protected override void OnMouseLeave(EventArgs e)
         {
-            if (hoveredBar != null)
-            {
-                hoveredBar = null;
-                RepaintLog();
-            }
 
             base.OnMouseLeave(e);
         }

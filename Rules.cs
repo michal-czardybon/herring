@@ -34,7 +34,7 @@ namespace Herring
                 case "PASSIVE": return UserStatus.Passive;
                 case "IDLE": return UserStatus.Passive;     // backward compatibility (to be removed)
                 case "ACTIVE": return UserStatus.Active;
-                default: throw new ApplicationException("Unknow user status.");
+                default: throw new ApplicationException("Unknown user status.");
             }
         }
 
