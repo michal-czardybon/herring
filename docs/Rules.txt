@@ -4,6 +4,7 @@ process:Herring.exe => Introspection
 
 process:chrome.exe => Internet Browsing
 process:firefox.exe => Internet Browsing
+process:iexplore.exe => Internet Browsing
 
 process:DllHost.exe title:"Windows Photo Viewer" => Image Viewing
 process:i_view32.exe => Image Viewing
@@ -19,6 +20,9 @@ process:WINWORD.EXE keyboard-max:10 => Document Reading
 process:WINWORD.EXE keyboard-min:10 => Document Writing
 process:POWERPNT.EXE keyboard-max:10 => Document Reading
 process:POWERPNT.EXE keyboard-min:10 => Document Writing
+
+process:soffice.bin keyboard-min:10 => Document Writing
+process:soffice.bin keyboard-max:10 => Document Writing
 
 process:devenv.exe title:"(Running)" => Software Testing
 process:devenv.exe title:"(Debugging)" => Software Debugging

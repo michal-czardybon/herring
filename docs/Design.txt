@@ -24,7 +24,7 @@ Every 3 seconds the applications takes a SNAPSHOT of user activity.
 	- the number of key-down events
 	- the mouse-move distance
 	
-If the mouse- and keyboard-intensities are simulatneously very low, then the
+If the mouse- and keyboard-intensities are simultaneously very low, then the
 SNAPSHOT is considered COLD. Otherwise we say it is WARM.
 
 If snapshots are COLD for 30 seconds, then we consider the user to be still in
