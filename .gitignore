@@ -6,3 +6,5 @@ test/obj
 
 install/Output/HerringActivityTracker_0.5.1_Setup.exe
 Herring.csproj.user
+/*.user
+/.vs

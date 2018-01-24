@@ -10,6 +10,8 @@ namespace Herring
         {
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            SetStyle(ControlStyles.DoubleBuffer, true);
+
         }
 
         protected override void WndProc(ref Message m)

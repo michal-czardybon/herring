@@ -89,7 +89,7 @@ namespace Herring
             public void SelectHeader()
             {
                 Header.Selected = true;
-                Header.EnsureVisible(); 
+                Header.EnsureVisible();
             }
         }
 
@@ -236,12 +236,14 @@ namespace Herring
 
         private void MaybeScrollActivitiesList()
         {
-            if (Parameters.AutoScroll == true)
+            if (Parameters.AutoScroll)
             {
                 int count = activitiesListView.Items.Count;
                 if (count >= 1)
                 {
-                    activitiesListView.EnsureVisible(count - 1);
+                   Helpers.Suspend(activitiesListView);
+                   activitiesListView.EnsureVisible(count - 1);
+                   Helpers.Resume(activitiesListView);
                 }
             }
         }
@@ -827,34 +829,28 @@ namespace Herring
 
         private void UpdateSelectionIndicator()
         {
+           if (chart.SelectionStart != null)
+              timeLabel.Text = $"{chart.SelectionStart.Value.Hour:00}:{chart.SelectionStart.Value.Minute:00}";
+
+           if (chart.SelectedBar != null)
+           {
+              var bar = chart.SelectedBar.Span;
+              timeLabel.Text = $"{bar.Hours:00}:{bar.Minutes:00}";
+           }
+
             var time = chart.SelectionSpan;
             if (time.HasValue && time.Value.TotalDays > 0)
             {
                 var minutes = (int)(time.Value.TotalDays * 24 * 60);
-                label5.Text = string.Format("{0:00}:{1:00}", minutes / 60, minutes % 60);
+                rangeLabel.Text = string.Format("{0:00}:{1:00}", minutes / 60, minutes % 60);
             }
             else
-                label5.Text = "--:--";
+                rangeLabel.Text = "--:--";
         }
 
         private void chartBox_MouseMove(object sender, MouseEventArgs e)
         {
-            if (chart.SelectedBar != null)
-            {
-                var bar = chart.SelectedBar.Value;
-
-                label3.Text = string.Format("{0:00}:{1:00}", bar / 12, bar % 12 * 5);
-            }
-            else
-            {
-                if (chart.SelectionStart != null)
-                    label3.Text = string.Format("{0:00}:{1:00}", chart.SelectionStart.Value.Hour, chart.SelectionStart.Value.Minute);
-                else
-                    label3.Text = "--:--";
-            }
-
             UpdateSelectionIndicator();
-
 
         }
 
@@ -881,12 +877,13 @@ namespace Herring
                     return;
 
                 DateTime point = datePicker.Value.Date;
-                point = point.AddMinutes(chart.SelectedBar.Value * 5);
+                point = point.AddMinutes(chart.SelectedBar.Minutes);
 
                 mainTabControl.SelectTab(1);
 
                 try
                 {
+                    Helpers.Suspend(activitiesListView.Parent);
                     activitiesListView.BeginUpdate(); // Clear all selection
                     activitiesListView.ClearSelection();
 
@@ -906,6 +903,7 @@ namespace Herring
                 finally
                 {
                     activitiesListView.EndUpdate();
+                    Helpers.Resume(activitiesListView.Parent);
                 }
             }
 
@@ -969,15 +967,12 @@ namespace Herring
             removeEventToolStripMenuItem.DropDownItems.Clear();
             removeEventToolStripMenuItem.Enabled = false;
 
-            if (!chart.SelectedTime.HasValue)
+            if (chart.SelectedBar != null)
             {
                 return;
             }
 
-            DateTime date = datePicker.Value.Date;
-
-            date = date.AddHours(chart.SelectedTime.Value.Hour);
-            date = date.AddMinutes(chart.SelectedTime.Value.Minute);
+            var date = datePicker.Value.Date + chart.SelectedBar.Span;
 
             foreach (var ev in ActivityTracker.SelectedLog.Events.Where( evnt => evnt.ContainsTimePoint(date) ))
             {
