@@ -2,96 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 
 namespace Herring
 {
-    public partial class MainForm : Form
+   public partial class MainForm : Form
     {
-
-        public class ActionListViewItem: ListViewItem
-        {
-            private ActivitySummary summary;
-            private ListViewItem header;
-            private ActivityEntry entry;
-
-            public ActivitySummary Summary
-            {
-                get
-                {
-                    return summary;
-                }
-            }
-
-            public ListViewItem Header
-            {
-                get
-                {
-                    return header;
-                }
-            }
-
-            private void AddColumn(string s)
-            {
-                SubItems.Add(s);
-            }
-
-            private void AddColumn(float f)
-            {
-                SubItems.Add(f.ToString("F1"));
-            }
-
-            private void AddColumn(double d)
-            {
-                SubItems.Add(d.ToString("F1"));
-            }
-
-            private void AddColumn(int i)
-            {
-                SubItems.Add(i.ToString());
-            }
-
-            public ActionListViewItem(ActivityEntry entry, int imgIndex, ActivitySummary summary, ListViewItem header)
-            {
-                this.summary = summary;
-                this.header = header;
-                this.entry = entry;
-
-                ImageIndex = imgIndex;
-
-                ForeColor =
-                    entry.Share >= 20.0 ? Color.Black :
-                    entry.Share >= 10.0 ? Color.FromArgb(64, 64, 64) :
-                                          Color.FromArgb(128, 128, 128);
-                
-                // Remove uneccesary extension
-                var processedName = entry.App.Name.ToLower().Replace(".exe", "");
-
-                Text = processedName;                /* process: */
-                AddColumn(entry.ApplicationTitle);    /* title: */
-                AddColumn(entry.Subtitle);            /* subtitle: */
-                AddColumn(entry.Share);               /* share: */
-                AddColumn(entry.KeyboardIntensity);   /* keyboard: */
-                AddColumn(entry.MouseIntensity);      /* mouse: */
-                AddColumn(entry.Category);            /* category: */
-
-                UseItemStyleForSubItems = false;
-                
-                for (int i = 0; i < SubItems.Count - 1; ++i)
-                {
-                    SubItems[i].ForeColor = ForeColor;
-                }
-
-                SubItems[SubItems.Count - 1].ForeColor = Chart.GetColor(entry.CategoryIndex + 1);
-            }
-
-            public void SelectHeader()
-            {
-                Header.Selected = true;
-                Header.EnsureVisible();
-            }
-        }
 
         private Monitor monitor;
         private ReportForm reportForm;
@@ -137,7 +55,7 @@ namespace Herring
 
             reportForm = new ReportForm(monitor.GetApp);
 
-            List<string> errors = null;
+            List<string> errors;
 
             ActivityTracker.SetCurrentActivityLog( Log.Load(monitor.GetApp, DateTime.Now, out errors));
 
@@ -146,9 +64,9 @@ namespace Herring
                 ReportErrorDuringLoading(errors);
             }
 
-            ActivityTracker.CurrentLogExtended += this.CurrentLogExtended;
-            ActivityTracker.CurrentLogChanged += this.CurrentLogChanged;
-            ActivityTracker.UserStatusChanged += this.UserStatusChanged;
+            ActivityTracker.CurrentLogExtended += CurrentLogExtended;
+            ActivityTracker.CurrentLogChanged += CurrentLogChanged;
+            ActivityTracker.UserStatusChanged += UserStatusChanged;
 
             CurrentLogChanged(DateTime.Now);
         }
@@ -204,9 +122,9 @@ namespace Herring
 
             // Header
             
-            string[] contentHeader = new string[]
+            var contentHeader = new []
             {
-                /* time: */    summary.TimePoint.ToString(),
+                /* time: */    summary.TimePoint.ToString(CultureInfo.InvariantCulture),
                 /* title: */   "",
                 /* subtitle: */"",
                 /* share: */   summary.TotalShare.ToString("F1"),
@@ -262,7 +180,7 @@ namespace Herring
             {
                 activitiesListView.BeginUpdate();
                 activitiesListView.Items.Clear();
-                foreach (ActivitySummary a in ActivityTracker.SelectedLog.Activities)
+                foreach (var a in ActivityTracker.SelectedLog.Activities)
                 {
                     var point = a.TimePoint;
 
@@ -284,7 +202,7 @@ namespace Herring
             rulesListView.Items.Clear();
             foreach (var rule in RuleManager.Rules)
             {
-                string[] content = new string[]
+                var content = new []
                 {
                     rule.Process,
                     rule.Title,
@@ -352,7 +270,7 @@ namespace Herring
                 totalSpan = list.Last().TimePoint - list.First().TimePoint;
             }
 
-            List<KeyValuePair<string, CategoryStats>> statsList = stats.ToList();
+            var statsList = stats.ToList();
             statsList.Sort((a, b) => (int)(1000 * (b.Value.ShareSum - a.Value.ShareSum)));
 
             TimeSpan totalActiveTime = TimeSpan.Zero;
@@ -378,13 +296,14 @@ namespace Herring
             }
 
             {
-                string[] content = new string[]
+                var content = new []
                 {
                     "Total Time",
                     totalActiveTime.ToString(),
                     totalPresentTime.ToString(),
                     "100.0"
                 };
+
                 ListViewItem item = new ListViewItem(content);
                 item.Font = boldFont;
                 categoriesListView.Items.Add(item);
@@ -395,28 +314,30 @@ namespace Herring
                 double intensityPresent =
                     totalSpan.TotalSeconds >= 1 ? (100.0 * totalPresentTime.TotalSeconds / totalSpan.TotalSeconds) : 0;
 
-                string[] content = new string[]
+                var content = new []
                 {
                     "Intensity",
                     intensityActive.ToString("F2"),
                     intensityPresent.ToString("F2")
                 };
-                ListViewItem item = new ListViewItem(content);
+
+                var item = new ListViewItem(content);
                 item.Font = boldFont;
                 categoriesListView.Items.Add(item);
             }
             {
-                string[] content = new string[]
+                var content = new []
                 {
                     "Total Span",
                     totalSpan.ToString()
                 };
-                ListViewItem item = new ListViewItem(content);
+
+                var item = new ListViewItem(content);
                 item.Font = boldFont;
                 categoriesListView.Items.Add(item);
             }
             {
-                string[] content = new string[]
+                var content = new []
                 {
                     "Intensity Center",
                     center.ToString(@"hh\:mm\:ss")
@@ -494,9 +415,8 @@ namespace Herring
                     string thisApp = summaryList1[i].App.Name;
                     string thisTitle = summaryList1[i].ApplicationTitle;
                     string thisDocument = summaryList1[i].ValidDocumentName;
-                    string commonTitle;
 
-                    ActivityDaySummary newSummary = summaryList1[i];
+                   ActivityDaySummary newSummary = summaryList1[i];
 
                     for (int j = i + 1; j < summaryList1.Count; ++j)
                     {
@@ -504,7 +424,9 @@ namespace Herring
                         {
                             break;
                         }
-                        if (summaryList1[j].ValidDocumentName == thisDocument &&
+
+                       string commonTitle;
+                       if (summaryList1[j].ValidDocumentName == thisDocument &&
                             ActivityTracker.AreTitlesNearlyEqual(summaryList1[j].ApplicationTitle, thisTitle, out commonTitle))
                         {
                             thisTitle = commonTitle;
@@ -842,7 +764,7 @@ namespace Herring
             if (time.HasValue && time.Value.TotalDays > 0)
             {
                 var minutes = (int)(time.Value.TotalDays * 24 * 60);
-                rangeLabel.Text = string.Format("{0:00}:{1:00}", minutes / 60, minutes % 60);
+                rangeLabel.Text = $"{minutes / 60:00}:{minutes % 60:00}";
             }
             else
                 rangeLabel.Text = "--:--";
