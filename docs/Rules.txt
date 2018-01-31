@@ -12,6 +12,7 @@ process:i_view32.exe => Image Viewing
 process:Explorer.EXE => File Browsing
 
 process:TortoiseProc.exe => Version Control
+process:TortoiseMerge.exe => Version Control
 process:GitExtensions.exe => Version Control
 
 process:notepad++.exe => Document Writing
@@ -22,8 +23,14 @@ process:POWERPNT.EXE keyboard-max:10 => Document Reading
 process:POWERPNT.EXE keyboard-min:10 => Document Writing
 
 process:soffice.bin keyboard-min:10 => Document Writing
-process:soffice.bin keyboard-max:10 => Document Writing
 
 process:devenv.exe title:"(Running)" => Software Testing
 process:devenv.exe title:"(Debugging)" => Software Debugging
-process:devenv.exe keyboard-min:1 => Software Development
+process:.vhost.exe title:"(Debugging)" => Software Debugging
+process:devenv.exe => Software Development
+
+process:mstsc.exe => Remote Working
+
+process:skype.exe => Communication
+process:mattermost.exe => Communication
+process:outlook.exe => Communication

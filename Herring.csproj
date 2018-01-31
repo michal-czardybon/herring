@@ -75,9 +75,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionListViewItem.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="ActionListViewItem.cs" />
     <Compile Include="ActivityData.cs" />
     <Compile Include="ActivityTracker.cs" />
     <Compile Include="Chart.cs" />

@@ -78,7 +78,7 @@ namespace Herring
 
             errors.Insert(0, "");
 
-            MessageBox.Show("Errors occured during loading saved data:"
+            MessageBox.Show("Errors occurred during loading saved data:"
                     + Environment.NewLine + Environment.NewLine + errors.Aggregate((a, b) => a += b.Substring(0,Math.Min(30, b.Length)) + Environment.NewLine)
                     + Environment.NewLine + "All invalid entries were skipped.",
 
@@ -87,12 +87,15 @@ namespace Herring
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            if (Parameters.TrackActivity == true)
-            {
-                ActivitySnapshot snapshot = monitor.GetActivitySnapshot();
-                ActivityTracker.RegisterSnapshot(snapshot);
-                this.RefreshStatus(snapshot);
-            }
+           if (!Parameters.TrackActivity) 
+              return;
+
+           var snapshot = monitor.GetActivitySnapshot();
+           ActivityTracker.RegisterSnapshot(snapshot);
+
+           nextPoint.Text = ActivityTracker.GetTimePoint(snapshot.Time, 300).ToShortTimeString();
+
+           RefreshStatus(snapshot);
         }
 
         private int GetIconIndex(AppInfo app)
@@ -197,6 +200,14 @@ namespace Herring
             }
         }
 
+        private string ToStringIfNonZero(double value)
+        {
+           if (Math.Abs(value) > double.Epsilon)
+              return value.ToString("F1");
+
+           return "";
+        }
+
         private void RefreshRules()
         {
             rulesListView.Items.Clear();
@@ -206,10 +217,10 @@ namespace Herring
                 {
                     rule.Process,
                     rule.Title,
-                    rule.KeyboardMin.ToString("F1"),
-                    rule.KeyboardMax == double.PositiveInfinity ? "" : rule.KeyboardMax.ToString("F1"),
-                    rule.MouseMin.ToString("F1"),
-                    rule.MouseMax == double.PositiveInfinity ? "" : rule.MouseMax.ToString("F1"),
+                    ToStringIfNonZero(rule.KeyboardMin),
+                    double.IsPositiveInfinity(rule.KeyboardMax) ? "" : ToStringIfNonZero(rule.KeyboardMax),
+                    ToStringIfNonZero(rule.MouseMin),
+                    double.IsPositiveInfinity(rule.MouseMax) ? "" : ToStringIfNonZero(rule.MouseMax),
                     rule.StatusMin.ToString(),
                     rule.StatusMax.ToString(),
                     rule.Category
@@ -334,6 +345,7 @@ namespace Herring
 
                 var item = new ListViewItem(content);
                 item.Font = boldFont;
+
                 categoriesListView.Items.Add(item);
             }
             {
@@ -645,8 +657,10 @@ namespace Herring
         {
             if (e.Button == MouseButtons.Right)
             {
-                if (activitiesListView.FocusedItem.Bounds.Contains(e.Location) == true)
+                if (activitiesListView.FocusedItem.Bounds.Contains(e.Location))
                 {
+
+
                     activitiesMenuStrip.Show(Cursor.Position);
                 }
             } 
@@ -682,6 +696,11 @@ namespace Herring
             string text = activitiesListView.FocusedItem.SubItems[1].Text;
 
             copyProjectKaiserToolStripMenuItem.Enabled = text.StartsWith("Project Kaiser");
+
+            string url = activitiesListView.FocusedItem.SubItems[2].Text;
+
+            followLinkToolStripMenuItem.Enabled = url.StartsWith("http");
+
         }
 
         private void followLinkActivitiesMenuItem_Click(object sender, EventArgs e)

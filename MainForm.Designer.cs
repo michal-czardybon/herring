@@ -16,6 +16,7 @@
             if (disposing && (components != null))
             {
                 components.Dispose();
+                boldFont.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -53,6 +54,7 @@
          this.documentLabel = new System.Windows.Forms.ToolStripStatusLabel();
          this.statsLabel = new System.Windows.Forms.ToolStripStatusLabel();
          this.timeStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+         this.nextPoint = new System.Windows.Forms.ToolStripStatusLabel();
          this.summaryMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
          this.copyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.followLinkInSummaryMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -147,7 +149,7 @@
          this.panel1.Controls.Add(this.datePicker);
          this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
          this.panel1.Location = new System.Drawing.Point(0, 0);
-         this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+         this.panel1.Margin = new System.Windows.Forms.Padding(4);
          this.panel1.Name = "panel1";
          this.panel1.Size = new System.Drawing.Size(1725, 39);
          this.panel1.TabIndex = 1;
@@ -155,7 +157,7 @@
          // reportButton
          // 
          this.reportButton.Location = new System.Drawing.Point(883, 5);
-         this.reportButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+         this.reportButton.Margin = new System.Windows.Forms.Padding(4);
          this.reportButton.Name = "reportButton";
          this.reportButton.Size = new System.Drawing.Size(72, 30);
          this.reportButton.TabIndex = 10;
@@ -169,7 +171,7 @@
          this.trackCheckBox.Checked = true;
          this.trackCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
          this.trackCheckBox.Location = new System.Drawing.Point(753, 11);
-         this.trackCheckBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+         this.trackCheckBox.Margin = new System.Windows.Forms.Padding(4);
          this.trackCheckBox.Name = "trackCheckBox";
          this.trackCheckBox.Size = new System.Drawing.Size(114, 21);
          this.trackCheckBox.TabIndex = 9;
@@ -181,7 +183,7 @@
          // 
          this.exitButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
          this.exitButton.Location = new System.Drawing.Point(1617, 6);
-         this.exitButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+         this.exitButton.Margin = new System.Windows.Forms.Padding(4);
          this.exitButton.Name = "exitButton";
          this.exitButton.Size = new System.Drawing.Size(100, 28);
          this.exitButton.TabIndex = 8;
@@ -193,7 +195,7 @@
          // 
          this.autoScrollCheckBox.AutoSize = true;
          this.autoScrollCheckBox.Location = new System.Drawing.Point(641, 11);
-         this.autoScrollCheckBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+         this.autoScrollCheckBox.Margin = new System.Windows.Forms.Padding(4);
          this.autoScrollCheckBox.Name = "autoScrollCheckBox";
          this.autoScrollCheckBox.Size = new System.Drawing.Size(98, 21);
          this.autoScrollCheckBox.TabIndex = 7;
@@ -226,7 +228,7 @@
          this.buttonNextDay.BackgroundImage = global::Herring.Properties.Resources._31_16x16;
          this.buttonNextDay.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
          this.buttonNextDay.Location = new System.Drawing.Point(387, 5);
-         this.buttonNextDay.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+         this.buttonNextDay.Margin = new System.Windows.Forms.Padding(4);
          this.buttonNextDay.Name = "buttonNextDay";
          this.buttonNextDay.Size = new System.Drawing.Size(32, 30);
          this.buttonNextDay.TabIndex = 3;
@@ -238,7 +240,7 @@
          this.buttonPrevDay.BackgroundImage = global::Herring.Properties.Resources._30_16x16;
          this.buttonPrevDay.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
          this.buttonPrevDay.Location = new System.Drawing.Point(352, 5);
-         this.buttonPrevDay.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+         this.buttonPrevDay.Margin = new System.Windows.Forms.Padding(4);
          this.buttonPrevDay.Name = "buttonPrevDay";
          this.buttonPrevDay.Size = new System.Drawing.Size(32, 30);
          this.buttonPrevDay.TabIndex = 2;
@@ -248,7 +250,7 @@
          // todayButton
          // 
          this.todayButton.Location = new System.Drawing.Point(421, 5);
-         this.todayButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+         this.todayButton.Margin = new System.Windows.Forms.Padding(4);
          this.todayButton.Name = "todayButton";
          this.todayButton.Size = new System.Drawing.Size(72, 30);
          this.todayButton.TabIndex = 1;
@@ -262,7 +264,7 @@
          this.datePicker.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
          this.datePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
          this.datePicker.Location = new System.Drawing.Point(5, 6);
-         this.datePicker.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+         this.datePicker.Margin = new System.Windows.Forms.Padding(4);
          this.datePicker.Name = "datePicker";
          this.datePicker.Size = new System.Drawing.Size(341, 26);
          this.datePicker.TabIndex = 0;
@@ -315,7 +317,8 @@
             this.titleLabel,
             this.documentLabel,
             this.statsLabel,
-            this.timeStatusLabel});
+            this.timeStatusLabel,
+            this.nextPoint});
          this.statusStrip.Location = new System.Drawing.Point(0, 840);
          this.statusStrip.Name = "statusStrip";
          this.statusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
@@ -364,6 +367,14 @@
          this.timeStatusLabel.Size = new System.Drawing.Size(63, 24);
          this.timeStatusLabel.Text = "<time>";
          // 
+         // nextPoint
+         // 
+         this.nextPoint.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+         this.nextPoint.Name = "nextPoint";
+         this.nextPoint.RightToLeftAutoMirrorImage = true;
+         this.nextPoint.Size = new System.Drawing.Size(61, 24);
+         this.nextPoint.Text = "<next>";
+         // 
          // summaryMenuStrip
          // 
          this.summaryMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -391,9 +402,9 @@
          // 
          this.tabPage5.Controls.Add(this.summaryListView);
          this.tabPage5.Location = new System.Drawing.Point(4, 25);
-         this.tabPage5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+         this.tabPage5.Margin = new System.Windows.Forms.Padding(4);
          this.tabPage5.Name = "tabPage5";
-         this.tabPage5.Size = new System.Drawing.Size(1717, 709);
+         this.tabPage5.Size = new System.Drawing.Size(1717, 710);
          this.tabPage5.TabIndex = 5;
          this.tabPage5.Text = "Summary";
          this.tabPage5.UseVisualStyleBackColor = true;
@@ -410,9 +421,9 @@
          this.summaryListView.FullRowSelect = true;
          this.summaryListView.GridLines = true;
          this.summaryListView.Location = new System.Drawing.Point(0, 0);
-         this.summaryListView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+         this.summaryListView.Margin = new System.Windows.Forms.Padding(4);
          this.summaryListView.Name = "summaryListView";
-         this.summaryListView.Size = new System.Drawing.Size(1717, 709);
+         this.summaryListView.Size = new System.Drawing.Size(1717, 710);
          this.summaryListView.TabIndex = 0;
          this.summaryListView.UseCompatibleStateImageBehavior = false;
          this.summaryListView.View = System.Windows.Forms.View.Details;
@@ -448,9 +459,9 @@
          // 
          this.tabPage3.Controls.Add(this.categoriesListView);
          this.tabPage3.Location = new System.Drawing.Point(4, 25);
-         this.tabPage3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+         this.tabPage3.Margin = new System.Windows.Forms.Padding(4);
          this.tabPage3.Name = "tabPage3";
-         this.tabPage3.Size = new System.Drawing.Size(1717, 709);
+         this.tabPage3.Size = new System.Drawing.Size(1717, 710);
          this.tabPage3.TabIndex = 3;
          this.tabPage3.Text = "Categories";
          this.tabPage3.UseVisualStyleBackColor = true;
@@ -467,9 +478,9 @@
          this.categoriesListView.FullRowSelect = true;
          this.categoriesListView.GridLines = true;
          this.categoriesListView.Location = new System.Drawing.Point(0, 0);
-         this.categoriesListView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+         this.categoriesListView.Margin = new System.Windows.Forms.Padding(4);
          this.categoriesListView.Name = "categoriesListView";
-         this.categoriesListView.Size = new System.Drawing.Size(1717, 709);
+         this.categoriesListView.Size = new System.Drawing.Size(1717, 710);
          this.categoriesListView.TabIndex = 0;
          this.categoriesListView.UseCompatibleStateImageBehavior = false;
          this.categoriesListView.View = System.Windows.Forms.View.Details;
@@ -498,10 +509,10 @@
          // 
          this.rulesTabPage.Controls.Add(this.rulesListView);
          this.rulesTabPage.Location = new System.Drawing.Point(4, 25);
-         this.rulesTabPage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+         this.rulesTabPage.Margin = new System.Windows.Forms.Padding(4);
          this.rulesTabPage.Name = "rulesTabPage";
-         this.rulesTabPage.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-         this.rulesTabPage.Size = new System.Drawing.Size(1717, 709);
+         this.rulesTabPage.Padding = new System.Windows.Forms.Padding(4);
+         this.rulesTabPage.Size = new System.Drawing.Size(1717, 710);
          this.rulesTabPage.TabIndex = 2;
          this.rulesTabPage.Text = "Rules";
          this.rulesTabPage.UseVisualStyleBackColor = true;
@@ -520,10 +531,12 @@
             this.statusMaxHeader,
             this.categoryNameHeader});
          this.rulesListView.Dock = System.Windows.Forms.DockStyle.Fill;
+         this.rulesListView.FullRowSelect = true;
+         this.rulesListView.GridLines = true;
          this.rulesListView.Location = new System.Drawing.Point(4, 4);
-         this.rulesListView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+         this.rulesListView.Margin = new System.Windows.Forms.Padding(4);
          this.rulesListView.Name = "rulesListView";
-         this.rulesListView.Size = new System.Drawing.Size(1709, 701);
+         this.rulesListView.Size = new System.Drawing.Size(1709, 702);
          this.rulesListView.TabIndex = 0;
          this.rulesListView.UseCompatibleStateImageBehavior = false;
          this.rulesListView.View = System.Windows.Forms.View.Details;
@@ -578,10 +591,10 @@
          this.tabPage2.Controls.Add(this.activitiesListView);
          this.tabPage2.Controls.Add(this.panel3);
          this.tabPage2.Location = new System.Drawing.Point(4, 25);
-         this.tabPage2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+         this.tabPage2.Margin = new System.Windows.Forms.Padding(4);
          this.tabPage2.Name = "tabPage2";
-         this.tabPage2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-         this.tabPage2.Size = new System.Drawing.Size(1717, 709);
+         this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
+         this.tabPage2.Size = new System.Drawing.Size(1717, 710);
          this.tabPage2.TabIndex = 1;
          this.tabPage2.Text = "Activities";
          this.tabPage2.UseVisualStyleBackColor = true;
@@ -601,9 +614,9 @@
          this.activitiesListView.FullRowSelect = true;
          this.activitiesListView.GridLines = true;
          this.activitiesListView.Location = new System.Drawing.Point(4, 4);
-         this.activitiesListView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+         this.activitiesListView.Margin = new System.Windows.Forms.Padding(4);
          this.activitiesListView.Name = "activitiesListView";
-         this.activitiesListView.Size = new System.Drawing.Size(1709, 657);
+         this.activitiesListView.Size = new System.Drawing.Size(1709, 658);
          this.activitiesListView.TabIndex = 0;
          this.activitiesListView.UseCompatibleStateImageBehavior = false;
          this.activitiesListView.View = System.Windows.Forms.View.Details;
@@ -651,8 +664,8 @@
          this.panel3.Controls.Add(this.textBox1);
          this.panel3.Controls.Add(this.button1);
          this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-         this.panel3.Location = new System.Drawing.Point(4, 661);
-         this.panel3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+         this.panel3.Location = new System.Drawing.Point(4, 662);
+         this.panel3.Margin = new System.Windows.Forms.Padding(4);
          this.panel3.Name = "panel3";
          this.panel3.Size = new System.Drawing.Size(1709, 44);
          this.panel3.TabIndex = 1;
@@ -671,7 +684,7 @@
          // 
          this.textBox1.Enabled = false;
          this.textBox1.Location = new System.Drawing.Point(205, 12);
-         this.textBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+         this.textBox1.Margin = new System.Windows.Forms.Padding(4);
          this.textBox1.Name = "textBox1";
          this.textBox1.Size = new System.Drawing.Size(148, 22);
          this.textBox1.TabIndex = 1;
@@ -679,7 +692,7 @@
          // button1
          // 
          this.button1.Location = new System.Drawing.Point(7, 9);
-         this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+         this.button1.Margin = new System.Windows.Forms.Padding(4);
          this.button1.Name = "button1";
          this.button1.Size = new System.Drawing.Size(100, 28);
          this.button1.TabIndex = 0;
@@ -696,7 +709,7 @@
          this.mainTabControl.Controls.Add(this.tabPage5);
          this.mainTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
          this.mainTabControl.Location = new System.Drawing.Point(0, 101);
-         this.mainTabControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+         this.mainTabControl.Margin = new System.Windows.Forms.Padding(4);
          this.mainTabControl.Name = "mainTabControl";
          this.mainTabControl.SelectedIndex = 0;
          this.mainTabControl.Size = new System.Drawing.Size(1725, 739);
@@ -706,9 +719,9 @@
          // 
          this.tabPage1.Controls.Add(this.label1);
          this.tabPage1.Location = new System.Drawing.Point(4, 25);
-         this.tabPage1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+         this.tabPage1.Margin = new System.Windows.Forms.Padding(4);
          this.tabPage1.Name = "tabPage1";
-         this.tabPage1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+         this.tabPage1.Padding = new System.Windows.Forms.Padding(4);
          this.tabPage1.Size = new System.Drawing.Size(1717, 710);
          this.tabPage1.TabIndex = 6;
          this.tabPage1.Text = "Start";
@@ -787,7 +800,7 @@
          this.panel2.Controls.Add(this.chart);
          this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
          this.panel2.Location = new System.Drawing.Point(0, 39);
-         this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+         this.panel2.Margin = new System.Windows.Forms.Padding(4);
          this.panel2.Name = "panel2";
          this.panel2.Size = new System.Drawing.Size(1725, 62);
          this.panel2.TabIndex = 1;
@@ -817,8 +830,9 @@
          this.chart.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
          this.chart.ContextMenuStrip = this.chartMenu;
          this.chart.Location = new System.Drawing.Point(4, 0);
-         this.chart.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+         this.chart.Margin = new System.Windows.Forms.Padding(4);
          this.chart.Name = "chart";
+         this.chart.SelectedBar = null;
          this.chart.Size = new System.Drawing.Size(1540, 59);
          this.chart.TabIndex = 4;
          this.chart.TabStop = false;
@@ -874,7 +888,7 @@
          this.Controls.Add(this.panel2);
          this.Controls.Add(this.panel1);
          this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-         this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+         this.Margin = new System.Windows.Forms.Padding(4);
          this.Name = "MainForm";
          this.Text = "Herring";
          this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
@@ -987,6 +1001,7 @@
         private System.Windows.Forms.ToolStripMenuItem addEventToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem markWorkingHoursToolStripMenuItem;
-    }
+      private System.Windows.Forms.ToolStripStatusLabel nextPoint;
+   }
 }
 

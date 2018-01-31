@@ -63,16 +63,16 @@ namespace Herring
             return GetTimePoint(DateTime.Now, ActivityTracker.LogTimeUnit);
         }
 
-        private static DateTime GetTimePoint(DateTime time, int timeUnit)
+        public static DateTime GetTimePoint(DateTime time, int timeUnit)
         {
             // We assume time units up to 15 minutes
-            System.Diagnostics.Debug.Assert(timeUnit >= 1 && timeUnit <= 15 * 60);
+            Debug.Assert(timeUnit >= 1 && timeUnit <= 15 * 60);
 
             // There must be an integer number of time points in an hour
-            System.Diagnostics.Debug.Assert(3600 % timeUnit == 0);
+            Debug.Assert(3600 % timeUnit == 0);
 
-            int actualTotalSeconds = time.Second + time.Minute * 60;
-            int neededTotalSeconds = (actualTotalSeconds / timeUnit) * timeUnit;
+            var actualTotalSeconds = time.Second + time.Minute * 60;
+            var neededTotalSeconds = (actualTotalSeconds / timeUnit) * timeUnit;
 
             return new DateTime(time.Year, time.Month, time.Day, time.Hour, neededTotalSeconds / 60, neededTotalSeconds % 60);
         }

@@ -13,7 +13,7 @@ namespace Herring
 
         private Bitmap bitmap = new Bitmap(1, 1);
 
-        static private Color[] palette = new Color[]
+        private static readonly Color[] Palette = 
         {
             Color.FromArgb(192, 192, 192),
             Color.FromArgb(31, 119, 180),
@@ -24,24 +24,27 @@ namespace Herring
             Color.FromArgb(140, 86, 75),
             Color.FromArgb(227, 119, 194),
             Color.FromArgb(127, 127, 127),
-            Color.FromArgb(160, 161, 25),
-            Color.FromArgb(23, 190, 207)
+            Color.FromArgb(140, 141, 25),
+            Color.FromArgb(23, 190, 207),
+            Color.FromArgb(80, 130, 120),
+            Color.FromArgb(74, 120, 0),
+            Color.FromArgb(100, 70, 70),
         };
 
         static private Brush[] brushes;
 
         static Chart()
         {
-            brushes = new SolidBrush[palette.Length];
+            brushes = new SolidBrush[Palette.Length];
             for (int i = 0; i < brushes.Length; ++i)
             {
-                brushes[i] = new SolidBrush(palette[i]);
+                brushes[i] = new SolidBrush(Palette[i]);
             }
         }
 
         static public Color GetColor(int k)
         {
-            return palette[k % palette.Length];
+            return Palette[k % Palette.Length];
         }
 
         static public Brush GetBrush(int k)

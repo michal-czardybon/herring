@@ -144,7 +144,7 @@ namespace Herring
             }
             catch
             {
-                return "(EXCAPTION)";
+                return "(EXCEPTION)";
             }
         }
 
