@@ -27,9 +27,9 @@ namespace Herring
             Reset(DateTime.Now);
 
             actHook = new UserActivityHook();
-            actHook.OnMouseActivity += new MouseEventHandler(MouseMoved);
-            actHook.KeyDown         += new KeyEventHandler(KeyDown);            
-            actHook.KeyPress        += new KeyPressEventHandler(KeyPressed);
+            actHook.OnMouseActivity += MouseMoved;
+            actHook.KeyDown         += KeyDown;            
+            actHook.KeyPress        += KeyPressed;
         }
 
         public void Start()
@@ -127,15 +127,6 @@ namespace Herring
                 doc = SystemInfo.GetChromeUrl();
             }
 
-            if (appInfo.Name == "firefox.exe")
-            {
-                doc = SystemInfo.GetFirefoxUrl();
-            }
-
-            if (appInfo.Name == "devenv.exe")
-            {
-                //doc = SystemInfo.GetVSTab();
-            }
 
             // Measure the time span since the previous snapshot
             DateTime end = DateTime.Now;

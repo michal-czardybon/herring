@@ -770,23 +770,28 @@ namespace Herring
 
         private void UpdateSelectionIndicator()
         {
-           if (chart.SelectionStart != null)
-              timeLabel.Text = $"{chart.SelectionStart.Value.Hour:00}:{chart.SelectionStart.Value.Minute:00}";
+            if (chart.SelectionStart != null)
+            {
+                var startTime = chart.SelectionStart.Value;
+                timeLabel.Text = $@"{startTime.Hour:00}:{startTime.Minute:00} -> ";
+            }
+            else
+                timeLabel.Text = "";
 
            if (chart.SelectedBar != null)
            {
               var bar = chart.SelectedBar.Span;
-              timeLabel.Text = $"{bar.Hours:00}:{bar.Minutes:00}";
+              timeLabel.Text += $@"{bar.Hours:00}:{bar.Minutes:00}";
            }
 
             var time = chart.SelectionSpan;
-            if (time.HasValue && time.Value.TotalDays > 0)
+            if (time.HasValue && time.Value.TotalMinutes > 0)
             {
-                var minutes = (int)(time.Value.TotalDays * 24 * 60);
-                rangeLabel.Text = $"{minutes / 60:00}:{minutes % 60:00}";
+                var minutes = (int)(time.Value.TotalMinutes);
+                rangeLabel.Text = $@"{minutes / 60:00}:{minutes % 60:00}";
             }
             else
-                rangeLabel.Text = "--:--";
+                rangeLabel.Text = @"--:--";
         }
 
         private void chartBox_MouseMove(object sender, MouseEventArgs e)

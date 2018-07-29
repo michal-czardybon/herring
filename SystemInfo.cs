@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
-using System.Drawing;
-using System.Diagnostics;
 using System.Windows.Automation;
 using System.Text.RegularExpressions;
-using System.Windows;
-using System.Linq;
 
 namespace Herring
 {
@@ -111,67 +106,7 @@ namespace Herring
             }
             return ret;
         }
-
-        public static string GetVSTab()
-        {
-            try
-            {
-                AutomationElement root = AutomationElement.RootElement.FindFirst(TreeScope.Children,
-                    new PropertyCondition(AutomationElement.AutomationIdProperty, "VisualStudioMainWindow"));
-
-                Condition toolBar = new AndCondition(
-                    new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Pane),
-                    new PropertyCondition(AutomationElement.NameProperty, ""));
-                var firstPane = root.FindFirst(TreeScope.Descendants, toolBar);
-
-                Condition tabs = new AndCondition(
-                    new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Tab),
-                    new PropertyCondition(AutomationElement.NameProperty, ""));
-
-                var firstTab = firstPane.FindFirst(TreeScope.Descendants, tabs);
-
-                var x = firstTab.FindAll(TreeScope.Children, Condition.TrueCondition);
-
-                foreach (var i in x.OfType<AutomationElement>())
-                {
-                    var selectable = i.GetCurrentPattern(SelectionItemPattern.Pattern) as SelectionItemPattern;
-
-                    if (selectable != null && selectable.Current.IsSelected)
-                        return i.Current.Name;
-                }
-
-                return "";
-            }
-            catch
-            {
-                return "(EXCEPTION)";
-            }
-        }
-
-        public static string GetFirefoxUrl()
-        {
-            try
-            {
-                AutomationElement root = AutomationElement.RootElement.FindFirst(TreeScope.Children,
-                    new PropertyCondition(AutomationElement.ClassNameProperty, "MozillaWindowClass"));
-
-                Condition toolBar = new AndCondition(
-                new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Edit),
-                new PropertyCondition(AutomationElement.NameProperty, "Wprowadź adres lub szukaj"));
-                var tool = root.FindFirst(TreeScope.Descendants, toolBar);
-
-                var tmp = tool.GetCurrentPattern(ValuePattern.Pattern) as ValuePattern;
-                if (tmp != null)
-                    return tmp.Current.Value;
-            }
-            catch
-            {
-                return "(EXCEPTION 1)";
-            }
-
-            return "";
-        }
-
+        
         public static string GetChromeUrl()
         {
             IntPtr hWnd = GetForegroundWindow();
