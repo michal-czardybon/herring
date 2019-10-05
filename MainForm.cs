@@ -647,10 +647,11 @@ namespace Herring
 
         private void copyMenuItem_Click(object sender, EventArgs e)
         {
+            string proc = summaryListView.FocusedItem.SubItems[0].Text;
             string text = summaryListView.FocusedItem.SubItems[1].Text;
             string url = summaryListView.FocusedItem.SubItems[2].Text;
 
-            PutItemToClipboard(text, url);
+            PutItemToClipboard(proc, text, url);
         }
 
         private void activitiesListView_MouseClick(object sender, MouseEventArgs e)
@@ -668,14 +669,16 @@ namespace Herring
 
         private void copyFromActivitiesItem_Click(object sender, EventArgs e)
         {
+            string proc = activitiesListView.FocusedItem.SubItems[0].Text;
             string text = activitiesListView.FocusedItem.SubItems[1].Text;
             string url = activitiesListView.FocusedItem.SubItems[2].Text;
 
-            PutItemToClipboard(text, url);
+            PutItemToClipboard(proc, text, url);
         }
 
         private void copyProjectKaiserToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            string proc = activitiesListView.FocusedItem.SubItems[0].Text;
             string text = activitiesListView.FocusedItem.SubItems[1].Text;
             string url = activitiesListView.FocusedItem.SubItems[2].Text;
 
@@ -688,42 +691,47 @@ namespace Herring
                 text = text.Substring(28);
             }
 
-            PutItemToClipboard(text, url);
+            PutItemToClipboard(proc, text, url);
         }
 
         private void activitiesMenuStrip_Opening(object sender, CancelEventArgs e)
         {
+            string proc = activitiesListView.FocusedItem.SubItems[0].Text;
             string text = activitiesListView.FocusedItem.SubItems[1].Text;
 
             copyProjectKaiserToolStripMenuItem.Enabled = text.StartsWith("Project Kaiser");
 
             string url = activitiesListView.FocusedItem.SubItems[2].Text;
 
-            followLinkToolStripMenuItem.Enabled = url.StartsWith("http");
+            followLinkToolStripMenuItem.Enabled = (proc.StartsWith("chrome") && url != "" && !url.StartsWith("("));
 
         }
 
         private void followLinkActivitiesMenuItem_Click(object sender, EventArgs e)
         {
+            string proc = activitiesListView.FocusedItem.SubItems[0].Text;
+            string text = activitiesListView.FocusedItem.SubItems[1].Text;
             string url = activitiesListView.FocusedItem.SubItems[2].Text;
-            if (url.StartsWith("http"))
+            if (proc.StartsWith("chrome") && url != "" && !url.StartsWith("("))
             {
-                System.Diagnostics.Process.Start(url);
+                System.Diagnostics.Process.Start("https://" + url);
             }
         }
 
         private void followLinkSummaryMenuItem_Click(object sender, EventArgs e)
         {
+            string proc = summaryListView.FocusedItem.SubItems[0].Text;
+            string text = summaryListView.FocusedItem.SubItems[1].Text;
             string url = summaryListView.FocusedItem.SubItems[2].Text;
-            if (url.StartsWith("http"))
+            if (proc.StartsWith("chrome") && url != "" && !url.StartsWith("("))
             {
-                System.Diagnostics.Process.Start(url);
+                System.Diagnostics.Process.Start("https://" + url);
             }
         }
 
-        private static void PutItemToClipboard(string text, string url)
+        private static void PutItemToClipboard(string proc, string text, string url)
         {
-            if (url.StartsWith("http"))
+            if (proc.StartsWith("chrome") && url != "" && !url.StartsWith("("))
             {
                 ClipboardHelper.CopyToClipboard(String.Format("<a href=\"{0}\">{1}</a>", url, text), text + "\n" + url);
             }

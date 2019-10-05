@@ -107,16 +107,16 @@ namespace Herring
             }
             return ret;
         }
-        
+
         public static string GetChromeUrl()
         {
             Stopwatch sw = new Stopwatch();
             sw.Start();
 
             IntPtr hWnd = GetForegroundWindow();
-            if (hWnd == IntPtr.Zero) return "(ZERO 1)";
+            if (hWnd == IntPtr.Zero) return "(No window)";
             AutomationElement elm0 = AutomationElement.FromHandle(hWnd);
-            if (elm0 == null) return ("ZERO 2");
+            if (elm0 == null) return ("No automation");
 
             long time0 = sw.ElapsedMilliseconds;
 
@@ -125,6 +125,10 @@ namespace Herring
 
             // Method 2
             var elm1 = elm0.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, "Google Chrome"));
+            if (elm1 == null)
+            {
+                return ("(Lost)");
+            }
             var elm2 = TreeWalker.RawViewWalker.GetLastChild(elm1);
             var elm3 = elm2.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, ""));
             var elm4 = elm3.FindAll(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, ""))[1];
@@ -134,13 +138,19 @@ namespace Herring
 
             if (isIncognito)
             {
-                return "";
+                return "(Incognito)";
             }
             else
             {
                 var elm5 = elm4.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, ""));
                 var elm6 = elm5.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Edit));
                 var elmFinal = elm6;
+
+                // elmUrlBar is now the URL bar element. we have to make sure that it's out of keyboard focus if we want to get a valid URL
+                if ((bool)elmFinal.GetCurrentPropertyValue(AutomationElement.HasKeyboardFocusProperty))
+                {
+                    return "(HasKeyboard)";
+                }
 
                 string result =
                     elmFinal == null ? "(NULL)" : ((ValuePattern)elmFinal.GetCurrentPattern(ValuePattern.Pattern)).Current.Value as string;

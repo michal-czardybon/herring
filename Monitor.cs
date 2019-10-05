@@ -125,6 +125,10 @@ namespace Herring
             if (appInfo.Name == "chrome.exe")
             {
                 doc = SystemInfo.GetChromeUrl();
+                if (doc == "Incognito")
+                {
+                    applicationTitle = "(Incognito)";
+                }
             }
 
 
