@@ -3,6 +3,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.Windows.Automation;
 using System.Text.RegularExpressions;
+using System.Diagnostics;
 
 namespace Herring
 {
@@ -109,95 +110,52 @@ namespace Herring
         
         public static string GetChromeUrl()
         {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
             IntPtr hWnd = GetForegroundWindow();
-            if (hWnd == IntPtr.Zero) return "(ZERO)";
+            if (hWnd == IntPtr.Zero) return "(ZERO 1)";
+            AutomationElement elm0 = AutomationElement.FromHandle(hWnd);
+            if (elm0 == null) return ("ZERO 2");
 
-            // manually walk through the tree, searching using TreeScope.Descendants is too slow (even if it's more reliable)
-            AutomationElement elmUrlBar = null;
+            long time0 = sw.ElapsedMilliseconds;
 
-            try
+            // Method 1 (dirty)
+            //AutomationElement elmFinal = AutomationElement.FromPoint(new System.Windows.Point(200, 60));
+
+            // Method 2
+            var elm1 = elm0.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, "Google Chrome"));
+            var elm2 = TreeWalker.RawViewWalker.GetLastChild(elm1);
+            var elm3 = elm2.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, ""));
+            var elm4 = elm3.FindAll(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, ""))[1];
+
+            AutomationElement elmIncognito = elm4.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, "Incognito"));
+            bool isIncognito = (elmIncognito != null);
+
+            if (isIncognito)
             {
-                AutomationElement elm = AutomationElement.FromHandle(hWnd);
-
-                /*var elm1 = elm.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, "Google Chrome"));
-                if (elm1 == null) { return "(NOT RIGHT)"; } // not the right chrome.exe
-                var elm2 = TreeWalker.RawViewWalker.GetLastChild(elm1); // I don't know a Condition for this for finding
-                var elm3 = elm2.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, ""));
-                var elm4 = TreeWalker.RawViewWalker.GetNextSibling(elm3); // I don't know a Condition for this for finding
-                var elm7 = elm4.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.ToolBar));
-                elmUrlBar = elm7.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Custom));*/
-
-                /*var elm1 = elm.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, "Google Chrome"));
-                if (elm1 == null) { return "(NOT RIGHT)"; }  // not the right chrome.exe
-                var elm2 = TreeWalker.RawViewWalker.GetLastChild(elm1);
-                var elm3 = elm2.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.HelpTextProperty, "TopContainerView"));
-                var elm4 = elm3.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.ToolBar));
-                var elm5 = elm4.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.HelpTextProperty, "LocationBarView"));
-                elmUrlBar = elm5.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Edit));*/
-
-                var elm1 = elm.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, "Google Chrome"));
-                if (elm1 == null) { return "(NOT RIGHT)"; } // not the right chrome.exe
-                var elm2 = TreeWalker.RawViewWalker.GetLastChild(elm1); // I don't know a Condition for this for finding
-                var elm3 = elm2.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, ""));
-                var elm4 = TreeWalker.RawViewWalker.GetNextSibling(elm3); // I don't know a Condition for this for finding
-                var elm5 = elm4.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.ToolBar));
-                var elm6 = elm5.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, ""));
-                elmUrlBar = elm6.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Edit));
+                return "";
             }
-            catch
+            else
             {
-                // Chrome has probably changed something, and above walking needs to be modified. :(
-                // put an assertion here or something to make sure you don't miss it
-                return "(EXCEPTION 1)";
+                var elm5 = elm4.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, ""));
+                var elm6 = elm5.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Edit));
+                var elmFinal = elm6;
+
+                string result =
+                    elmFinal == null ? "(NULL)" : ((ValuePattern)elmFinal.GetCurrentPattern(ValuePattern.Pattern)).Current.Value as string;
+
+                long time3 = sw.ElapsedMilliseconds;
+
+                //return result + ":" + time0 + ":" + time1 + ":" + time2 + ":" + time2 + ":" + isIncognito.ToString();
+                return result;
             }
 
-            // make sure it's valid
-            if (elmUrlBar == null)
-            {
-                // it's not..
-                return "(INVALID 1)";
-            }
-
-            // elmUrlBar is now the URL bar element. we have to make sure that it's out of keyboard focus if we want to get a valid URL
-            if ((bool)elmUrlBar.GetCurrentPropertyValue(AutomationElement.HasKeyboardFocusProperty))
-            {
-                return "(INVALID 2)";
-            }
-
-            try
-            {
-                // there might not be a valid pattern to use, so we have to make sure we have one
-                AutomationPattern[] patterns = elmUrlBar.GetSupportedPatterns();
-                if (patterns.Length == 1)
-                {
-                    string ret = "";
-                    try
-                    {
-                        ret = ((ValuePattern)elmUrlBar.GetCurrentPattern(patterns[0])).Current.Value;
-                    }
-                    catch { }
-                    if (ret != "")
-                    {
-                        // must match a domain name (and possibly "https://" in front)
-                        if (Regex.IsMatch(ret, @"^(https:\/\/)?[a-zA-Z0-9\-\.]+(\.[a-zA-Z]{2,4}).*$"))
-                        {
-                            // prepend http:// to the url, because Chrome hides it if it's not SSL
-                            if (!ret.StartsWith("http"))
-                            {
-                                ret = "http://" + ret;
-                            }
-                            return ret;
-                        }
-                    }
-                }
-            }
-            catch
-            {
-                return "(EXCEPTION 2)";
-
-            }
-
-            return "(FAILED)";
+            // Method 3 (more general, but slower)
+            /*Condition conditions = new AndCondition(
+                new PropertyCondition(AutomationElement.IsContentElementProperty, true),
+                new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Edit));
+            AutomationElement elmFinal = elm0.FindFirst(TreeScope.Descendants, conditions);*/
         }
 
         public static void GetTopWindowText(out string windowText, out string applicationText)
