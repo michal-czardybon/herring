@@ -424,21 +424,21 @@ namespace Herring
             {
                 if (done[i] == false)
                 {
-                    string thisApp = summaryList1[i].App.Name;
+                    string thisProcess = summaryList1[i].App.Name;
                     string thisTitle = summaryList1[i].ApplicationTitle;
-                    string thisDocument = summaryList1[i].ValidDocumentUrl;
+                    string thisDocumentUrl = summaryList1[i].ValidDocumentUrl;
 
-                   ActivityDaySummary newSummary = summaryList1[i];
+                    ActivityDaySummary newSummary = summaryList1[i];   // FIXME: Deep copy
 
                     for (int j = i + 1; j < summaryList1.Count; ++j)
                     {
-                        if (summaryList1[j].App.Name != thisApp)
+                        if (summaryList1[j].App.Name != thisProcess)
                         {
                             break;
                         }
 
                        string commonTitle;
-                       if (summaryList1[j].ValidDocumentUrl == thisDocument &&
+                       if (summaryList1[j].ValidDocumentUrl == thisDocumentUrl &&
                             ActivityTracker.AreTitlesNearlyEqual(summaryList1[j].ApplicationTitle, thisTitle, out commonTitle))
                         {
                             thisTitle = commonTitle;
@@ -466,11 +466,11 @@ namespace Herring
                     TimeSpan topSpan = TimeSpan.FromSeconds(ads.TopTime);
                     string[] content = new string[]
                     {
-                    ads.App.Name,
-                    ads.ApplicationTitle,
-                    ads.Subtitle,
-                    span.ToString(),
-                    topSpan.ToString()
+                        ads.App.Name,
+                        ads.ApplicationTitle,
+                        ads.Subtitle,
+                        span.ToString(),
+                        topSpan.ToString()
                     };
                     ListViewItem item = new ListViewItem(content, GetIconIndex(ads.App));
                     summaryListView.Items.Add(item);

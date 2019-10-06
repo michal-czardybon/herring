@@ -317,14 +317,14 @@
             // processLabel
             // 
             this.processLabel.Name = "processLabel";
-            this.processLabel.Size = new System.Drawing.Size(78, 19);
+            this.processLabel.Size = new System.Drawing.Size(63, 19);
             this.processLabel.Text = "<process>";
             // 
-            // appTitleLabel
+            // titleLabel
             // 
             this.titleLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
             this.titleLabel.Name = "titleLabel";
-            this.titleLabel.Size = new System.Drawing.Size(72, 19);
+            this.titleLabel.Size = new System.Drawing.Size(47, 19);
             this.titleLabel.Text = "<title>";
             // 
             // windowLabel
@@ -337,8 +337,8 @@
             // documentUrlLabel
             // 
             this.documentUrlLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
-            this.documentUrlLabel.Name = "addressLabel";
-            this.documentUrlLabel.Size = new System.Drawing.Size(67, 19);
+            this.documentUrlLabel.Name = "documentUrlLabel";
+            this.documentUrlLabel.Size = new System.Drawing.Size(101, 19);
             this.documentUrlLabel.Text = "<document-url>";
             // 
             // statsLabel
@@ -428,7 +428,7 @@
             // 
             // summaryDocumentHeader
             // 
-            this.summaryDocumentHeader.Text = "Document";
+            this.summaryDocumentHeader.Text = "Document Url";
             this.summaryDocumentHeader.Width = 240;
             // 
             // summaryTimeHeader

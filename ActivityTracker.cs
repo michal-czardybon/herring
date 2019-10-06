@@ -165,7 +165,7 @@ namespace Herring
             bool[] done = new bool[snapshots.Count];
             for (int i = 0; i < snapshots.Count; ++i)
             {
-                string thisApp = snapshots[i].App.Name;
+                string thisProcess = snapshots[i].App.Name;
                 string thisTitle = snapshots[i].ApplicationTitle;
                 string thisSubtitle = snapshots[i].WindowTitle;
                 string thisDocumentUrl = snapshots[i].ValidDocumentUrl;
@@ -177,9 +177,7 @@ namespace Herring
                     for (int j = i + 1; j < snapshots.Count; ++j)
                     {
                         string commonTitle;
-                        // FIXME: Different URL should not be a problem
-                        // FIXME: Sometimes I get several time the same activity in the summary
-                        if (snapshots[j].App.Name == thisApp &&
+                        if (snapshots[j].App.Name == thisProcess &&
                             snapshots[j].WindowTitle == thisSubtitle &&
                             snapshots[j].ValidDocumentUrl == thisDocumentUrl &&
                             AreTitlesNearlyEqual(snapshots[j].ApplicationTitle, thisTitle, out commonTitle))

@@ -56,12 +56,12 @@ namespace Herring
                ForeColor =
                   entry.Share >= 20.0 ? Color.Black :
                   entry.Share >= 10.0 ? Color.FromArgb(64, 64, 64) :
-                                       Color.FromArgb(128, 128, 128);
+                                        Color.FromArgb(128, 128, 128);
                 
                // Remove uneccesary extension
                var processedName = entry.App.Name.ToLower().Replace(".exe", "");
 
-               Text = processedName;                /* process: */
+               Text = processedName;                 /* process: */
                AddColumn(entry.ApplicationTitle);    /* title: */
                AddColumn(entry.Subtitle);            /* subtitle: */
                AddColumn(entry.Share);               /* share: */
