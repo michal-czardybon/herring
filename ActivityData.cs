@@ -21,7 +21,7 @@ namespace Herring
         public AppInfo  App;
         public string   WindowTitle;
         public string   ApplicationTitle;
-        public string   DocumentName;
+        public string   DocumentUrl;
         public double   KeyboardIntensity;
         public double   MouseIntensity;
 
@@ -34,11 +34,11 @@ namespace Herring
             CategoryIndex = RuleManager.Categories.IndexOf(Category);
         }
 
-        public string ValidDocumentName
+        public string ValidDocumentUrl
         {
             get
             {
-                return DocumentName == null || DocumentName.StartsWith("(") ? "" : DocumentName;
+                return DocumentUrl == null || DocumentUrl.StartsWith("(") ? "" : DocumentUrl;
             }
         }
 
@@ -46,13 +46,13 @@ namespace Herring
         {
             get
             {
-                if (WindowTitle != "" && ValidDocumentName != "")
+                if (WindowTitle != "" && ValidDocumentUrl != "")
                 {
-                    return WindowTitle + " | " + ValidDocumentName;
+                    return WindowTitle + " | " + ValidDocumentUrl;
                 }
                 else
                 {
-                    return WindowTitle + ValidDocumentName; // one of them is empty
+                    return WindowTitle + ValidDocumentUrl; // one of them is empty
                 }
             }
         }

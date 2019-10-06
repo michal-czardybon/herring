@@ -48,10 +48,10 @@
             this.notifyIconMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.applicationLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.processLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.titleLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.documentLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.windowLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.documentUrlLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statsLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.timeStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.nextPoint = new System.Windows.Forms.ToolStripStatusLabel();
@@ -83,6 +83,14 @@
             this.statusMaxHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.categoryNameHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.activitiesListView = new Herring.OptimizedListView();
+            this.processColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.titleColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.subtitleHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.shareHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.keyboardIntensityHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.mouseIntensityHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.categoryHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel3 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -99,20 +107,12 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.rangeLabel = new System.Windows.Forms.Label();
             this.rangeTextLabel = new System.Windows.Forms.Label();
+            this.chart = new Herring.ChartView();
             this.chartMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.removeEventToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addEventToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.markWorkingHoursToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.activitiesListView = new Herring.OptimizedListView();
-            this.processColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.titleColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.subtitleHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.shareHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.keyboardIntensityHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.mouseIntensityHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.categoryHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.chart = new Herring.ChartView();
             this.panel1.SuspendLayout();
             this.notifyIconMenuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -126,8 +126,8 @@
             this.tabPage1.SuspendLayout();
             this.activitiesMenuStrip.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.chartMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
+            this.chartMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer
@@ -301,10 +301,10 @@
             // 
             this.statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.statusLabel,
-            this.applicationLabel,
+            this.processLabel,
             this.titleLabel,
-            this.documentLabel,
+            this.windowLabel,
+            this.documentUrlLabel,
             this.statsLabel,
             this.timeStatusLabel,
             this.nextPoint});
@@ -314,32 +314,32 @@
             this.statusStrip.TabIndex = 3;
             this.statusStrip.Text = "statusStrip";
             // 
-            // statusLabel
+            // processLabel
             // 
-            this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(42, 19);
-            this.statusLabel.Text = "<text>";
+            this.processLabel.Name = "processLabel";
+            this.processLabel.Size = new System.Drawing.Size(78, 19);
+            this.processLabel.Text = "<process>";
             // 
-            // applicationLabel
-            // 
-            this.applicationLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
-            this.applicationLabel.Name = "applicationLabel";
-            this.applicationLabel.Size = new System.Drawing.Size(61, 19);
-            this.applicationLabel.Text = "<parent>";
-            // 
-            // titleLabel
+            // appTitleLabel
             // 
             this.titleLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
             this.titleLabel.Name = "titleLabel";
-            this.titleLabel.Size = new System.Drawing.Size(47, 19);
+            this.titleLabel.Size = new System.Drawing.Size(72, 19);
             this.titleLabel.Text = "<title>";
             // 
-            // documentLabel
+            // windowLabel
             // 
-            this.documentLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
-            this.documentLabel.Name = "documentLabel";
-            this.documentLabel.Size = new System.Drawing.Size(82, 19);
-            this.documentLabel.Text = "<document>";
+            this.windowLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this.windowLabel.Name = "windowLabel";
+            this.windowLabel.Size = new System.Drawing.Size(69, 19);
+            this.windowLabel.Text = "<window>";
+            // 
+            // documentUrlLabel
+            // 
+            this.documentUrlLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this.documentUrlLabel.Name = "addressLabel";
+            this.documentUrlLabel.Size = new System.Drawing.Size(67, 19);
+            this.documentUrlLabel.Text = "<document-url>";
             // 
             // statsLabel
             // 
@@ -580,6 +580,64 @@
             this.tabPage2.Text = "Activities";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // activitiesListView
+            // 
+            this.activitiesListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.processColumnHeader,
+            this.titleColumnHeader,
+            this.subtitleHeader,
+            this.shareHeader,
+            this.keyboardIntensityHeader,
+            this.mouseIntensityHeader,
+            this.categoryHeader});
+            this.activitiesListView.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.activitiesListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.activitiesListView.FullRowSelect = true;
+            this.activitiesListView.GridLines = true;
+            this.activitiesListView.Location = new System.Drawing.Point(3, 3);
+            this.activitiesListView.Name = "activitiesListView";
+            this.activitiesListView.Size = new System.Drawing.Size(1280, 532);
+            this.activitiesListView.TabIndex = 0;
+            this.activitiesListView.UseCompatibleStateImageBehavior = false;
+            this.activitiesListView.View = System.Windows.Forms.View.Details;
+            this.activitiesListView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.activitiesListView_MouseClick);
+            // 
+            // processColumnHeader
+            // 
+            this.processColumnHeader.Text = "Process Name";
+            this.processColumnHeader.Width = 180;
+            // 
+            // titleColumnHeader
+            // 
+            this.titleColumnHeader.Text = "Window Title";
+            this.titleColumnHeader.Width = 524;
+            // 
+            // subtitleHeader
+            // 
+            this.subtitleHeader.Text = "Subtitle";
+            this.subtitleHeader.Width = 240;
+            // 
+            // shareHeader
+            // 
+            this.shareHeader.Text = "Share";
+            this.shareHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // keyboardIntensityHeader
+            // 
+            this.keyboardIntensityHeader.Text = "Keyboard";
+            this.keyboardIntensityHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // mouseIntensityHeader
+            // 
+            this.mouseIntensityHeader.Text = "Mouse";
+            this.mouseIntensityHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // categoryHeader
+            // 
+            this.categoryHeader.Text = "Category";
+            this.categoryHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.categoryHeader.Width = 150;
+            // 
             // panel3
             // 
             this.panel3.Controls.Add(this.label4);
@@ -735,6 +793,20 @@
             this.rangeTextLabel.TabIndex = 7;
             this.rangeTextLabel.Text = "Length:";
             // 
+            // chart
+            // 
+            this.chart.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.chart.ContextMenuStrip = this.chartMenu;
+            this.chart.Location = new System.Drawing.Point(3, 0);
+            this.chart.Name = "chart";
+            this.chart.SelectedBar = null;
+            this.chart.Size = new System.Drawing.Size(1156, 49);
+            this.chart.TabIndex = 4;
+            this.chart.TabStop = false;
+            this.chart.SelectionChanged += new System.EventHandler(this.chart_selectionChanged);
+            this.chart.MouseMove += new System.Windows.Forms.MouseEventHandler(this.chartBox_MouseMove);
+            this.chart.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chart_MouseUp);
+            // 
             // chartMenu
             // 
             this.chartMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -773,78 +845,6 @@
             this.markWorkingHoursToolStripMenuItem.Text = "Mark \'Working Hours\'";
             this.markWorkingHoursToolStripMenuItem.Click += new System.EventHandler(this.markWorkingHoursToolStripMenuItem_Click);
             // 
-            // activitiesListView
-            // 
-            this.activitiesListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.processColumnHeader,
-            this.titleColumnHeader,
-            this.subtitleHeader,
-            this.shareHeader,
-            this.keyboardIntensityHeader,
-            this.mouseIntensityHeader,
-            this.categoryHeader});
-            this.activitiesListView.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.activitiesListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.activitiesListView.FullRowSelect = true;
-            this.activitiesListView.GridLines = true;
-            this.activitiesListView.Location = new System.Drawing.Point(3, 3);
-            this.activitiesListView.Name = "activitiesListView";
-            this.activitiesListView.Size = new System.Drawing.Size(1280, 532);
-            this.activitiesListView.TabIndex = 0;
-            this.activitiesListView.UseCompatibleStateImageBehavior = false;
-            this.activitiesListView.View = System.Windows.Forms.View.Details;
-            this.activitiesListView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.activitiesListView_MouseClick);
-            // 
-            // processColumnHeader
-            // 
-            this.processColumnHeader.Text = "Process Name";
-            this.processColumnHeader.Width = 180;
-            // 
-            // titleColumnHeader
-            // 
-            this.titleColumnHeader.Text = "Window Title";
-            this.titleColumnHeader.Width = 524;
-            // 
-            // subtitleHeader
-            // 
-            this.subtitleHeader.Text = "Subtitle";
-            this.subtitleHeader.Width = 240;
-            // 
-            // shareHeader
-            // 
-            this.shareHeader.Text = "Share";
-            this.shareHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // keyboardIntensityHeader
-            // 
-            this.keyboardIntensityHeader.Text = "Keyboard";
-            this.keyboardIntensityHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // mouseIntensityHeader
-            // 
-            this.mouseIntensityHeader.Text = "Mouse";
-            this.mouseIntensityHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // categoryHeader
-            // 
-            this.categoryHeader.Text = "Category";
-            this.categoryHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.categoryHeader.Width = 150;
-            // 
-            // chart
-            // 
-            this.chart.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.chart.ContextMenuStrip = this.chartMenu;
-            this.chart.Location = new System.Drawing.Point(3, 0);
-            this.chart.Name = "chart";
-            this.chart.SelectedBar = null;
-            this.chart.Size = new System.Drawing.Size(1156, 49);
-            this.chart.TabIndex = 4;
-            this.chart.TabStop = false;
-            this.chart.SelectionChanged += new System.EventHandler(this.chart_selectionChanged);
-            this.chart.MouseMove += new System.Windows.Forms.MouseEventHandler(this.chartBox_MouseMove);
-            this.chart.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chart_MouseUp);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -877,8 +877,8 @@
             this.activitiesMenuStrip.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            this.chartMenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
+            this.chartMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -900,13 +900,13 @@
         private System.Windows.Forms.ContextMenuStrip notifyIconMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem closeMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip;
-        private System.Windows.Forms.ToolStripStatusLabel statusLabel;
-        private System.Windows.Forms.ToolStripStatusLabel titleLabel;
+        private System.Windows.Forms.ToolStripStatusLabel processLabel;
+        private System.Windows.Forms.ToolStripStatusLabel windowLabel;
         private System.Windows.Forms.ToolStripStatusLabel statsLabel;
-        private System.Windows.Forms.ToolStripStatusLabel applicationLabel;
+        private System.Windows.Forms.ToolStripStatusLabel titleLabel;
         private System.Windows.Forms.ContextMenuStrip summaryMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem copyMenuItem;
-        private System.Windows.Forms.ToolStripStatusLabel documentLabel;
+        private System.Windows.Forms.ToolStripStatusLabel documentUrlLabel;
         private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.ListView summaryListView;
         private System.Windows.Forms.ColumnHeader summaryProcessHeader;

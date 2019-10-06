@@ -105,23 +105,23 @@ namespace Herring
             TextReader reader = new StreamReader(path);
             string header = reader.ReadLine();  // csv header
             bool hasSubtitle;
-            bool hasDocument;
+            bool hasDocumentUrl;
             if (header == "time;span;process;title;subtitle;document;share;keyboard-intensity;mouse-intensity;")
             {
                 hasSubtitle = true;
-                hasDocument = true;
+                hasDocumentUrl = true;
             }
             else
             if (header == "time;span;process;title;subtitle;share;keyboard-intensity;mouse-intensity;")
             {
                 hasSubtitle = true;
-                hasDocument = false;
+                hasDocumentUrl = false;
             }
             else
             if (header == "time;span;process;title;share;keyboard-intensity;mouse-intensity;")
             {
                 hasSubtitle = false;
-                hasDocument = false;
+                hasDocumentUrl = false;
             }
             else
             {
@@ -150,7 +150,7 @@ namespace Herring
                         parts[5] = parts[4];
                         parts[4] = "";          // subtitle
                     }
-                    if (hasDocument == false)
+                    if (hasDocumentUrl == false)
                     {
                         parts[8] = parts[7];
                         parts[7] = parts[6];
@@ -225,9 +225,9 @@ namespace Herring
                                 App = getApp(parts[2]),
                                 ApplicationTitle = parts[3],
                                 WindowTitle = parts[4],
-                                DocumentName = parts[5]
+                                DocumentUrl = parts[5]
                             };
-                        System.Diagnostics.Debug.Assert(entry.DocumentName != null);
+                        System.Diagnostics.Debug.Assert(entry.DocumentUrl != null);
                         entry.Share = share;
                         entry.KeyboardIntensity = keyboardIntensity;
                         entry.MouseIntensity = mouseIntensity;

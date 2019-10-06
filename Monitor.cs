@@ -145,7 +145,7 @@ namespace Herring
                     App = appInfo,
                     ApplicationTitle = applicationTitle,
                     WindowTitle = windowTitle,
-                    DocumentName = doc,
+                    DocumentUrl = doc,
                     KeyboardIntensity = ActivitySnapshot.GetIntensity(keyPressCount, 6, length),
                     MouseIntensity = ActivitySnapshot.GetIntensity((int)mouseDistance, 1000, length)
                 };

@@ -59,7 +59,7 @@ namespace Herring
                 writer.Write(entry.App.Path + ";");
                 writer.Write(entry.ApplicationTitle.Replace(';', ',').Replace('\r',' ').Replace("\n", " ") + ";");
                 writer.Write(entry.WindowTitle.Replace(';', ',').Replace('\r', ' ').Replace("\n", " ") + ";");
-                writer.Write(entry.DocumentName.Replace(';', ',').Replace('\r', ' ').Replace("\n", " ") + ";");
+                writer.Write(entry.DocumentUrl.Replace(';', ',').Replace('\r', ' ').Replace("\n", " ") + ";");
                 writer.Write(entry.Share.ToString("F2") + ";");
                 writer.Write(entry.KeyboardIntensity.ToString("F2") + ";");
                 writer.Write(entry.MouseIntensity.ToString("F2") + ";");

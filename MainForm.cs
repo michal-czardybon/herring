@@ -400,7 +400,7 @@ namespace Herring
                                  App = entry.App,
                                  ApplicationTitle = entry.ApplicationTitle,
                                  WindowTitle = "",  // ignored in day summary
-                                 DocumentName = entry.DocumentName
+                                 DocumentUrl = entry.DocumentUrl
                             };
                     }
                     summaryItems[id].TotalTime += Parameters.LogTimeUnit * entry.Share / 100.0;
@@ -426,7 +426,7 @@ namespace Herring
                 {
                     string thisApp = summaryList1[i].App.Name;
                     string thisTitle = summaryList1[i].ApplicationTitle;
-                    string thisDocument = summaryList1[i].ValidDocumentName;
+                    string thisDocument = summaryList1[i].ValidDocumentUrl;
 
                    ActivityDaySummary newSummary = summaryList1[i];
 
@@ -438,7 +438,7 @@ namespace Herring
                         }
 
                        string commonTitle;
-                       if (summaryList1[j].ValidDocumentName == thisDocument &&
+                       if (summaryList1[j].ValidDocumentUrl == thisDocument &&
                             ActivityTracker.AreTitlesNearlyEqual(summaryList1[j].ApplicationTitle, thisTitle, out commonTitle))
                         {
                             thisTitle = commonTitle;
@@ -485,17 +485,17 @@ namespace Herring
 
         private void RefreshStatus(ActivitySnapshot snapshot)
         {
-            statusLabel.Text = snapshot.App.Name;
-            applicationLabel.Text = snapshot.ApplicationTitle;
+            processLabel.Text = snapshot.App.Name;
+            titleLabel.Text = snapshot.ApplicationTitle;
             if (snapshot.WindowTitle == snapshot.ApplicationTitle)
             {
-                titleLabel.Text = "";
+                windowLabel.Text = "";
             }
             else
             {
-                titleLabel.Text = snapshot.WindowTitle;
+                windowLabel.Text = snapshot.WindowTitle;
             }
-            documentLabel.Text = snapshot.DocumentName + " [" + SystemInfo.GetUrlRetrievalTime().ToString("F0") + " ms]";
+            documentUrlLabel.Text = snapshot.DocumentUrl + " [" + SystemInfo.GetUrlRetrievalTime().ToString("F0") + " ms]";
             statsLabel.Text = "keyboard: " + snapshot.KeyboardIntensity.ToString("F2") + ", mouse: " + snapshot.MouseIntensity.ToString("F2");
         }
 

@@ -168,7 +168,7 @@ namespace Herring
                 string thisApp = snapshots[i].App.Name;
                 string thisTitle = snapshots[i].ApplicationTitle;
                 string thisSubtitle = snapshots[i].WindowTitle;
-                string thisDocument = snapshots[i].ValidDocumentName;
+                string thisDocumentUrl = snapshots[i].ValidDocumentUrl;
                 if (done[i] == false)
                 {
                     int count = 1;
@@ -181,7 +181,7 @@ namespace Herring
                         // FIXME: Sometimes I get several time the same activity in the summary
                         if (snapshots[j].App.Name == thisApp &&
                             snapshots[j].WindowTitle == thisSubtitle &&
-                            snapshots[j].ValidDocumentName == thisDocument &&
+                            snapshots[j].ValidDocumentUrl == thisDocumentUrl &&
                             AreTitlesNearlyEqual(snapshots[j].ApplicationTitle, thisTitle, out commonTitle))
                         {
                             count++;
@@ -199,7 +199,7 @@ namespace Herring
                             App = snapshots[i].App,
                             ApplicationTitle = thisTitle,
                             WindowTitle = thisSubtitle,
-                            DocumentName = thisDocument,
+                            DocumentUrl = thisDocumentUrl,
                             KeyboardIntensity = sumKeyboard / count,
                             MouseIntensity = sumMouse / count
                         };
