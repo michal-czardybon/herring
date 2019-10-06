@@ -495,7 +495,7 @@ namespace Herring
             {
                 titleLabel.Text = snapshot.WindowTitle;
             }
-            documentLabel.Text = snapshot.DocumentName;
+            documentLabel.Text = snapshot.DocumentName + " [" + SystemInfo.GetUrlRetrievalTime().ToString("F0") + " ms]";
             statsLabel.Text = "keyboard: " + snapshot.KeyboardIntensity.ToString("F2") + ", mouse: " + snapshot.MouseIntensity.ToString("F2");
         }
 

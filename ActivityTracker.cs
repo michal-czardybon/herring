@@ -177,6 +177,8 @@ namespace Herring
                     for (int j = i + 1; j < snapshots.Count; ++j)
                     {
                         string commonTitle;
+                        // FIXME: Different URL should not be a problem
+                        // FIXME: Sometimes I get several time the same activity in the summary
                         if (snapshots[j].App.Name == thisApp &&
                             snapshots[j].WindowTitle == thisSubtitle &&
                             snapshots[j].ValidDocumentName == thisDocument &&
