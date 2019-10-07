@@ -63,7 +63,7 @@ namespace Herring
 
                Text = processedName;                 /* process: */
                AddColumn(entry.ApplicationTitle);    /* title: */
-               AddColumn(entry.Subtitle);            /* subtitle: */
+               AddColumn(entry.ValidDocumentUrl);    /* subtitle: */
                AddColumn(entry.Share);               /* share: */
                AddColumn(entry.KeyboardIntensity);   /* keyboard: */
                AddColumn(entry.MouseIntensity);      /* mouse: */

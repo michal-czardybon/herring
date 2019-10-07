@@ -82,6 +82,48 @@ namespace Herring
             return AreTitlesNearlyEqual(title1, title2, Parameters.MaxTitleDifferenceLength, out title);
         }
 
+        public static string CommonUrlPart(string url1, string url2)
+        {
+            int i = 0;
+            while (i < url1.Length && i < url2.Length && url1[i] == url2[i])
+            {
+                ++i;
+            }
+            return url1.Substring(0, i);
+
+            /*int i1 = 0;
+            int i2 = 0;
+
+            while (true)
+            {
+                System.Diagnostics.Debug.Assert(i1 == i2);
+
+                if (i1 == url1.Length)
+                {
+                    return url1.Substring(0, i1);
+                }
+
+                // Get next parts of both urls
+                int j1 = url1.IndexOf("/", i1 + 1);
+                int j2 = url2.IndexOf("/", i2 + 1);
+                if (j1 == -1) j1 = url1.Length;
+                if (j2 == -1) j2 = url2.Length;
+
+                // If both parts are equal...
+                if (url1.Substring(i1, j1 - i1) == url2.Substring(i2, j2 - i2))
+                {
+                    // ...go ahead...
+                    i1 = j1;
+                    i2 = j2;
+                }
+                else
+                {
+                    // ...or stop here otherwise.
+                    return url1.Substring(0, i1);
+                }
+            }*/
+        }
+
         public static bool AreTitlesNearlyEqual(string title1, string title2, int maxDiff, out string title)
         {
             // Count the common characters from the beginning
@@ -167,8 +209,8 @@ namespace Herring
             {
                 string thisProcess = snapshots[i].App.Name;
                 string thisTitle = snapshots[i].ApplicationTitle;
-                string thisSubtitle = snapshots[i].WindowTitle;
-                string thisDocumentUrl = snapshots[i].ValidDocumentUrl;
+                string thisDocumentSite = snapshots[i].ValidDocumentSite;
+                string thisCommonUrl = snapshots[i].DocumentUrl;
                 if (done[i] == false)
                 {
                     int count = 1;
@@ -178,8 +220,7 @@ namespace Herring
                     {
                         string commonTitle;
                         if (snapshots[j].App.Name == thisProcess &&
-                            snapshots[j].WindowTitle == thisSubtitle &&
-                            snapshots[j].ValidDocumentUrl == thisDocumentUrl &&
+                            snapshots[j].ValidDocumentSite == thisDocumentSite &&
                             AreTitlesNearlyEqual(snapshots[j].ApplicationTitle, thisTitle, out commonTitle))
                         {
                             count++;
@@ -187,6 +228,7 @@ namespace Herring
                             sumMouse += snapshots[j].MouseIntensity;
                             done[j] = true;
                             thisTitle = commonTitle;
+                            thisCommonUrl = CommonUrlPart(thisCommonUrl, snapshots[j].DocumentUrl);
                         }
                     }
                     Debug.Assert(count >= 1);
@@ -196,8 +238,8 @@ namespace Herring
                             Share = 100 * count / Parameters.LogSamplingRate,
                             App = snapshots[i].App,
                             ApplicationTitle = thisTitle,
-                            WindowTitle = thisSubtitle,
-                            DocumentUrl = thisDocumentUrl,
+                            WindowTitle = "",
+                            DocumentUrl = thisCommonUrl,
                             KeyboardIntensity = sumKeyboard / count,
                             MouseIntensity = sumMouse / count
                         };

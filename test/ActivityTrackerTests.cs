@@ -36,5 +36,23 @@ namespace test
             Assert.AreEqual(true, ActivityTracker.AreTitlesNearlyEqual(a, b, 3, out common));
             Assert.AreEqual(b, common);
         }
+
+        [TestMethod]
+        public void Test_CommonUrlPart_Empty()
+        {
+            Assert.AreEqual("", ActivityTracker.CommonUrlPart("", ""));
+        }
+
+        [TestMethod]
+        public void Test_CommonUrlPart_Simple()
+        {
+            Assert.AreEqual("onet.pl", ActivityTracker.CommonUrlPart("onet.pl", "onet.pl"));
+        }
+
+        [TestMethod]
+        public void Test_CommonUrlPart_Basic()
+        {
+            Assert.AreEqual("outlook.com/abs", ActivityTracker.CommonUrlPart("outlook.com/abs", "outlook.com/abs/blabla"));
+        }
     }
 }

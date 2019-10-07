@@ -18,15 +18,15 @@ namespace Herring
     /// The basic piece of information about user activity
     public class ActivitySample
     {
-        public AppInfo  App;
-        public string   WindowTitle;
-        public string   ApplicationTitle;
-        public string   DocumentUrl;
-        public double   KeyboardIntensity;
-        public double   MouseIntensity;
+        public AppInfo App;
+        public string WindowTitle;
+        public string ApplicationTitle;
+        public string DocumentUrl;
+        public double KeyboardIntensity;
+        public double MouseIntensity;
 
-        public string   Category;
-        public int      CategoryIndex;
+        public string Category;
+        public int CategoryIndex;
 
         public void SetCategory()
         {
@@ -42,17 +42,18 @@ namespace Herring
             }
         }
 
-        public string Subtitle
+        public string ValidDocumentSite
         {
             get
             {
-                if (WindowTitle != "" && ValidDocumentUrl != "")
+                int index = ValidDocumentUrl.IndexOf("/");
+                if (index == -1)
                 {
-                    return WindowTitle + " | " + ValidDocumentUrl;
+                    return ValidDocumentUrl;
                 }
                 else
                 {
-                    return WindowTitle + ValidDocumentUrl; // one of them is empty
+                    return ValidDocumentUrl.Substring(0, index);
                 }
             }
         }
@@ -108,6 +109,11 @@ namespace Herring
     {
         public double TotalTime;
         public double TopTime;
+
+        public ActivityDaySummary Clone()
+        {
+            return (ActivityDaySummary)this.MemberwiseClone();
+        }
     }
 
     public enum UserStatus

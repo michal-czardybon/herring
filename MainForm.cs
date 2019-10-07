@@ -365,7 +365,6 @@ namespace Herring
         {
             public string ProcessName;
             public string ApplicationTitle;
-            public string WindowTitle;
         }
 
         /// <summary>
@@ -388,8 +387,7 @@ namespace Herring
                     ActivityId id = new ActivityId
                     {
                         ProcessName = entry.App.Path,
-                        ApplicationTitle = entry.ApplicationTitle,
-                        WindowTitle = entry.WindowTitle
+                        ApplicationTitle = entry.ApplicationTitle
                     };
 
                     if (summaryItems.ContainsKey(id) == false)
@@ -399,7 +397,6 @@ namespace Herring
                             {
                                  App = entry.App,
                                  ApplicationTitle = entry.ApplicationTitle,
-                                 WindowTitle = "",  // ignored in day summary
                                  DocumentUrl = entry.DocumentUrl
                             };
                     }
@@ -427,8 +424,9 @@ namespace Herring
                     string thisProcess = summaryList1[i].App.Name;
                     string thisTitle = summaryList1[i].ApplicationTitle;
                     string thisDocumentUrl = summaryList1[i].ValidDocumentUrl;
+                    string thisDocumentSite = summaryList1[i].ValidDocumentSite;
 
-                    ActivityDaySummary newSummary = summaryList1[i];   // FIXME: Deep copy
+                    ActivityDaySummary newSummary = summaryList1[i].Clone();
 
                     for (int j = i + 1; j < summaryList1.Count; ++j)
                     {
@@ -438,11 +436,14 @@ namespace Herring
                         }
 
                        string commonTitle;
-                       if (summaryList1[j].ValidDocumentUrl == thisDocumentUrl &&
-                            ActivityTracker.AreTitlesNearlyEqual(summaryList1[j].ApplicationTitle, thisTitle, out commonTitle))
+                       if (summaryList1[j].ValidDocumentSite == thisDocumentSite &&
+                           ActivityTracker.AreTitlesNearlyEqual(summaryList1[j].ApplicationTitle, thisTitle, out commonTitle))
                         {
                             thisTitle = commonTitle;
+                            thisDocumentUrl = ActivityTracker.CommonUrlPart(thisDocumentUrl, summaryList1[j].DocumentUrl);
+
                             newSummary.ApplicationTitle = commonTitle;
+                            newSummary.DocumentUrl = thisDocumentUrl;
                             newSummary.TotalTime += summaryList1[j].TotalTime;
                             newSummary.TopTime += summaryList1[j].TopTime;
                             done[j] = true;
@@ -468,7 +469,7 @@ namespace Herring
                     {
                         ads.App.Name,
                         ads.ApplicationTitle,
-                        ads.Subtitle,
+                        ads.ValidDocumentUrl,
                         span.ToString(),
                         topSpan.ToString()
                     };
