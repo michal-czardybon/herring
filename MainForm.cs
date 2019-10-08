@@ -417,14 +417,17 @@ namespace Herring
             // merge
             // FIXME: O(n^2) within an application
             bool[] done = new bool[summaryList1.Count];
+            Dictionary<string, double> leaderTime = new Dictionary<string, double>();
+
             for (int i = 0; i < summaryList1.Count; ++i)
             {
+                string thisProcess = summaryList1[i].App.Name;
+                string thisDocumentUrl = summaryList1[i].ValidDocumentUrl;
+                string thisDocumentSite = summaryList1[i].ValidDocumentSite;
+
                 if (done[i] == false)
                 {
-                    string thisProcess = summaryList1[i].App.Name;
                     string thisTitle = summaryList1[i].ApplicationTitle;
-                    string thisDocumentUrl = summaryList1[i].ValidDocumentUrl;
-                    string thisDocumentSite = summaryList1[i].ValidDocumentSite;
 
                     ActivityDaySummary newSummary = summaryList1[i].Clone();
 
@@ -446,14 +449,46 @@ namespace Herring
                             newSummary.DocumentUrl = thisDocumentUrl;
                             newSummary.TotalTime += summaryList1[j].TotalTime;
                             newSummary.TopTime += summaryList1[j].TopTime;
+
                             done[j] = true;
                         }
                     }
                     summaryList2.Add(newSummary);
+
+                    string leaderName = (thisDocumentSite != "" ? thisDocumentSite : thisProcess);
+
+                    if (leaderName != "")
+                    {
+                        if (leaderTime.ContainsKey(leaderName) == false ||
+                            leaderTime[leaderName] < newSummary.TopTime * 100 + newSummary.TotalTime)
+                        {
+                            leaderTime[leaderName] = newSummary.TopTime * 100 + newSummary.TotalTime;
+                        }
+                    }
+
                 }
             }
 
-            summaryList2.Sort((a, b) => (int)(a.TopTime != b.TopTime ? b.TopTime - a.TopTime : b.TotalTime - a.TotalTime));
+            summaryList2.Sort((a, b) =>
+            {
+                double leaderTimeA = a.TopTime * 100 + a.TotalTime;
+                double leaderTimeB = b.TopTime * 100 + b.TotalTime;
+
+                string leaderNameA = (a.ValidDocumentSite != "" ? a.ValidDocumentSite : a.App.Name);
+                string leaderNameB = (b.ValidDocumentSite != "" ? b.ValidDocumentSite : b.App.Name);
+
+                if (leaderNameA != "")
+                {
+                    leaderTimeA = Math.Max(leaderTimeA, leaderTime[leaderNameA]);
+                }
+                if (leaderNameB != "")
+                {
+                    leaderTimeB = Math.Max(leaderTimeB, leaderTime[leaderNameB]);
+                }
+
+                return (int)(leaderTimeA != leaderTimeB ? leaderTimeB - leaderTimeA : a.TopTime != b.TopTime ? b.TopTime - a.TopTime : b.TotalTime - a.TotalTime);
+
+            });
 
             TimeSpan totalTime = TimeSpan.Zero;
 
@@ -471,9 +506,16 @@ namespace Herring
                         ads.ApplicationTitle,
                         ads.ValidDocumentUrl,
                         span.ToString(),
-                        topSpan.ToString()
+                        topSpan != TimeSpan.Zero ? topSpan.ToString() : ""
                     };
+
+                    Color color =
+                        ads.TopTime >= 600.0 ? Color.Black :
+                        ads.TopTime >= 300.0 ? Color.FromArgb(80, 80, 80) :
+                                               Color.FromArgb(160, 160, 160);
+
                     ListViewItem item = new ListViewItem(content, GetIconIndex(ads.App));
+                    item.ForeColor = color;
                     summaryListView.Items.Add(item);
                     totalTime += span;
                 }
@@ -764,7 +806,7 @@ namespace Herring
             {
                 double time = TimeSpan.Parse(item.SubItems[3].Text).TotalSeconds;
                 totalTime += time;
-                double topTime = TimeSpan.Parse(item.SubItems[4].Text).TotalSeconds;
+                double topTime = item.SubItems[4].Text != "" ? TimeSpan.Parse(item.SubItems[4].Text).TotalSeconds : 0;
                 totalTopTime += topTime;
             }
             TimeSpan span1 = TimeSpan.FromSeconds(totalTime);
