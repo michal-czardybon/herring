@@ -18,12 +18,22 @@ namespace Herring
         {
             this.getApp = _getApp;
             InitializeComponent();
+
+            DateTime now = DateTime.Now;
+            datePickerFrom.Value = new DateTime(now.Year, now.Month, 1);
+            datePickerTo.Value = DateTime.Today.AddDays(-1);
         }
 
         private void calculateButton_Click(object sender, EventArgs e)
         {
             DateTime dateFrom = datePickerFrom.Value.Date;
             DateTime dateTo = datePickerTo.Value.Date;
+
+            if (dateTo >= DateTime.Today)
+            {
+                dateTo = DateTime.Today.AddDays(-1);
+                datePickerTo.Value = dateTo;
+            }
 
             var shares = new double[24 * 12];   // every 5 minutes
 
