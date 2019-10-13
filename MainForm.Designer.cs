@@ -53,7 +53,6 @@
             this.windowLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.documentUrlLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statsLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.timeStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.nextPoint = new System.Windows.Forms.ToolStripStatusLabel();
             this.summaryMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,6 +64,8 @@
             this.summaryDocumentHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.summaryTimeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.summaryTopTimeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.mergeSecondaryCheckbox = new System.Windows.Forms.CheckBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.categoriesListView = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -83,14 +84,6 @@
             this.statusMaxHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.categoryNameHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.activitiesListView = new Herring.OptimizedListView();
-            this.processColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.titleColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.subtitleHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.shareHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.keyboardIntensityHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.mouseIntensityHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.categoryHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel3 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -107,17 +100,28 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.rangeLabel = new System.Windows.Forms.Label();
             this.rangeTextLabel = new System.Windows.Forms.Label();
-            this.chart = new Herring.ChartView();
             this.chartMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.removeEventToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addEventToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.markWorkingHoursToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label3 = new System.Windows.Forms.Label();
+            this.timeStatusLabel = new System.Windows.Forms.TextBox();
+            this.activitiesListView = new Herring.OptimizedListView();
+            this.processColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.titleColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.subtitleHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.shareHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.keyboardIntensityHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.mouseIntensityHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.categoryHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chart = new Herring.ChartView();
             this.panel1.SuspendLayout();
             this.notifyIconMenuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.summaryMenuStrip.SuspendLayout();
             this.tabPage5.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.rulesTabPage.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -126,8 +130,8 @@
             this.tabPage1.SuspendLayout();
             this.activitiesMenuStrip.SuspendLayout();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
             this.chartMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
             this.SuspendLayout();
             // 
             // timer
@@ -306,7 +310,6 @@
             this.windowLabel,
             this.documentUrlLabel,
             this.statsLabel,
-            this.timeStatusLabel,
             this.nextPoint});
             this.statusStrip.Location = new System.Drawing.Point(0, 682);
             this.statusStrip.Name = "statusStrip";
@@ -348,13 +351,6 @@
             this.statsLabel.Size = new System.Drawing.Size(51, 19);
             this.statsLabel.Text = "<stats>";
             // 
-            // timeStatusLabel
-            // 
-            this.timeStatusLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
-            this.timeStatusLabel.Name = "timeStatusLabel";
-            this.timeStatusLabel.Size = new System.Drawing.Size(51, 19);
-            this.timeStatusLabel.Text = "<time>";
-            // 
             // nextPoint
             // 
             this.nextPoint.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
@@ -389,6 +385,7 @@
             // tabPage5
             // 
             this.tabPage5.Controls.Add(this.summaryListView);
+            this.tabPage5.Controls.Add(this.panel4);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Size = new System.Drawing.Size(1286, 574);
@@ -409,7 +406,7 @@
             this.summaryListView.GridLines = true;
             this.summaryListView.Location = new System.Drawing.Point(0, 0);
             this.summaryListView.Name = "summaryListView";
-            this.summaryListView.Size = new System.Drawing.Size(1286, 574);
+            this.summaryListView.Size = new System.Drawing.Size(1286, 543);
             this.summaryListView.TabIndex = 0;
             this.summaryListView.UseCompatibleStateImageBehavior = false;
             this.summaryListView.View = System.Windows.Forms.View.Details;
@@ -440,6 +437,30 @@
             // 
             this.summaryTopTimeHeader.Text = "Top Time";
             this.summaryTopTimeHeader.Width = 118;
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.timeStatusLabel);
+            this.panel4.Controls.Add(this.label3);
+            this.panel4.Controls.Add(this.mergeSecondaryCheckbox);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel4.Location = new System.Drawing.Point(0, 543);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(1286, 31);
+            this.panel4.TabIndex = 1;
+            // 
+            // mergeSecondaryCheckbox
+            // 
+            this.mergeSecondaryCheckbox.AutoSize = true;
+            this.mergeSecondaryCheckbox.Checked = true;
+            this.mergeSecondaryCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.mergeSecondaryCheckbox.Location = new System.Drawing.Point(3, 6);
+            this.mergeSecondaryCheckbox.Name = "mergeSecondaryCheckbox";
+            this.mergeSecondaryCheckbox.Size = new System.Drawing.Size(135, 17);
+            this.mergeSecondaryCheckbox.TabIndex = 0;
+            this.mergeSecondaryCheckbox.Text = "Merge secondary items";
+            this.mergeSecondaryCheckbox.UseVisualStyleBackColor = true;
+            this.mergeSecondaryCheckbox.CheckedChanged += new System.EventHandler(this.topTimeOnlyCheckbox_CheckedChanged);
             // 
             // tabPage3
             // 
@@ -579,64 +600,6 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Activities";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // activitiesListView
-            // 
-            this.activitiesListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.processColumnHeader,
-            this.titleColumnHeader,
-            this.subtitleHeader,
-            this.shareHeader,
-            this.keyboardIntensityHeader,
-            this.mouseIntensityHeader,
-            this.categoryHeader});
-            this.activitiesListView.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.activitiesListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.activitiesListView.FullRowSelect = true;
-            this.activitiesListView.GridLines = true;
-            this.activitiesListView.Location = new System.Drawing.Point(3, 3);
-            this.activitiesListView.Name = "activitiesListView";
-            this.activitiesListView.Size = new System.Drawing.Size(1280, 532);
-            this.activitiesListView.TabIndex = 0;
-            this.activitiesListView.UseCompatibleStateImageBehavior = false;
-            this.activitiesListView.View = System.Windows.Forms.View.Details;
-            this.activitiesListView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.activitiesListView_MouseClick);
-            // 
-            // processColumnHeader
-            // 
-            this.processColumnHeader.Text = "Process Name";
-            this.processColumnHeader.Width = 180;
-            // 
-            // titleColumnHeader
-            // 
-            this.titleColumnHeader.Text = "Window Title";
-            this.titleColumnHeader.Width = 524;
-            // 
-            // subtitleHeader
-            // 
-            this.subtitleHeader.Text = "Subtitle";
-            this.subtitleHeader.Width = 240;
-            // 
-            // shareHeader
-            // 
-            this.shareHeader.Text = "Share";
-            this.shareHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // keyboardIntensityHeader
-            // 
-            this.keyboardIntensityHeader.Text = "Keyboard";
-            this.keyboardIntensityHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // mouseIntensityHeader
-            // 
-            this.mouseIntensityHeader.Text = "Mouse";
-            this.mouseIntensityHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // categoryHeader
-            // 
-            this.categoryHeader.Text = "Category";
-            this.categoryHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.categoryHeader.Width = 150;
             // 
             // panel3
             // 
@@ -793,20 +756,6 @@
             this.rangeTextLabel.TabIndex = 7;
             this.rangeTextLabel.Text = "Length:";
             // 
-            // chart
-            // 
-            this.chart.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.chart.ContextMenuStrip = this.chartMenu;
-            this.chart.Location = new System.Drawing.Point(3, 0);
-            this.chart.Name = "chart";
-            this.chart.SelectedBar = null;
-            this.chart.Size = new System.Drawing.Size(1156, 49);
-            this.chart.TabIndex = 4;
-            this.chart.TabStop = false;
-            this.chart.SelectionChanged += new System.EventHandler(this.chart_selectionChanged);
-            this.chart.MouseMove += new System.Windows.Forms.MouseEventHandler(this.chartBox_MouseMove);
-            this.chart.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chart_MouseUp);
-            // 
             // chartMenu
             // 
             this.chartMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -845,6 +794,96 @@
             this.markWorkingHoursToolStripMenuItem.Text = "Mark \'Working Hours\'";
             this.markWorkingHoursToolStripMenuItem.Click += new System.EventHandler(this.markWorkingHoursToolStripMenuItem_Click);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(177, 7);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(112, 13);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "Total time in selection:";
+            // 
+            // timeStatusLabel2
+            // 
+            this.timeStatusLabel.Location = new System.Drawing.Point(286, 4);
+            this.timeStatusLabel.Name = "timeStatusLabel2";
+            this.timeStatusLabel.ReadOnly = true;
+            this.timeStatusLabel.Size = new System.Drawing.Size(145, 20);
+            this.timeStatusLabel.TabIndex = 2;
+            this.timeStatusLabel.WordWrap = false;
+            // 
+            // activitiesListView
+            // 
+            this.activitiesListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.processColumnHeader,
+            this.titleColumnHeader,
+            this.subtitleHeader,
+            this.shareHeader,
+            this.keyboardIntensityHeader,
+            this.mouseIntensityHeader,
+            this.categoryHeader});
+            this.activitiesListView.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.activitiesListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.activitiesListView.FullRowSelect = true;
+            this.activitiesListView.GridLines = true;
+            this.activitiesListView.Location = new System.Drawing.Point(3, 3);
+            this.activitiesListView.Name = "activitiesListView";
+            this.activitiesListView.Size = new System.Drawing.Size(1280, 532);
+            this.activitiesListView.TabIndex = 0;
+            this.activitiesListView.UseCompatibleStateImageBehavior = false;
+            this.activitiesListView.View = System.Windows.Forms.View.Details;
+            this.activitiesListView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.activitiesListView_MouseClick);
+            // 
+            // processColumnHeader
+            // 
+            this.processColumnHeader.Text = "Process Name";
+            this.processColumnHeader.Width = 180;
+            // 
+            // titleColumnHeader
+            // 
+            this.titleColumnHeader.Text = "Window Title";
+            this.titleColumnHeader.Width = 524;
+            // 
+            // subtitleHeader
+            // 
+            this.subtitleHeader.Text = "Subtitle";
+            this.subtitleHeader.Width = 240;
+            // 
+            // shareHeader
+            // 
+            this.shareHeader.Text = "Share";
+            this.shareHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // keyboardIntensityHeader
+            // 
+            this.keyboardIntensityHeader.Text = "Keyboard";
+            this.keyboardIntensityHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // mouseIntensityHeader
+            // 
+            this.mouseIntensityHeader.Text = "Mouse";
+            this.mouseIntensityHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // categoryHeader
+            // 
+            this.categoryHeader.Text = "Category";
+            this.categoryHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.categoryHeader.Width = 150;
+            // 
+            // chart
+            // 
+            this.chart.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.chart.ContextMenuStrip = this.chartMenu;
+            this.chart.Location = new System.Drawing.Point(3, 0);
+            this.chart.Name = "chart";
+            this.chart.SelectedBar = null;
+            this.chart.Size = new System.Drawing.Size(1156, 49);
+            this.chart.TabIndex = 4;
+            this.chart.TabStop = false;
+            this.chart.SelectionChanged += new System.EventHandler(this.chart_selectionChanged);
+            this.chart.MouseMove += new System.Windows.Forms.MouseEventHandler(this.chartBox_MouseMove);
+            this.chart.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chart_MouseUp);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -867,6 +906,8 @@
             this.statusStrip.PerformLayout();
             this.summaryMenuStrip.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.rulesTabPage.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
@@ -877,8 +918,8 @@
             this.activitiesMenuStrip.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
             this.chartMenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -947,7 +988,6 @@
         private System.Windows.Forms.ToolStripMenuItem followLinkInSummaryMenuItem;
         private System.Windows.Forms.ToolStripMenuItem followLinkToolStripMenuItem;
         private System.Windows.Forms.ColumnHeader summaryTopTimeHeader;
-        private System.Windows.Forms.ToolStripStatusLabel timeStatusLabel;
         private System.Windows.Forms.Button reportButton;
         private System.Windows.Forms.ToolStripMenuItem copyProjectKaiserToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPage1;
@@ -968,6 +1008,10 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem markWorkingHoursToolStripMenuItem;
       private System.Windows.Forms.ToolStripStatusLabel nextPoint;
-   }
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.CheckBox mergeSecondaryCheckbox;
+        private System.Windows.Forms.TextBox timeStatusLabel;
+        private System.Windows.Forms.Label label3;
+    }
 }
 

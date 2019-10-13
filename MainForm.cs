@@ -15,6 +15,7 @@ namespace Herring
         private ReportForm reportForm;
         private Dictionary<string, int> iconIndices = new Dictionary<string, int>();
         private Font boldFont;
+        private bool mergeSecondary;
 
         public MainForm()
         {
@@ -43,6 +44,8 @@ namespace Herring
             boldFont = new Font(SystemFonts.DefaultFont, FontStyle.Bold);
             UserStatusChanged(UserStatus.Active);
             autoScrollCheckBox.Checked = Parameters.AutoScroll;
+
+            mergeSecondary = mergeSecondaryCheckbox.Checked;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -418,6 +421,21 @@ namespace Herring
             // FIXME: O(n^2) within an application
             bool[] done = new bool[summaryList1.Count];
             Dictionary<string, double> leaderTime = new Dictionary<string, double>();
+
+            if (mergeSecondary)
+            {
+                for (int i = 0; i < summaryList1.Count; ++i)
+                {
+                    if (summaryList1[i].TopTime == 0)
+                    {
+                        if (summaryList1[i].DocumentUrl != "")
+                        {
+                            summaryList1[i].DocumentUrl = summaryList1[i].ValidDocumentSite + "/...";
+                        }
+                        summaryList1[i].ApplicationTitle = "(Other)";
+                    }
+                }
+            }
 
             for (int i = 0; i < summaryList1.Count; ++i)
             {
@@ -994,6 +1012,12 @@ namespace Herring
 
             ActivityTracker.SelectedLog.RemoveEvent(evnt);
             RefreshChart();
+        }
+
+        private void topTimeOnlyCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            mergeSecondary = mergeSecondaryCheckbox.Checked;
+            RefreshSummary();
         }
     }
 }
