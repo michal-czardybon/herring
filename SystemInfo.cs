@@ -172,6 +172,20 @@ namespace Herring
                     prevElmFinal = null;
                     return "(LostTrack)";
                 }
+                catch (System.IndexOutOfRangeException)
+                {
+                    prevHWnd = IntPtr.Zero;
+                    prevElm0 = null;
+                    prevElmFinal = null;
+                    return "(LostIndex)";
+                }
+                catch (System.NullReferenceException)
+                {
+                    prevHWnd = IntPtr.Zero;
+                    prevElm0 = null;
+                    prevElmFinal = null;
+                    return "(NullElement)";
+                }
 
                 prevHWnd = hWnd;
                 prevElm0 = elm0;
@@ -202,6 +216,10 @@ namespace Herring
                 catch (System.Windows.Automation.ElementNotAvailableException)
                 {
                     result = "(PatternError)";
+                }
+                catch (System.NullReferenceException)
+                {
+                    result = "(NullElement)";
                 }
             }
 
