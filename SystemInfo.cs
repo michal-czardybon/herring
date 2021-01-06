@@ -4,6 +4,8 @@ using System.Runtime.InteropServices;
 using System.Windows.Automation;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace Herring
 {
@@ -92,6 +94,30 @@ namespace Herring
         [DllImport("user32.Dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool EnumChildWindows(IntPtr parentHandle, Win32Callback callback, IntPtr lParam);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool GetWindowRect(HandleRef hWnd, out RECT lpRect);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool PrintWindow(IntPtr hWnd, IntPtr hdcBlt, int nFlags);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetWindowRgn(IntPtr hWnd, IntPtr hRgn);
+
+        [DllImport("gdi32.dll")]
+        public static extern IntPtr CreateRectRgn(int x1, int y1, int x2, int y2);
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct RECT
+        {
+            public int Left;        // x position of upper-left corner
+            public int Top;         // y position of upper-left corner
+            public int Right;       // x position of lower-right corner
+            public int Bottom;      // y position of lower-right corner
+        }
 
         private static string GetWindowTitle(IntPtr hWnd)
         {
@@ -287,6 +313,91 @@ namespace Herring
             {
                 return "UNKNOWN";
             }
+        }
+
+        public static bool GetWindowShot(out Bitmap bitmap)
+        {
+            IntPtr hWnd = GetForegroundWindow();
+            if (hWnd == IntPtr.Zero)
+            {
+                bitmap = new Bitmap(1, 1);
+                return false;
+            }
+
+            RECT rc;
+            GetWindowRect(new HandleRef(null, hWnd), out rc);
+            int w = rc.Right - rc.Left;
+            int h = rc.Bottom - rc.Top;
+
+            if (w <= 0 || h <= 0)
+            {
+                bitmap = new Bitmap(1, 1);
+                return false;
+            }
+
+            Bitmap bmp = new Bitmap(w, h, PixelFormat.Format32bppArgb);
+
+            Graphics gfxBmp = Graphics.FromImage(bmp);
+            IntPtr hdcBitmap;
+            try
+            {
+                hdcBitmap = gfxBmp.GetHdc();
+            }
+            catch
+            {
+                bitmap = new Bitmap(0, 0);
+                return false;
+            }
+            bool succeeded = PrintWindow(hWnd, hdcBitmap, /*PW_RENDERFULLCONTENT*/0x00000002);
+            gfxBmp.ReleaseHdc(hdcBitmap);
+            if (!succeeded)
+            {
+                gfxBmp.FillRectangle(new SolidBrush(Color.Gray), new Rectangle(Point.Empty, bmp.Size));
+            }
+            IntPtr hRgn = CreateRectRgn(0, 0, 0, 0);
+            GetWindowRgn(hWnd, hRgn);
+            Region region = Region.FromHrgn(hRgn);//err here once
+            if (!region.IsEmpty(gfxBmp))
+            {
+                gfxBmp.ExcludeClip(region);
+                gfxBmp.Clear(Color.Transparent);
+            }
+            gfxBmp.Dispose();
+
+            bitmap = bmp;
+            //bmp.Save("C:\\Users\\carbon\\Documents\\Temporary\\__output.png");
+            return true;
+        }
+
+        public static Bitmap CropBitmap(Bitmap bmp1, Rectangle rect)
+        {
+            int w = Math.Min(bmp1.Width - rect.Left, rect.Width);
+            int h = Math.Min(bmp1.Height - rect.Top, rect.Height);
+
+            int ww = 2 * w;
+            if (ww >= 500 && ww % 100 >= 50)
+            {
+                ww = (ww / 100) * 100 + 48;
+                w = ww / 2;
+            }
+            if (w % 100 == 0)
+            {
+                w += 1;
+            }
+
+            if (w < 1 || w < 1)
+            {
+                return new Bitmap(1, 1);
+            }
+
+            Bitmap bmp2 = new Bitmap(w * 2, h * 2);
+            using (Graphics g = Graphics.FromImage(bmp2))
+            {
+                g.DrawImage(bmp1, 0.0f, 0.0f, rect, GraphicsUnit.Pixel);
+                g.DrawImage(bmp1, new Rectangle(0, 0, w * 2, h * 2), new Rectangle(rect.Left, rect.Top, w, h), GraphicsUnit.Pixel);
+            }
+
+            return bmp2;
         }
     }
 }
