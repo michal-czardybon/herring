@@ -16,6 +16,15 @@ namespace Herring
             return dir;
         }
 
+        public static string GetScreenDataDir()
+        {
+            string dir = GetLocalDataDir();
+            dir = System.IO.Path.Combine(dir, "Screen");
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+            return dir;
+        }
+
         public static string GetApplicationDir()
         {
             string dir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
@@ -67,6 +76,14 @@ namespace Herring
             }
 
             writer.Flush();
+        }
+
+        public static void StoreBitmap(System.Drawing.Bitmap bmp)
+        {
+            DateTime date = DateTime.Now;
+            string name = String.Format("screen{0:D4}{1:D2}{2:D2}_{3:D2}{4:D2}{5:D2}.png", date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second);
+            string path = Path.Combine(GetScreenDataDir(), name);
+            bmp.Save(path);
         }
 
         public static void Close()
