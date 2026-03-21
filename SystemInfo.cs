@@ -126,12 +126,42 @@ namespace Herring
             GetWindowText(hWnd, text, text.Capacity);
             string ret = text.ToString();
 
-            // Remove an annoying suffix in Google Chrome
-            if (ret.EndsWith("- Google Chrome"))
+            // Remove browser suffixes
+            if (ret.EndsWith("- Google Chrome (Incognito)"))
+            {
+                ret = ret.Substring(0, ret.Length - 27);
+            }
+            else if (ret.EndsWith("- Google Chrome"))
             {
                 ret = ret.Substring(0, ret.Length - 15);
             }
+            else if (ret.EndsWith("— Mozilla Firefox (Private Browsing)"))
+            {
+                ret = ret.Substring(0, ret.Length - 37);
+            }
+            else if (ret.EndsWith("— Mozilla Firefox tryb prywatny"))
+            {
+                ret = ret.Substring(0, ret.Length - 32);
+            }
+            else if (ret.EndsWith("— Mozilla Firefox"))
+            {
+                ret = ret.Substring(0, ret.Length - 18);
+            }
             return ret;
+        }
+
+        public static IntPtr GetForegroundWindowHandle()
+        {
+            return GetForegroundWindow();
+        }
+
+        public static bool IsFirefoxWindowPrivate(IntPtr hWnd)
+        {
+            int length = GetWindowTextLength(hWnd);
+            StringBuilder text = new StringBuilder(length + 1);
+            GetWindowText(hWnd, text, text.Capacity);
+            string title = text.ToString();
+            return title.Contains("(Private Browsing)") || title.Contains("tryb prywatny");
         }
 
         private static IntPtr prevHWnd = IntPtr.Zero;
@@ -147,6 +177,7 @@ namespace Herring
 
             IntPtr hWnd = GetForegroundWindow();
             if (hWnd == IntPtr.Zero) return "(No window)";
+
             AutomationElement elm0 = AutomationElement.FromHandle(hWnd);
             if (elm0 == null) return ("No automation");
 

@@ -131,6 +131,14 @@ namespace Herring
                     windowTitle = "";
                 }
             }
+            else if (appInfo.Name == "firefox.exe")
+            {
+                if (SystemInfo.IsFirefoxWindowPrivate(SystemInfo.GetForegroundWindowHandle()))
+                {
+                    applicationTitle = "(Private Browsing)";
+                    windowTitle = "";
+                }
+            }
 
 
             // Measure the time span since the previous snapshot
