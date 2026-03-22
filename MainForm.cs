@@ -456,6 +456,11 @@ namespace Herring
                             break;
                         }
 
+                        if (done[j])
+                        {
+                            continue;
+                        }
+
                        string commonTitle;
                        if (summaryList1[j].ValidDocumentSite == thisDocumentSite &&
                            ActivityTracker.AreTitlesNearlyEqual(summaryList1[j].ApplicationTitle, thisTitle, out commonTitle))
