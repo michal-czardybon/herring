@@ -13,19 +13,23 @@ namespace Herring
         private const int TOP_MARGIN = 4;
 
         private GetAppDelegate getApp;
-        private Bitmap bitmap     = new Bitmap(1, 1);
-        private Bitmap bitmap2    = new Bitmap(1, 1);  // displayed (base + legend overlay)
-        private Bitmap bitmap2Base = new Bitmap(1, 1); // chart data only, no legend
+        private Bitmap bitmap      = new Bitmap(1, 1);
+        private Bitmap bitmap2     = new Bitmap(1, 1);  // displayed (base + legend overlay)
+        private Bitmap bitmap2Base = new Bitmap(1, 1);  // chart data only, no legend
 
         // Stored results so charts can be re-rendered on resize without re-loading data
         private double[] reportShares;       // summed share per 5-min slot across all days
         private int      reportDayCount;
         private double[] reportWeekTopTime;  // avg active h/day per Monday-aligned week
-        private double[] reportWeekCenter;   // avg intensity-center (hours) per week; NaN = no data
         private int      reportNumWeeks;
         private int      reportTotalDays;
         private int      reportWeekOffset;   // days from preceding Monday to dateFrom (0 if Monday)
         private DateTime reportDateFrom;
+
+        // Monthly intensity-center data (orange line)
+        private double[] reportMonthCenter;  // share-weighted center per calendar month; NaN = no data
+        private int[]    reportMonthMidDay;  // day index (from dateFrom) of each month's midpoint
+        private int      reportMonthCount;
 
         // Scale info stored so the legend overlay can reference it without recomputing
         private double trendMaxTopTime;
@@ -104,7 +108,9 @@ namespace Herring
                         int k = (s.TimePoint.Hour * 60 + s.TimePoint.Minute) / 5;
                         shares[k]  += s.TotalShare / 100.0;
                         dailyTotal += s.TotalShare / 100.0 * Parameters.LogTimeUnit / 3600.0;
-                        centerNom  += s.TimePoint.TimeOfDay.TotalHours * s.TotalShare;
+                        double hour = s.TimePoint.TimeOfDay.TotalHours;
+                        if (hour < Parameters.DayStartHour) hour += 24;
+                        centerNom  += hour * s.TotalShare;
                         centerDen  += s.TotalShare;
                     }
 
@@ -120,39 +126,72 @@ namespace Herring
                 }
             });
 
-            // Aggregate daily -> Monday-aligned weeks
+            // Aggregate daily -> Monday-aligned weeks (active time only)
             int weekOffset = ((int)dateFrom.DayOfWeek + 6) % 7;  // 0=Mon … 6=Sun
             int numWeeks   = (totalDays + weekOffset + 6) / 7;
-            var weekTopTime   = new double[numWeeks];
-            var weekCenter    = new double[numWeeks];
-            var weekTopCount  = new int[numWeeks];
-            var weekCenterNom = new double[numWeeks];
-            var weekCenterDen = new double[numWeeks];
+            var weekTopTime  = new double[numWeeks];
+            var weekTopCount = new int[numWeeks];
 
             for (int i = 0; i < totalDays; i++)
             {
                 int w = (i + weekOffset) / 7;
-                weekTopTime[w]   += dailyTopTime[i];
+                weekTopTime[w] += dailyTopTime[i];
                 weekTopCount[w]++;
-                weekCenterNom[w] += dailyCenterNom[i];
-                weekCenterDen[w] += dailyCenterDen[i];
             }
             for (int w = 0; w < numWeeks; w++)
             {
                 if (weekTopCount[w] > 0) weekTopTime[w] /= weekTopCount[w];
-                weekCenter[w] = weekCenterDen[w] > 0.01 ? weekCenterNom[w] / weekCenterDen[w] : double.NaN;
-                if (weekTopTime[w] < 0.25) weekCenter[w] = double.NaN;  // too little data to trust center
+            }
+
+            // Aggregate daily -> calendar months (intensity center only)
+            DateTime firstMonth = new DateTime(dateFrom.Year, dateFrom.Month, 1);
+            DateTime lastMonth  = new DateTime(dateTo.Year,   dateTo.Month,   1);
+            int numMonths = (lastMonth.Year - firstMonth.Year) * 12 + (lastMonth.Month - firstMonth.Month) + 1;
+
+            var monthCenterNom  = new double[numMonths];
+            var monthCenterDen  = new double[numMonths];
+            var monthTopTimeSum = new double[numMonths];
+            var monthTopCount   = new int[numMonths];
+
+            for (int i = 0; i < totalDays; i++)
+            {
+                DateTime day = dateFrom.AddDays(i);
+                int m = (day.Year - firstMonth.Year) * 12 + (day.Month - firstMonth.Month);
+                monthCenterNom[m]  += dailyCenterNom[i];
+                monthCenterDen[m]  += dailyCenterDen[i];
+                monthTopTimeSum[m] += dailyTopTime[i];
+                monthTopCount[m]++;
+            }
+
+            var monthCenter = new double[numMonths];
+            var monthMidDay = new int[numMonths];
+            for (int m = 0; m < numMonths; m++)
+            {
+                double avgTopTime = monthTopCount[m] > 0 ? monthTopTimeSum[m] / monthTopCount[m] : 0;
+                monthCenter[m] = (monthCenterDen[m] > 0.01 && avgTopTime >= 0.25)
+                    ? monthCenterNom[m] / monthCenterDen[m]
+                    : double.NaN;
+
+                // Midpoint of this month clamped to the date range
+                DateTime mStart = firstMonth.AddMonths(m);
+                DateTime mEnd   = mStart.AddMonths(1).AddDays(-1);
+                DateTime clampedStart = mStart < dateFrom ? dateFrom : mStart;
+                DateTime clampedEnd   = mEnd   > dateTo   ? dateTo   : mEnd;
+                DateTime midDate = clampedStart.AddDays((clampedEnd - clampedStart).TotalDays / 2);
+                monthMidDay[m] = (int)(midDate - dateFrom).TotalDays;
             }
 
             // Store for resize re-rendering
             reportShares      = shares;
             reportDayCount    = count;
             reportWeekTopTime = weekTopTime;
-            reportWeekCenter  = weekCenter;
             reportNumWeeks    = numWeeks;
             reportTotalDays   = totalDays;
             reportWeekOffset  = weekOffset;
             reportDateFrom    = dateFrom;
+            reportMonthCenter = monthCenter;
+            reportMonthMidDay = monthMidDay;
+            reportMonthCount  = numMonths;
 
             DrawHistogramChart();
             DrawTrendChart();
@@ -211,16 +250,20 @@ namespace Herring
             int height      = trendHeight + TOP_MARGIN + 1;
             float weekW     = (float)chartWidth / reportNumWeeks;
 
+            Func<int, float> dayToX = dayIndex =>
+                (dayIndex + reportWeekOffset) / 7.0f * weekW;
+
             // Compute and store scales
             double maxTopTime = 4.0;
             double minCenter = double.MaxValue, maxCenter = double.MinValue;
             for (int w = 0; w < reportNumWeeks; w++)
-            {
                 if (reportWeekTopTime[w] > maxTopTime) maxTopTime = reportWeekTopTime[w];
-                if (!double.IsNaN(reportWeekCenter[w]))
+            for (int m = 0; m < reportMonthCount; m++)
+            {
+                if (!double.IsNaN(reportMonthCenter[m]))
                 {
-                    if (reportWeekCenter[w] < minCenter) minCenter = reportWeekCenter[w];
-                    if (reportWeekCenter[w] > maxCenter) maxCenter = reportWeekCenter[w];
+                    if (reportMonthCenter[m] < minCenter) minCenter = reportMonthCenter[m];
+                    if (reportMonthCenter[m] > maxCenter) maxCenter = reportMonthCenter[m];
                 }
             }
             if (minCenter == double.MaxValue) { minCenter = 8.0; maxCenter = 18.0; }
@@ -257,23 +300,23 @@ namespace Herring
                     g.DrawLine(Pens.LightGray, 0, y, chartWidth, y);
                 }
 
-                // Vertical month separators — label at the bottom of each line
+                // Vertical quarter separators — label at the bottom of each line
                 var d = reportDateFrom;
-                using (var monthPen  = new Pen(Color.LightGray))
+                using (var qPen      = new Pen(Color.LightGray))
                 using (var labelFont = new Font("Arial", 7))
                 {
                     for (int i = 0; i < reportTotalDays; i++, d = d.AddDays(1))
                     {
                         if (d.Day == 1 && (d.Month == 1 || d.Month == 4 || d.Month == 7 || d.Month == 10))
                         {
-                            float x = (float)(i + reportWeekOffset) / 7 * weekW;
-                            g.DrawLine(monthPen, x, TOP_MARGIN, x, height - 1);
+                            float x = dayToX(i);
+                            g.DrawLine(qPen, x, TOP_MARGIN, x, height - 1);
                             g.DrawString(d.ToString("MMM yyyy"), labelFont, Brushes.Gray, x + 2, height - 13);
                         }
                     }
                 }
 
-                // Active time line (green)
+                // Active time line (green, weekly)
                 using (var pen = new Pen(Color.FromArgb(0, 150, 0), 2))
                 {
                     for (int w = 1; w < reportNumWeeks; w++)
@@ -282,18 +325,18 @@ namespace Herring
                             w       * weekW + weekW / 2, topY(reportWeekTopTime[w]));
                 }
 
-                // Intensity center line (orange), gaps on weeks with no data
+                // Intensity center line (orange, monthly), gaps on months with no data
                 using (var pen = new Pen(Color.FromArgb(210, 90, 0), 2))
                 {
                     int prev = -1;
-                    for (int w = 0; w < reportNumWeeks; w++)
+                    for (int m = 0; m < reportMonthCount; m++)
                     {
-                        if (double.IsNaN(reportWeekCenter[w])) { prev = -1; continue; }
+                        if (double.IsNaN(reportMonthCenter[m])) { prev = -1; continue; }
                         if (prev >= 0)
                             g.DrawLine(pen,
-                                prev * weekW + weekW / 2, cenY(reportWeekCenter[prev]),
-                                w    * weekW + weekW / 2, cenY(reportWeekCenter[w]));
-                        prev = w;
+                                dayToX(reportMonthMidDay[prev]), cenY(reportMonthCenter[prev]),
+                                dayToX(reportMonthMidDay[m]),    cenY(reportMonthCenter[m]));
+                        prev = m;
                     }
                 }
 
@@ -304,8 +347,8 @@ namespace Herring
             OverlayTrendLegend(null);
         }
 
-        // Composites bitmap2Base + legend (scale info or hovered-week values) into bitmap2.
-        // hoveredWeek = null  → show scale range; >= 0 → show that week's actual values.
+        // Composites bitmap2Base + legend into bitmap2.
+        // hoveredWeek = null → scale labels; >= 0 → actual values for that week / its month.
         private void OverlayTrendLegend(int? hoveredWeek)
         {
             bitmap2.Dispose();
@@ -327,18 +370,24 @@ namespace Herring
                     using (var cursorPen = new Pen(Color.FromArgb(160, 160, 160), 1))
                         g.DrawLine(cursorPen, cx, TOP_MARGIN, cx, trendHeight + TOP_MARGIN);
 
+                    // Find the calendar month for this week's midpoint (Wednesday)
+                    DateTime weekMid  = reportDateFrom.AddDays(w * 7 - reportWeekOffset + 3);
+                    DateTime firstMonth = new DateTime(reportDateFrom.Year, reportDateFrom.Month, 1);
+                    int m = Math.Max(0, Math.Min(reportMonthCount - 1,
+                        (weekMid.Year - firstMonth.Year) * 12 + (weekMid.Month - firstMonth.Month)));
+
                     // Week date range
                     DateTime weekMon = reportDateFrom.AddDays(w * 7 - reportWeekOffset);
                     DateTime weekSun = weekMon.AddDays(6);
 
-                    string topText = double.IsNaN(reportWeekCenter[w])
+                    string centerText = double.IsNaN(reportMonthCenter[m])
                         ? "no data"
-                        : TimeSpan.FromHours(reportWeekCenter[w]).ToString(@"hh\:mm");
+                        : TimeSpan.FromHours(reportMonthCenter[m] % 24).ToString(@"hh\:mm");
 
                     DrawLegend(g,
                         string.Format("{0:d MMM} \u2013 {1:d MMM yyyy}", weekMon, weekSun),
                         string.Format("Active time: {0:F1} h/day", reportWeekTopTime[w]),
-                        string.Format("Intensity center: {0}", topText));
+                        string.Format("Intensity center: {0}  ({1:MMM yyyy})", centerText, weekMid));
                 }
                 else
                 {
@@ -346,26 +395,20 @@ namespace Herring
                         null,
                         string.Format("Active time (max {0:F1} h/day)", trendMaxTopTime / 1.5),
                         string.Format("Intensity center ({0}\u2013{1})",
-                            TimeSpan.FromHours(trendMinCenter + trendCenterRange * 0.05).ToString(@"hh\:mm"),
-                            TimeSpan.FromHours(trendMaxTopTime - trendCenterRange * 0.05).ToString(@"hh\:mm")));
+                            TimeSpan.FromHours((trendMinCenter + trendCenterRange * 0.05) % 24).ToString(@"hh\:mm"),
+                            TimeSpan.FromHours((trendMinCenter + trendCenterRange * 0.95) % 24).ToString(@"hh\:mm")));
                 }
             }
 
             chartBox2.Image = bitmap2;
         }
 
-        private void DrawLegend(Graphics g, string header, string topTimeLine, string centerLine)
+        // Draws legend: metric lines first, then optional date label below (not bold).
+        private void DrawLegend(Graphics g, string dateLabel, string topTimeLine, string centerLine)
         {
             int lx = 5, ly = TOP_MARGIN + 4;
-            using (var font     = new Font("Arial", 8))
-            using (var boldFont = new Font("Arial", 8, FontStyle.Bold))
+            using (var font = new Font("Arial", 8))
             {
-                if (header != null)
-                {
-                    g.DrawString(header, boldFont, Brushes.Black, lx, ly);
-                    ly += 18;
-                }
-
                 using (var brush = new SolidBrush(Color.FromArgb(0, 150, 0)))
                     g.FillRectangle(brush, lx, ly + 6, 18, 3);
                 g.DrawString(topTimeLine, font, Brushes.Black, lx + 24, ly);
@@ -374,6 +417,12 @@ namespace Herring
                 using (var brush = new SolidBrush(Color.FromArgb(210, 90, 0)))
                     g.FillRectangle(brush, lx, ly + 6, 18, 3);
                 g.DrawString(centerLine, font, Brushes.Black, lx + 24, ly);
+
+                if (dateLabel != null)
+                {
+                    ly += 20;
+                    g.DrawString(dateLabel, font, Brushes.Gray, lx, ly);
+                }
             }
         }
 
