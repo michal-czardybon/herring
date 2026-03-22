@@ -35,6 +35,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReportForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.calculateButton = new System.Windows.Forms.Button();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.datePickerTo = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -48,6 +49,7 @@
             // panel1
             // 
             this.panel1.Controls.Add(this.calculateButton);
+            this.panel1.Controls.Add(this.progressBar1);
             this.panel1.Controls.Add(this.datePickerTo);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
@@ -105,9 +107,17 @@
             this.datePickerFrom.Name = "datePickerFrom";
             this.datePickerFrom.Size = new System.Drawing.Size(257, 22);
             this.datePickerFrom.TabIndex = 0;
-            // 
+            //
+            // progressBar1
+            //
+            this.progressBar1.Location = new System.Drawing.Point(459, 15);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(690, 23);
+            this.progressBar1.TabIndex = 5;
+            this.progressBar1.Visible = false;
+            //
             // chartBox1
-            // 
+            //
             this.chartBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.chartBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.chartBox1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -156,5 +166,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox chartBox1;
         private System.Windows.Forms.TextBox reportText;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }

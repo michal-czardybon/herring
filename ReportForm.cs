@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Herring
@@ -24,7 +25,7 @@ namespace Herring
             datePickerTo.Value = DateTime.Today.AddDays(-1);
         }
 
-        private void calculateButton_Click(object sender, EventArgs e)
+        private async void calculateButton_Click(object sender, EventArgs e)
         {
             DateTime dateFrom = datePickerFrom.Value.Date;
             DateTime dateTo = datePickerTo.Value.Date;
@@ -35,30 +36,47 @@ namespace Herring
                 datePickerTo.Value = dateTo;
             }
 
-            var shares = new double[24 * 12];   // every 5 minutes
+            int totalDays = (int)(dateTo - dateFrom).TotalDays + 1;
+            if (totalDays <= 0)
+                return;
 
+            calculateButton.Enabled = false;
+            progressBar1.Minimum = 0;
+            progressBar1.Maximum = totalDays;
+            progressBar1.Value = 0;
+            progressBar1.Visible = true;
+
+            var shares = new double[24 * 12];   // every 5 minutes
             var weekly_nom = new double[7];
             var weekly_den = new int[7];
-
             int count = 0;
-            for (var d = dateFrom; d <= dateTo; d = d.AddDays(1))
+
+            var progress = new Progress<int>(value => progressBar1.Value = value);
+
+            await Task.Run(() =>
             {
-                count++;
-
-                double dailyTotal = 0;
-                List<string> errors;
-                var log = Log.Load(getApp, d, out errors);
-                foreach (var s in log.Activities)
+                int processed = 0;
+                for (var d = dateFrom; d <= dateTo; d = d.AddDays(1))
                 {
-                    int k = (s.TimePoint.Hour * 60 + s.TimePoint.Minute) / 5;
-                    shares[k] += s.TotalShare / 100.0;
-                    dailyTotal += s.TotalShare / 100.0 * Parameters.LogTimeUnit / 3600.0; // count hours
-                }
+                    count++;
 
-                int q = ((int)d.DayOfWeek + 6) % 7;
-                weekly_nom[q] += dailyTotal;
-                weekly_den[q] += 1;
-            }
+                    double dailyTotal = 0;
+                    List<string> errors;
+                    var log = Log.Load(getApp, d, out errors);
+                    foreach (var s in log.Activities)
+                    {
+                        int k = (s.TimePoint.Hour * 60 + s.TimePoint.Minute) / 5;
+                        shares[k] += s.TotalShare / 100.0;
+                        dailyTotal += s.TotalShare / 100.0 * Parameters.LogTimeUnit / 3600.0; // count hours
+                    }
+
+                    int q = ((int)d.DayOfWeek + 6) % 7;
+                    weekly_nom[q] += dailyTotal;
+                    weekly_den[q] += 1;
+
+                    ((IProgress<int>)progress).Report(++processed);
+                }
+            });
 
             bitmap.Dispose();
             bitmap = new Bitmap(24 * 12 * BAR_WIDTH, BAR_HEIGHT + TOP_MARGIN + 1);
@@ -102,6 +120,9 @@ namespace Herring
             }
 
             reportText.Lines = lines;
+
+            progressBar1.Visible = false;
+            calculateButton.Enabled = true;
         }
     }
 }
