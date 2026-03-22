@@ -21,6 +21,8 @@
                     bitmap.Dispose();
                 if (bitmap2 != null)
                     bitmap2.Dispose();
+                if (bitmap2Base != null)
+                    bitmap2Base.Dispose();
 
             }
             base.Dispose(disposing);
@@ -138,7 +140,7 @@
             this.chartBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.chartBox2.Location = new System.Drawing.Point(0, 168);
             this.chartBox2.Name = "chartBox2";
-            this.chartBox2.Size = new System.Drawing.Size(1164, 220);
+            this.chartBox2.Size = new System.Drawing.Size(1164, 330);
             this.chartBox2.TabIndex = 5;
             this.chartBox2.TabStop = false;
             //
@@ -146,7 +148,7 @@
             //
             this.reportText.Dock = System.Windows.Forms.DockStyle.Fill;
             this.reportText.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.reportText.Location = new System.Drawing.Point(0, 388);
+            this.reportText.Location = new System.Drawing.Point(0, 498);
             this.reportText.Multiline = true;
             this.reportText.Name = "reportText";
             this.reportText.Size = new System.Drawing.Size(1164, 160);
@@ -156,7 +158,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1164, 560);
+            this.ClientSize = new System.Drawing.Size(1164, 670);
             this.Controls.Add(this.reportText);
             this.Controls.Add(this.chartBox2);
             this.Controls.Add(this.chartBox1);
