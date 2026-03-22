@@ -19,6 +19,8 @@
 
                 if (bitmap != null)
                     bitmap.Dispose();
+                if (bitmap2 != null)
+                    bitmap2.Dispose();
 
             }
             base.Dispose(disposing);
@@ -41,9 +43,11 @@
             this.label1 = new System.Windows.Forms.Label();
             this.datePickerFrom = new System.Windows.Forms.DateTimePicker();
             this.chartBox1 = new System.Windows.Forms.PictureBox();
+            this.chartBox2 = new System.Windows.Forms.PictureBox();
             this.reportText = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -126,23 +130,35 @@
             this.chartBox1.Size = new System.Drawing.Size(1164, 110);
             this.chartBox1.TabIndex = 3;
             this.chartBox1.TabStop = false;
-            // 
+            //
+            // chartBox2
+            //
+            this.chartBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.chartBox2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.chartBox2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.chartBox2.Location = new System.Drawing.Point(0, 168);
+            this.chartBox2.Name = "chartBox2";
+            this.chartBox2.Size = new System.Drawing.Size(1164, 220);
+            this.chartBox2.TabIndex = 5;
+            this.chartBox2.TabStop = false;
+            //
             // reportText
-            // 
+            //
             this.reportText.Dock = System.Windows.Forms.DockStyle.Fill;
             this.reportText.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.reportText.Location = new System.Drawing.Point(0, 168);
+            this.reportText.Location = new System.Drawing.Point(0, 388);
             this.reportText.Multiline = true;
             this.reportText.Name = "reportText";
-            this.reportText.Size = new System.Drawing.Size(1164, 210);
+            this.reportText.Size = new System.Drawing.Size(1164, 160);
             this.reportText.TabIndex = 4;
             // 
             // ReportForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1164, 378);
+            this.ClientSize = new System.Drawing.Size(1164, 560);
             this.Controls.Add(this.reportText);
+            this.Controls.Add(this.chartBox2);
             this.Controls.Add(this.chartBox1);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -151,6 +167,7 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -165,6 +182,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox chartBox1;
+        private System.Windows.Forms.PictureBox chartBox2;
         private System.Windows.Forms.TextBox reportText;
         private System.Windows.Forms.ProgressBar progressBar1;
     }
