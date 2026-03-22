@@ -45,7 +45,10 @@ namespace Herring
         {
             if (writer == null)
             {
-                string path = ConstructFileName(DateTime.Now, true);
+                DateTime now = DateTime.Now;
+                DateTime logicalDate = Parameters.LogicalDate(now);
+                DateTime logicalNow = new DateTime(logicalDate.Year, logicalDate.Month, logicalDate.Day, now.Hour, now.Minute, now.Second);
+                string path = ConstructFileName(logicalNow, true);
                 writer = new StreamWriter(path);
                 writer.WriteLine("time;span;process;title;subtitle;document;share;keyboard-intensity;mouse-intensity;");
             }

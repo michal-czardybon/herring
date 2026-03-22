@@ -60,7 +60,7 @@ namespace Herring
 
             List<string> errors;
 
-            ActivityTracker.SetCurrentActivityLog( Log.Load(monitor.GetApp, DateTime.Now, out errors));
+            ActivityTracker.SetCurrentActivityLog( Log.Load(monitor.GetApp, Parameters.LogicalDate(DateTime.Now), out errors));
 
             if (errors != null && errors.Count != 0)
             {
@@ -71,7 +71,7 @@ namespace Herring
             ActivityTracker.CurrentLogChanged += CurrentLogChanged;
             ActivityTracker.UserStatusChanged += UserStatusChanged;
 
-            CurrentLogChanged(DateTime.Now);
+            CurrentLogChanged(Parameters.LogicalDate(DateTime.Now));
         }
 
         private void ReportErrorDuringLoading(List<string> errors)
@@ -177,7 +177,7 @@ namespace Herring
         /// </summary>
         private void RefreshActivitiesList()
         {
-            RefreshActivitiesList(datePicker.Value.Date, new TimeSpan(24, 0, 0));
+            RefreshActivitiesList(datePicker.Value.Date.AddHours(Parameters.DayStartHour), new TimeSpan(24, 0, 0));
         }
 
         private void RefreshActivitiesList(DateTime time, TimeSpan timeSpan)
@@ -375,7 +375,7 @@ namespace Herring
         /// </summary>
         private void RefreshSummary()
         {
-            RefreshSummary(datePicker.Value.Date, new TimeSpan(24, 0, 0));
+            RefreshSummary(datePicker.Value.Date.AddHours(Parameters.DayStartHour), new TimeSpan(24, 0, 0));
         }
 
         private void RefreshSummary(DateTime start, TimeSpan timeSpan)
@@ -607,7 +607,7 @@ namespace Herring
         {
             List<string> errors = null;
 
-            if (datePicker.Value.Date == DateTime.Now.Date)
+            if (datePicker.Value.Date == Parameters.LogicalDate(DateTime.Now))
             {
                 ActivityTracker.SetCurrentActivityLog();
             }
@@ -639,7 +639,7 @@ namespace Herring
 
         private void todayButton_Click(object sender, EventArgs e)
         {
-            datePicker.Value = DateTime.Now.Date;
+            datePicker.Value = Parameters.LogicalDate(DateTime.Now);
         }
 
         private void autoScrollCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -849,8 +849,8 @@ namespace Herring
 
            if (chart.SelectedBar != null)
            {
-              var bar = chart.SelectedBar.Span;
-              timeLabel.Text += $@"{bar.Hours:00}:{bar.Minutes:00}";
+              var bar = chart.SelectedBar.Span + TimeSpan.FromHours(Parameters.DayStartHour);
+              timeLabel.Text += $@"{(int)bar.TotalHours % 24:00}:{bar.Minutes:00}";
            }
 
             var time = chart.SelectionSpan;
@@ -892,7 +892,7 @@ namespace Herring
                     return;
 
                 DateTime point = datePicker.Value.Date;
-                point = point.AddMinutes(chart.SelectedBar.Minutes);
+                point = point.AddMinutes(chart.SelectedBar.Minutes + Parameters.DayStartHour * 60);
 
                 mainTabControl.SelectTab(1);
 
@@ -940,10 +940,7 @@ namespace Herring
             if (chart.SelectionSpan != null && chart.SelectionStart != null)
             {
 
-                DateTime date = datePicker.Value.Date;
-
-                date = date.AddHours(chart.SelectionStart.Value.Hour);
-                date = date.AddMinutes(chart.SelectionStart.Value.Minute);
+                DateTime date = datePicker.Value.Date + (chart.SelectionStart.Value - new DateTime());
 
                 ActivityTracker.SelectedLog.MarkWorkingHours(date, chart.SelectionSpan.Value);
 
@@ -956,10 +953,7 @@ namespace Herring
             if (chart.SelectionSpan != null && chart.SelectionStart != null)
             {
 
-                DateTime date = datePicker.Value.Date;
-
-                date = date.AddHours(chart.SelectionStart.Value.Hour);
-                date = date.AddMinutes(chart.SelectionStart.Value.Minute);
+                DateTime date = datePicker.Value.Date + (chart.SelectionStart.Value - new DateTime());
 
                 using (var input = new InputBox())
                 {
@@ -987,7 +981,7 @@ namespace Herring
                 return;
             }
 
-            var date = datePicker.Value.Date + chart.SelectedBar.Span;
+            var date = datePicker.Value.Date + chart.SelectedBar.Span + TimeSpan.FromHours(Parameters.DayStartHour);
 
             foreach (var ev in ActivityTracker.SelectedLog.Events.Where( evnt => evnt.ContainsTimePoint(date) ))
             {

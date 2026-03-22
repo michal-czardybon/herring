@@ -95,6 +95,8 @@ namespace Herring
 
             errors = errorLines;
 
+            data.Activities.Sort((a, b) => a.TimePoint.CompareTo(b.TimePoint));
+
             data.LoadEvents(date);
 
             return data;
@@ -288,7 +290,8 @@ namespace Herring
         {
             string path = Persistence.GetLocalDataDir();
 
-            var name = String.Format("herring_events{0:D4}{1:D2}{2:D2}.xml", date.Year, date.Month, date.Day);
+            DateTime logicalDate = Parameters.LogicalDate(date);
+            var name = String.Format("herring_events{0:D4}{1:D2}{2:D2}.xml", logicalDate.Year, logicalDate.Month, logicalDate.Day);
 
             var serializer = new XmlSerializer(typeof(Log));
             using (var writer = new StreamWriter(Path.Combine(path, name)))

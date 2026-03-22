@@ -86,7 +86,7 @@ namespace Herring
             if (selectionStart == -1)
                return null;
 
-            var span = new TimeSpan(0, ScreenToBar(selectionStart) * 5, 0);
+            var span = new TimeSpan(0, ScreenToBar(selectionStart) * 5 + Parameters.DayStartHour * 60, 0);
             var dateTime = new DateTime() + span;
 
             return dateTime;

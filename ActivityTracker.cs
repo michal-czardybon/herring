@@ -341,14 +341,14 @@ namespace Herring
                     }
                 }
 
-                // Consider the end of the day
-                bool dateChanged = (currTimePoint.Date > activeTimePoint.Date);
+                // Consider the end of the logical day (starts at DayStartHour)
+                bool dateChanged = (Parameters.LogicalDate(currTimePoint) > Parameters.LogicalDate(activeTimePoint));
                 if (dateChanged)
                 {
                     currentLog.Clear();
                     if (currentLog == selectedLog)
                     {
-                        OnCurrentLogChanged(currTimePoint.Date);
+                        OnCurrentLogChanged(Parameters.LogicalDate(currTimePoint));
                     }
                 }
 

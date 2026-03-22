@@ -63,7 +63,7 @@ namespace Herring
         private void DrawSummary(Graphics g, ActivitySummary s)
         {
             DateTime time = s.TimePoint;
-            int index = (int)(time - s.TimePoint.Date).TotalSeconds / Parameters.LogTimeUnit;
+            int index = (int)(time - Parameters.LogicalDate(time).AddHours(Parameters.DayStartHour)).TotalSeconds / Parameters.LogTimeUnit;
             double[] share = new double[RuleManager.Categories.Count + 1];
             
             foreach (ActivityEntry e in s.Entries)
@@ -105,7 +105,8 @@ namespace Herring
             {
                 foreach (var e in log.Events.Where(ev => ev.Type == Log.EventType.AwayFromComputer))
                 {
-                    var begin = e.Start.Hour * 60 + e.Start.Minute;
+                    var begin = e.Start.Hour * 60 + e.Start.Minute - Parameters.DayStartHour * 60;
+                    if (begin < 0) begin += 24 * 60;
                     var end = (int)(e.Span.TotalHours * 60);
 
                     g.FillRectangle(brush, 
@@ -127,7 +128,7 @@ namespace Herring
             for (int i = 1; i <= 24; ++i)
             {
                 int x = i * BAR_WIDTH * 12 - 1;
-                Pen pen = (i % 8 == 0 ? Pens.Black : Pens.LightGray);
+                Pen pen = (i == 6 || i == 14 || i == 22 ? Pens.Black : Pens.LightGray);
                 g.DrawLine(pen, x, 0, x, bitmap.Height);
             }
 
@@ -135,7 +136,8 @@ namespace Herring
             {
                 foreach (var e in log.Events.Where(ev => ev.Type == Log.EventType.WorkignHours))
                 {
-                    var begin = e.Start.Hour * 60 + e.Start.Minute;
+                    var begin = e.Start.Hour * 60 + e.Start.Minute - Parameters.DayStartHour * 60;
+                    if (begin < 0) begin += 24 * 60;
                     var end = begin + (int)(e.Span.TotalHours * 60);
 
                     g.DrawLine(pen, (begin / 5) * 4, bitmap.Height - 2, (end / 5) * 4, bitmap.Height - 2);
