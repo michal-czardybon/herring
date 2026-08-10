@@ -3,8 +3,6 @@ Herring
 
 Herring is an activity tracker designed for enhancing productivity in computer-related work.
 
-Homepage: http://herring.zohosites.com/
-
 Classes
 --------------------------------------------------------------------------------
 
