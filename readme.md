@@ -3,6 +3,11 @@ Herring
 
 Herring is an activity tracker designed for enhancing productivity in computer-related work.
 
+Download
+--------------------------------------------------------------------------------
+https://carbon.voyage/downloads/HerringActivityTracker_1.8.3_Setup.exe
+
+
 Classes
 --------------------------------------------------------------------------------
 
